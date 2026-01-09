@@ -7,14 +7,13 @@
 <title>Gobindapur Govt. High School</title>
 
 <style>
-/* ===== Basic ===== */
 body{
   margin:0;
   font-family:Arial, sans-serif;
   background:#f4f6f8;
 }
 
-/* ===== Header Image ===== */
+/* ===== Hero Section ===== */
 .hero{
   position:relative;
   height:220px;
@@ -64,6 +63,7 @@ nav button{
   margin:5px;
   border-radius:6px;
   font-size:15px;
+  cursor:pointer;
 }
 
 /* ===== Content ===== */
@@ -141,8 +141,11 @@ footer{
 
   <select id="classSelect">
     <option value="">ক্লাস</option>
-    <option>6</option><option>7</option><option>8</option>
-    <option>9</option><option>10</option>
+    <option>6</option>
+    <option>7</option>
+    <option>8</option>
+    <option>9</option>
+    <option>10</option>
   </select>
 
   <select id="rollSelect">
@@ -178,18 +181,8 @@ footer{
 
 <!-- Result -->
 <div class="card section" id="result" style="display:none;">
-  <h2>📊 রেজাল্ট খুঁজুন</h2>
-
-  <select>
-    <option>ক্লাস</option>
-  </select>
-
-  <select>
-    <option>রোল</option>
-  </select>
-
-  <button>রেজাল্ট দেখুন</button>
-  <p style="color:red;">Not Found</p>
+  <h2>📊 রেজাল্ট</h2>
+  <p style="color:red;">এখনো রেজাল্ট প্রকাশিত হয়নি</p>
 </div>
 
 </div>
@@ -199,32 +192,40 @@ footer{
 </footer>
 
 <script>
+/* ===== Student Data ===== */
 const students=[
-  {name:"হৃতম কর (উৎস)",class:"9",roll:"1",section:"Science"},
-  {name:"মোঃ তাহসিনুজ্জামান",class:"9",roll:"3",section:"Science"}
-  {name:"আব্দুল্লাহ আল রফিক",class:"9",roll:"4",section:"Science"}
-  {name:"তাহমিদুল ইসলাম",class:"9",roll:"5",section:"Science"}
+  {name:"হৃতম কর (উৎস)", class:"9", roll:"1", section:"Science"},
+  {name:"মোঃ তাহসিনুজ্জামান", class:"9", roll:"3", section:"Science"},
+  {name:"আব্দুল্লাহ আল রফিক", class:"9", roll:"4", section:"Science"},
+  {name:"তাহমিদুল ইসলাম", class:"9", roll:"5", section:"Science"}
 ];
 
+/* ===== Section Control ===== */
 function showSection(id){
-  document.querySelectorAll('.section').forEach(s=>s.style.display="none");
+  document.querySelectorAll('.section').forEach(sec=>{
+    sec.style.display="none";
+  });
   document.getElementById(id).style.display="block";
 }
 
+/* ===== Student Search ===== */
 function findStudent(){
-  let c=classSelect.value;
-  let r=rollSelect.value;
-  let s=sectionSelect.value;
-  let res=students.find(st=>st.class==c && st.roll==r && st.section==s);
+  let c=document.getElementById("classSelect").value;
+  let r=document.getElementById("rollSelect").value;
+  let s=document.getElementById("sectionSelect").value;
 
-  studentResult.innerHTML = res
-  ? `<p><b>নাম:</b> ${res.name}<br>
-     <b>ক্লাস:</b> ${res.class}<br>
-     <b>রোল:</b> ${res.roll}<br>
-     <b>শাখা:</b> ${res.section}</p>`
-  : `<p style="color:red;">Not Found</p>`;
+  let res=students.find(st=>st.class===c && st.roll===r && st.section===s);
+
+  document.getElementById("studentResult").innerHTML = res
+    ? `<p>
+        <b>নাম:</b> ${res.name}<br>
+        <b>ক্লাস:</b> ${res.class}<br>
+        <b>রোল:</b> ${res.roll}<br>
+        <b>শাখা:</b> ${res.section}
+      </p>`
+    : `<p style="color:red;">তথ্য পাওয়া যায়নি</p>`;
 }
 </script>
 
 </body>
-</html>
+  </html>
