@@ -2,18 +2,68 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
+
+<!-- ⭐ এটা যোগ করা হয়েছে (সবচেয়ে গুরুত্বপূর্ণ) -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Gobindapur Govt. High School</title>
+
 <style>
-body{font-family:Arial;background:#f4f6f8;margin:0}
-header{background:#0b5ed7;color:#fff;padding:15px;text-align:center}
-nav{background:#084298;text-align:center;padding:10px}
-nav button{background:#0b5ed7;color:#fff;border:none;padding:8px 12px;
-margin:5px;border-radius:5px;cursor:pointer}
-.container{padding:15px}
-.card{background:#fff;padding:15px;border-radius:8px;
-box-shadow:0 2px 5px rgba(0,0,0,.1);margin-bottom:15px}
-select,button{padding:7px;margin:5px 0;width:100%}
-footer{background:#0b5ed7;color:#fff;text-align:center;padding:10px}
+body{
+  font-family:Arial;
+  background:#f4f6f8;
+  margin:0;
+}
+
+header{
+  background:#0b5ed7;
+  color:#fff;
+  padding:15px;
+  text-align:center;
+}
+
+nav{
+  background:#084298;
+  text-align:center;
+  padding:10px;
+}
+
+nav button{
+  background:#0b5ed7;
+  color:#fff;
+  border:none;
+  padding:10px 14px;
+  margin:5px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:16px;
+}
+
+.container{
+  padding:15px;
+}
+
+.card{
+  background:#fff;
+  padding:15px;
+  border-radius:8px;
+  box-shadow:0 2px 5px rgba(0,0,0,.1);
+  margin-bottom:15px;
+}
+
+select,button{
+  padding:10px;
+  margin:6px 0;
+  width:100%;
+  font-size:16px;
+}
+
+footer{
+  background:#0b5ed7;
+  color:#fff;
+  text-align:center;
+  padding:10px;
+}
 </style>
 </head>
 
@@ -34,7 +84,6 @@ footer{background:#0b5ed7;color:#fff;text-align:center;padding:10px}
 
 <div class="container">
 
-<!-- NOTICE -->
 <div class="card" id="noticeSection">
 <h2>📢 নোটিশ বোর্ড</h2>
 <ul>
@@ -42,7 +91,6 @@ footer{background:#0b5ed7;color:#fff;text-align:center;padding:10px}
 </ul>
 </div>
 
-<!-- NEWS -->
 <div class="card" id="newsSection" style="display:none;">
 <h2>📰 স্কুল খবর</h2>
 <ul>
@@ -50,7 +98,6 @@ footer{background:#0b5ed7;color:#fff;text-align:center;padding:10px}
 </ul>
 </div>
 
-<!-- STUDENT SEARCH -->
 <div class="card" id="studentSection" style="display:none;">
 <h2>🔍 Find Student</h2>
 
@@ -81,7 +128,6 @@ document.write(`<option>${i}</option>`);
 <div id="studentResult"></div>
 </div>
 
-<!-- TEACHER -->
 <div class="card" id="teacherSection" style="display:none;">
 <h2>👩‍🏫 শিক্ষকের তালিকা</h2>
 <ul>
@@ -91,7 +137,6 @@ document.write(`<option>${i}</option>`);
 </ul>
 </div>
 
-<!-- RESULT SEARCH -->
 <div class="card" id="resultSection" style="display:none;">
 <h2>📊 Find Result</h2>
 
@@ -164,7 +209,6 @@ studentResult.innerHTML=res?
 :`<p style="color:red;">Not Found</p>`;
 }
 
-/* RESULT SYSTEM (no data yet) */
 function findResult(){
 document.getElementById("resultOutput").innerHTML =
 '<p style="color:red;">Not Found</p>';
