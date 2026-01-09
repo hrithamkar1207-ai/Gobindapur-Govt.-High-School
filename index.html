@@ -3,81 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Gobindapur Govt. High School</title>
 
 <style>
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#f4f6f8;
-}
+body{margin:0;font-family:Arial;background:#f4f6f8}
 
-/* ===== Hero ===== */
-.hero{
-  position:relative;
-  height:220px;
-  overflow:hidden;
-}
-.hero img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
+/* Hero */
+.hero{position:relative;height:220px;overflow:hidden}
+.hero img{width:100%;height:100%;object-fit:cover}
 .hero-text{
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,0.55);
+  position:absolute;inset:0;
+  background:rgba(0,0,0,.55);
   color:#fff;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
+  display:flex;flex-direction:column;
+  justify-content:center;align-items:center;
+  text-align:center
 }
-.hero-text h1{margin:0;font-size:26px;}
-.hero-text p{margin-top:6px;font-size:15px;}
+.hero-text h1{margin:0;font-size:26px}
+.hero-text p{margin-top:6px;font-size:15px}
 
-/* ===== Nav ===== */
-nav{
-  background:#084298;
-  padding:10px;
-  text-align:center;
-}
+/* Nav */
+nav{background:#084298;padding:10px;text-align:center}
 nav button{
-  background:#0b5ed7;
-  color:#fff;
-  border:none;
-  padding:10px 14px;
-  margin:5px;
-  border-radius:6px;
-  font-size:15px;
-  cursor:pointer;
+  background:#0b5ed7;color:#fff;border:none;
+  padding:10px 14px;margin:5px;
+  border-radius:6px;font-size:15px;cursor:pointer
 }
 
-/* ===== Content ===== */
-.container{padding:15px;}
+/* Content */
+.container{padding:15px}
 .card{
-  background:#fff;
-  padding:15px;
-  border-radius:8px;
+  background:#fff;padding:15px;border-radius:8px;
   box-shadow:0 2px 5px rgba(0,0,0,.1);
-  margin-bottom:15px;
+  margin-bottom:15px
 }
-select, button{
-  width:100%;
-  padding:10px;
-  margin:6px 0;
-  font-size:15px;
+select,button,input{
+  width:100%;padding:10px;margin:6px 0;font-size:15px
 }
 
-/* ===== Footer ===== */
+/* Footer */
 footer{
-  background:#0b5ed7;
-  color:#fff;
-  text-align:center;
-  padding:10px;
-  font-size:14px;
+  background:#0b5ed7;color:#fff;
+  text-align:center;padding:10px;font-size:14px
 }
 </style>
 </head>
@@ -85,7 +52,7 @@ footer{
 <body>
 
 <header class="hero">
-  <img src="school.jpg" alt="Gobindapur Govt. High School">
+  <img src="school.jpg">
   <div class="hero-text">
     <h1>Gobindapur Govt. High School</h1>
     <p>Official School Website</p>
@@ -98,6 +65,7 @@ footer{
   <button onclick="showSection('student')">👨‍🎓 শিক্ষার্থী</button>
   <button onclick="showSection('teacher')">👩‍🏫 শিক্ষক</button>
   <button onclick="showSection('result')">📊 রেজাল্ট</button>
+  <button onclick="showSection('ai')">🤖 AI</button>
 </nav>
 
 <div class="container">
@@ -107,134 +75,136 @@ footer{
   <ul><li>নতুন নোটিশ নেই</li></ul>
 </div>
 
-<div class="card section" id="news" style="display:none;">
+<div class="card section" id="news" style="display:none">
   <h2>📰 স্কুল খবর</h2>
   <ul><li>ক্রিকেট টিম উপজেলা পর্যায়ে চ্যাম্পিয়ন</li></ul>
 </div>
 
-<!-- ===== Student ===== -->
-<div class="card section" id="student" style="display:none;">
-  <h2>🔍 শিক্ষার্থী খুঁজুন</h2>
+<div class="card section" id="student" style="display:none">
+<h2>🔍 শিক্ষার্থী খুঁজুন</h2>
 
-  <select id="classSelect">
-    <option value="">ক্লাস</option>
-    <option>6</option><option>7</option><option>8</option>
-    <option>9</option><option>10</option>
-  </select>
+<select id="classSelect">
+<option value="">ক্লাস</option>
+<option>6</option><option>7</option><option>8</option>
+<option>9</option><option>10</option>
+</select>
 
-  <select id="rollSelect">
-    <option value="">রোল</option>
-    <script>
-      for(let i=1;i<=150;i++){
-        document.write(`<option>${i}</option>`);
-      }
-    </script>
-  </select>
+<select id="rollSelect">
+<option value="">রোল</option>
+<script>
+for(let i=1;i<=150;i++)document.write(`<option>${i}</option>`);
+</script>
+</select>
 
-  <select id="sectionSelect">
-    <option value="">শাখা</option>
-    <option>Science</option>
-    <option>Arts</option>
-    <option>A</option>
-    <option>B</option>
-  </select>
+<select id="sectionSelect">
+<option value="">শাখা</option>
+<option>Science</option><option>Arts</option><option>A</option><option>B</option>
+</select>
 
-  <button onclick="findStudent()">খুঁজুন</button>
-  <div id="studentResult"></div>
+<button onclick="findStudent()">খুঁজুন</button>
+<div id="studentResult"></div>
 </div>
 
-<!-- ===== Teacher ===== -->
-<div class="card section" id="teacher" style="display:none;">
-  <h2>👩‍🏫 শিক্ষকবৃন্দ</h2>
-  <ul>
-    <li>শিক্ষক ১</li>
-    <li>শিক্ষক ২</li>
-    <li>শিক্ষক ৩</li>
-  </ul>
+<div class="card section" id="teacher" style="display:none">
+<h2>👩‍🏫 শিক্ষকবৃন্দ</h2>
+<ul><li>শিক্ষক ১</li><li>শিক্ষক ২</li><li>শিক্ষক ৩</li></ul>
 </div>
 
-<!-- ===== Result (NEW) ===== -->
-<div class="card section" id="result" style="display:none;">
-  <h2>📊 রেজাল্ট খুঁজুন</h2>
+<div class="card section" id="result" style="display:none">
+<h2>📊 রেজাল্ট খুঁজুন</h2>
 
-  <select id="rClass">
-    <option value="">ক্লাস</option>
-    <option>6</option><option>7</option><option>8</option>
-    <option>9</option><option>10</option>
-  </select>
+<select id="rClass">
+<option value="">ক্লাস</option>
+<option>6</option><option>7</option><option>8</option>
+<option>9</option><option>10</option>
+</select>
 
-  <select id="rRoll">
-    <option value="">রোল</option>
-    <script>
-      for(let i=1;i<=150;i++){
-        document.write(`<option>${i}</option>`);
-      }
-    </script>
-  </select>
+<select id="rRoll">
+<option value="">রোল</option>
+<script>
+for(let i=1;i<=150;i++)document.write(`<option>${i}</option>`);
+</script>
+</select>
 
-  <select id="rSection">
-    <option value="">শাখা</option>
-    <option>Science</option>
-    <option>Arts</option>
-    <option>A</option>
-    <option>B</option>
-  </select>
+<select id="rSection">
+<option value="">শাখা</option>
+<option>Science</option><option>Arts</option><option>A</option><option>B</option>
+</select>
 
-  <button onclick="findResult()">রেজাল্ট দেখুন</button>
-  <div id="resultOutput"></div>
+<select id="rExam">
+<option value="">পরীক্ষা</option>
+<option>Annual Examination 2025</option>
+</select>
+
+<button onclick="findResult()">রেজাল্ট দেখুন</button>
+<div id="resultOutput"></div>
+</div>
+
+<div class="card section" id="ai" style="display:none">
+<h2>🤖 School AI Assistant</h2>
+<input id="aiInput" placeholder="স্কুল সম্পর্কে প্রশ্ন লিখুন">
+<button onclick="askAI()">জিজ্ঞেস করুন</button>
+<div id="aiAnswer"></div>
 </div>
 
 </div>
 
-<footer>
-© 2026 Gobindapur Govt. High School
-</footer>
+<footer>© 2026 Gobindapur Govt. High School</footer>
 
 <script>
-/* ===== Student Data ===== */
+/* Students */
 const students=[
-  {name:"হৃতম কর (উৎস)", class:"9", roll:"1", section:"Science"},
-  {name:"মোঃ তাহসিনুজ্জামান", class:"9", roll:"3", section:"Science"},
-  {name:"আব্দুল্লাহ আল রফিক", class:"9", roll:"4", section:"Science"},
-  {name:"তাহমিদুল ইসলাম", class:"9", roll:"5", section:"Science"}
+{name:(উৎস)",class:"9",roll:"1",section:"Science"},
+{name:"মোঃ তাহসিনুজ্জামান",class:"9",roll:"3",section:"Science"},
+{name:"আব্দুল্লাহ আল রফিক",class:"9",roll:"4",section:"Science"},
+{name:"তাহমিদুল ইসলাম",class:"9",roll:"5",section:"Science"}
 ];
 
-/* ===== Result Data (এখন খালি) ===== */
-const results=[];
+/* Results */
+const results=[
+{class:"9",roll:"1",section:"Science",exam:"Annual Examination 2025",marks:558},
+{class:"9",roll:"3",section:"Science",exam:"Annual Examination 2025",marks:519},
+{class:"9",roll:"4",section:"Science",exam:"Annual Examination 2025",marks:519},
+{class:"9",roll:"5",section:"Science",exam:"Annual Examination 2025",marks:518}
+];
 
-/* ===== Section Control ===== */
 function showSection(id){
-  document.querySelectorAll('.section').forEach(s=>s.style.display="none");
-  document.getElementById(id).style.display="block";
+document.querySelectorAll('.section').forEach(s=>s.style.display="none");
+document.getElementById(id).style.display="block";
 }
 
-/* ===== Student Search ===== */
 function findStudent(){
-  let c=classSelect.value;
-  let r=rollSelect.value;
-  let s=sectionSelect.value;
-
-  let res=students.find(st=>st.class===c && st.roll===r && st.section===s);
-
-  studentResult.innerHTML = res
-  ? `<p><b>নাম:</b> ${res.name}<br>
-     <b>ক্লাস:</b> ${res.class}<br>
-     <b>রোল:</b> ${res.roll}<br>
-     <b>শাখা:</b> ${res.section}</p>`
-  : `<p style="color:red;">তথ্য পাওয়া যায়নি</p>`;
+let c=classSelect.value,r=rollSelect.value,s=sectionSelect.value;
+let st=students.find(x=>x.class===c&&x.roll===r&&x.section===s);
+studentResult.innerHTML=st?
+`<b>নাম:</b> ${st.name}<br>
+<b>ক্লাস:</b> ${st.class}<br>
+<b>রোল:</b> ${st.roll}<br>
+<b>শাখা:</b> ${st.section}`:
+`<p style="color:red">Not Found</p>`;
 }
 
-/* ===== Result Search ===== */
+/* ⭐ FIXED RESULT FUNCTION (NAME ADDED) */
 function findResult(){
-  let c=rClass.value;
-  let r=rRoll.value;
-  let s=rSection.value;
+let c=rClass.value,r=rRoll.value,s=rSection.value,e=rExam.value;
 
-  let res=results.find(rt=>rt.class===c && rt.roll===r && rt.section===s);
+let rs=results.find(x=>x.class===c&&x.roll===r&&x.section===s&&x.exam===e);
+let st=students.find(x=>x.class===c&&x.roll===r&&x.section===s);
 
-  resultOutput.innerHTML = res
-  ? `<p><b>GPA:</b> ${res.gpa}</p>`
-  : `<p style="color:red;">এখনো কোনো রেজাল্ট তথ্য নেই</p>`;
+resultOutput.innerHTML=(rs&&st)?
+`<b>নাম:</b> ${st.name}<br>
+<b>রোল:</b> ${rs.roll}<br>
+<b>পরীক্ষা:</b> ${rs.exam}<br>
+<b>প্রাপ্ত নম্বর:</b> ${rs.marks}`:
+`<p style="color:red">Not Found</p>`;
+}
+
+function askAI(){
+let q=aiInput.value.toLowerCase();
+let a="এই বিষয়ে তথ্য নেই।";
+if(q.includes("স্কুল"))a="Gobindapur Govt. High School";
+if(q.includes("রেজাল্ট"))a="রেজাল্ট মেনু থেকে ক্লাস, রোল, শাখা ও পরীক্ষা নির্বাচন করুন।";
+aiAnswer.innerHTML="<b>AI:</b> "+a;
 }
 </script>
 
