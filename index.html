@@ -9,7 +9,7 @@
 body{margin:0;font-family:Arial;background:#f4f6f8}
 .hero{position:relative;height:220px}
 .hero img{width:100%;height:100%;object-fit:cover}
-.hero-text{position:absolute;inset:0;background:rgba(0,0,0,.55);color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.hero-text{position:absolute;inset:0;background:rgba(0,0,0,.55);color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center}
 nav{background:#084298;padding:10px;text-align:center}
 nav button{background:#0b5ed7;color:#fff;border:none;padding:10px 16px;margin:4px;border-radius:20px;font-size:14px}
 .container{padding:15px}
@@ -17,21 +17,21 @@ nav button{background:#0b5ed7;color:#fff;border:none;padding:10px 16px;margin:4p
 select,input,button{width:100%;padding:10px;margin:6px 0}
 .admin{background:#eef;padding:10px;border-radius:10px;margin-top:10px}
 .list li{margin:6px 0}
-.list button{width:auto;padding:4px 10px;background:red;color:#fff;border:none;border-radius:12px}
-footer{background:#0b5ed7;color:#fff;text-align:center;padding:10px}
+.list button{background:red;color:#fff;border:none;border-radius:12px;padding:4px 10px}
 .fade{animation:fade .5s}
 @keyframes fade{from{opacity:0;transform:scale(.95)}to{opacity:1}}
+footer{background:#0b5ed7;color:#fff;text-align:center;padding:10px}
 </style>
 </head>
 
 <body>
 
 <header class="hero">
-<img src="school.jpg">
-<div class="hero-text">
-<h1>Gobindapur Govt. High School</h1>
-<p>Official School Website</p>
-</div>
+  <img src="school.jpg">
+  <div class="hero-text">
+    <h1>Gobindapur Govt. High School</h1>
+    <p>Official School Website</p>
+  </div>
 </header>
 
 <nav>
@@ -45,6 +45,7 @@ footer{background:#0b5ed7;color:#fff;text-align:center;padding:10px}
 
 <div class="container">
 
+<!-- NOTICE -->
 <div class="card section" id="notice">
 <h2>📢 নোটিশ</h2>
 <ul id="noticeList" class="list"></ul>
@@ -54,6 +55,7 @@ footer{background:#0b5ed7;color:#fff;text-align:center;padding:10px}
 </div>
 </div>
 
+<!-- NEWS -->
 <div class="card section" id="news" style="display:none">
 <h2>📰 খবর</h2>
 <ul id="newsList" class="list"></ul>
@@ -63,11 +65,12 @@ footer{background:#0b5ed7;color:#fff;text-align:center;padding:10px}
 </div>
 </div>
 
+<!-- STUDENT -->
 <div class="card section" id="student" style="display:none">
 <h2>👨‍🎓 শিক্ষার্থী</h2>
-<select id="sClass"><option value="">ক্লাস</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select>
-<select id="sRoll"></select>
-<select id="sSection"><option value="">শাখা</option><option>Science</option><option>Arts</option><option>A</option><option>B</option></select>
+<select id="sClass"><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select>
+<input id="sRoll" placeholder="রোল">
+<input id="sSection" placeholder="শাখা">
 <button onclick="findStudent()">Search</button>
 <div id="studentResult"></div>
 
@@ -81,6 +84,7 @@ footer{background:#0b5ed7;color:#fff;text-align:center;padding:10px}
 </div>
 </div>
 
+<!-- TEACHER -->
 <div class="card section" id="teacher" style="display:none">
 <h2>👩‍🏫 শিক্ষক</h2>
 <ul id="teacherList" class="list"></ul>
@@ -91,22 +95,23 @@ footer{background:#0b5ed7;color:#fff;text-align:center;padding:10px}
 </div>
 </div>
 
+<!-- RESULT -->
 <div class="card section" id="result" style="display:none">
 <h2>📊 রেজাল্ট</h2>
-<select id="rClass"><option value="">ক্লাস</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select>
-<select id="rRoll"></select>
-<select id="rSection"><option value="">শাখা</option><option>Science</option><option>Arts</option><option>A</option><option>B</option></select>
-<select id="rExam"><option>Annual Examination 2025</option></select>
+<input id="rClass" placeholder="ক্লাস">
+<input id="rRoll" placeholder="রোল">
+<input id="rSection" placeholder="শাখা">
 <button onclick="findResult()">Search</button>
 <div id="resultOutput"></div>
 
 <div class="admin" id="resultAdmin" style="display:none">
-<input id="rm" placeholder="প্রাপ্ত নম্বর">
+<input id="rm" placeholder="নম্বর">
 <button onclick="addResult()">Add</button>
 <ul id="resultList" class="list"></ul>
 </div>
 </div>
 
+<!-- ADMIN -->
 <div class="card section" id="admin" style="display:none">
 <h2>🔐 Admin Login</h2>
 <input id="user" placeholder="Username">
@@ -120,94 +125,106 @@ footer{background:#0b5ed7;color:#fff;text-align:center;padding:10px}
 
 <footer>© 2026 Gobindapur Govt. High School</footer>
 
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <script>
 firebase.initializeApp({
- apiKey:"AIzaSyA0loay6NSdcRQJ5q_qWCbvzQW10rgErV4",
- authDomain:"gghs-fcfe6.firebaseapp.com",
- databaseURL:"https://gghs-fcfe6-default-rtdb.firebaseio.com",
- projectId:"gghs-fcfe6"
+  apiKey: "AIzaSyA0loay6NSdcRQJ5q_qWCbvzQW10rgErV4",
+  authDomain:"gghs-fcfe6.firebaseapp.com",
+  databaseURL:"https://gghs-fcfe6-default-rtdb.firebaseio.com",
+  projectId:"gghs-fcfe6"
 });
 
 const db=firebase.database();
-const ref={
- notice:db.ref("notices"),
- news:db.ref("news"),
- students:db.ref("students"),
- teachers:db.ref("teachers"),
- results:db.ref("results")
-};
-
-for(let i=1;i<=150;i++){
- sRoll.innerHTML+=`<option>${i}</option>`;
- rRoll.innerHTML+=`<option>${i}</option>`;
-}
-
 let admin=false;
-let adminUser="HKuk07", adminPass="07122010";
-let notices=[],news=[],students=[],teachers=[],results=[];
-
-Object.keys(ref).forEach(k=>{
- ref[k].on("value",s=>{
-   window[k]=[];
-   s.forEach(d=>window[k].push({id:d.key,...(typeof d.val()==="object"?d.val():{text:d.val()})}));
-   render();
- });
-});
+const ADMIN_USER="HKuk07";
+const ADMIN_PASS="07122010";
 
 function show(id){
- document.querySelectorAll('.section').forEach(s=>{
-   s.style.display="none"; s.classList.remove("fade");
- });
+ document.querySelectorAll('.section').forEach(s=>{s.style.display="none";s.classList.remove("fade");});
  let el=document.getElementById(id);
- el.style.display="block";
- void el.offsetWidth;
- el.classList.add("fade");
+ el.style.display="block"; void el.offsetWidth; el.classList.add("fade");
 }
 
 function login(){
- if(user.value===adminUser && pass.value===adminPass){
-   admin=true; status.innerText="✅ Logged In";
-   noticeAdmin.style.display=newsAdmin.style.display=studentAdmin.style.display=
-   teacherAdmin.style.display=resultAdmin.style.display="block";
-   show("notice");
- } else alert("Wrong Login");
+ if(user.value===ADMIN_USER && pass.value===ADMIN_PASS){
+   admin=true; status.innerText="Logged In";
+   document.querySelectorAll('.admin').forEach(a=>a.style.display="block");
+   show('notice');
+ }else alert("Wrong Login");
 }
+
 function logout(){
  admin=false; status.innerText="Logged Out";
- noticeAdmin.style.display=newsAdmin.style.display=studentAdmin.style.display=
- teacherAdmin.style.display=resultAdmin.style.display="none";
+ document.querySelectorAll('.admin').forEach(a=>a.style.display="none");
 }
 
-function addNotice(){ref.notice.push(noticeInput.value);noticeInput.value="";}
-function addNews(){ref.news.push(newsInput.value);newsInput.value="";}
-function addStudent(){ref.students.push({name:sn.value,class:sc.value,roll:sr.value,section:ss.value});}
-function addTeacher(){ref.teachers.push({name:tName.value,sub:tSub.value});}
-function addResult(){ref.results.push({class:rClass.value,roll:rRoll.value,section:rSection.value,exam:rExam.value,marks:rm.value});}
-function del(r,id){ref[r].child(id).remove();}
+/* Add */
+function addNotice(){db.ref("notices").push({text:noticeInput.value});noticeInput.value="";}
+function addNews(){db.ref("news").push({text:newsInput.value});newsInput.value="";}
+function addStudent(){db.ref("students").push({name:sn.value,class:sc.value,roll:sr.value,section:ss.value});}
+function addTeacher(){db.ref("teachers").push({name:tName.value,sub:tSub.value});}
+function addResult(){db.ref("results").push({class:rClass.value,roll:rRoll.value,section:rSection.value,marks:rm.value});}
 
+/* Delete */
+function del(path,key){db.ref(path+"/"+key).remove();}
+
+/* Realtime Render */
+db.ref("notices").on("value",snap=>{
+ noticeList.innerHTML="";
+ snap.forEach(c=>noticeList.innerHTML+=`<li>${c.val().text}${admin?` <button onclick="del('notices','${c.key}')">X</button>`:""}</li>`);
+});
+
+db.ref("news").on("value",snap=>{
+ newsList.innerHTML="";
+ snap.forEach(c=>newsList.innerHTML+=`<li>${c.val().text}${admin?` <button onclick="del('news','${c.key}')">X</button>`:""}</li>`);
+});
+
+db.ref("teachers").on("value",snap=>{
+ teacherList.innerHTML="";
+ snap.forEach(c=>teacherList.innerHTML+=`<li>${c.val().name} (${c.val().sub})${admin?` <button onclick="del('teachers','${c.key}')">X</button>`:""}</li>`);
+});
+
+db.ref("students").on("value",snap=>{
+ studentList.innerHTML="";
+ snap.forEach(c=>studentList.innerHTML+=`<li>${c.val().name} | ${c.val().class}-${c.val().roll}${admin?` <button onclick="del('students','${c.key}')">X</button>`:""}</li>`);
+});
+
+db.ref("results").on("value",snap=>{
+ resultList.innerHTML="";
+ snap.forEach(c=>resultList.innerHTML+=`<li>${c.val().class}-${c.val().roll} ${c.val().marks}${admin?` <button onclick="del('results','${c.key}')">X</button>`:""}</li>`);
+});
+
+/* Search */
 function findStudent(){
- let s=students.find(x=>x.class===sClass.value&&x.roll===sRoll.value&&x.section===sSection.value);
- studentResult.innerHTML=s?`<div class="admin">${s.name}</div>`:"Not Found";
+ db.ref("students").orderByChild("roll").equalTo(sRoll.value).once("value",snap=>{
+   let found=false;
+   snap.forEach(c=>{
+     let s=c.val();
+     if(s.class===sClass.value && s.section===sSection.value){
+       found=true;
+       studentResult.innerHTML=`Name: ${s.name}<br>Class: ${s.class}<br>Roll: ${s.roll}<br>Section: ${s.section}`;
+     }
+   });
+   if(!found) studentResult.innerHTML="Not Found";
+ });
 }
 
 function findResult(){
- let r=results.find(x=>x.class===rClass.value&&x.roll===rRoll.value&&x.section===rSection.value);
- let s=students.find(x=>x.class===rClass.value&&x.roll===rRoll.value&&x.section===rSection.value);
- resultOutput.innerHTML=(r&&s)?`<div class="admin">${s.name}<br>${r.marks}</div>`:"Not Found";
-}
-
-function render(){
- noticeList.innerHTML=notices.map(n=>`<li>${n.text||n}${admin?` <button onclick="del('notice','${n.id}')">X</button>`:""}</li>`).join("");
- newsList.innerHTML=news.map(n=>`<li>${n.text||n}${admin?` <button onclick="del('news','${n.id}')">X</button>`:""}</li>`).join("");
- teacherList.innerHTML=teachers.map(t=>`<li>${t.name} (${t.sub})${admin?` <button onclick="del('teachers','${t.id}')">X</button>`:""}</li>`).join("");
- studentList.innerHTML=students.map(s=>`<li>${s.name}${admin?` <button onclick="del('students','${s.id}')">X</button>`:""}</li>`).join("");
- resultList.innerHTML=results.map(r=>`<li>${r.class}-${r.roll} ${r.marks}${admin?` <button onclick="del('results','${r.id}')">X</button>`:""}</li>`).join("");
+ db.ref("results").orderByChild("roll").equalTo(rRoll.value).once("value",snap=>{
+   let found=false;
+   snap.forEach(c=>{
+     let r=c.val();
+     if(r.class===rClass.value && r.section===rSection.value){
+       found=true;
+       resultOutput.innerHTML=`Class: ${r.class}<br>Roll: ${r.roll}<br>Section: ${r.section}<br>Marks: ${r.marks}`;
+     }
+   });
+   if(!found) resultOutput.innerHTML="Not Found";
+ });
 }
 </script>
 
 </body>
-  </html>
+ </html>
