@@ -3,210 +3,211 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gobindapur Govt. High School</title> 
+<title>Gobindapur Govt. High School</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#f4f6f8} 
-
-/* Hero */
-.hero{position:relative;height:220px;overflow:hidden}
+body{margin:0;font-family:Arial;background:#f4f6f8}
+.hero{position:relative;height:220px}
 .hero img{width:100%;height:100%;object-fit:cover}
-.hero-text{
-  position:absolute;inset:0;
-  background:rgba(0,0,0,.55);
-  color:#fff;
-  display:flex;flex-direction:column;
-  justify-content:center;align-items:center;
-  text-align:center
-}
-.hero-text h1{margin:0;font-size:26px}
-.hero-text p{margin-top:6px;font-size:15px} 
-
-/* Nav */
+.hero-text{position:absolute;inset:0;background:rgba(0,0,0,.55);color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
 nav{background:#084298;padding:10px;text-align:center}
-nav button{
-  background:#0b5ed7;color:#fff;border:none;
-  padding:10px 14px;margin:5px;
-  border-radius:6px;font-size:15px;cursor:pointer
-} 
-
-/* Content */
+nav button{background:#0b5ed7;color:#fff;border:none;padding:10px 16px;margin:4px;border-radius:20px;font-size:14px}
 .container{padding:15px}
-.card{
-  background:#fff;padding:15px;border-radius:8px;
-  box-shadow:0 2px 5px rgba(0,0,0,.1);
-  margin-bottom:15px
-}
-select,button,input{
-  width:100%;padding:10px;margin:6px 0;font-size:15px
-} 
-
-/* Footer */
-footer{
-  background:#0b5ed7;color:#fff;
-  text-align:center;padding:10px;font-size:14px
-}
+.card{background:#fff;padding:15px;border-radius:12px;box-shadow:0 3px 6px rgba(0,0,0,.15);margin-bottom:15px}
+select,input,button{width:100%;padding:10px;margin:6px 0}
+.admin{background:#eef;padding:10px;border-radius:10px;margin-top:10px}
+.list li{margin:6px 0}
+.list button{width:auto;padding:4px 10px;background:red;color:#fff;border:none;border-radius:12px}
+footer{background:#0b5ed7;color:#fff;text-align:center;padding:10px}
+.fade{animation:fade .5s}
+@keyframes fade{from{opacity:0;transform:scale(.95)}to{opacity:1}}
 </style>
-</head> 
+</head>
 
-<body> 
+<body>
 
 <header class="hero">
-  <img src="school.jpg">
-  <div class="hero-text">
-    <h1>Gobindapur Govt. High School</h1>
-    <p>Official School Website</p>
-  </div>
-</header> 
+<img src="school.jpg">
+<div class="hero-text">
+<h1>Gobindapur Govt. High School</h1>
+<p>Official School Website</p>
+</div>
+</header>
 
 <nav>
-  <button onclick="showSection('notice')">📢 নোটিশ</button>
-  <button onclick="showSection('news')">📰 খবর</button>
-  <button onclick="showSection('student')">👨‍🎓 শিক্ষার্থী</button>
-  <button onclick="showSection('teacher')">👩‍🏫 শিক্ষক</button>
-  <button onclick="showSection('result')">📊 রেজাল্ট</button>
-  <button onclick="showSection('ai')">🤖 AI</button>
-</nav> 
+<button onclick="show('notice')">📢 নোটিশ</button>
+<button onclick="show('news')">📰 খবর</button>
+<button onclick="show('student')">👨‍🎓 শিক্ষার্থী</button>
+<button onclick="show('teacher')">👩‍🏫 শিক্ষক</button>
+<button onclick="show('result')">📊 রেজাল্ট</button>
+<button onclick="show('admin')">🔐 Admin</button>
+</nav>
 
-<div class="container"> 
+<div class="container">
 
 <div class="card section" id="notice">
-  <h2>📢 নোটিশ বোর্ড</h2>
-  <ul><li>নতুন নোটিশ নেই</li></ul>
-</div> 
+<h2>📢 নোটিশ</h2>
+<ul id="noticeList" class="list"></ul>
+<div class="admin" id="noticeAdmin" style="display:none">
+<input id="noticeInput" placeholder="নোটিশ লিখুন">
+<button onclick="addNotice()">Add</button>
+</div>
+</div>
 
 <div class="card section" id="news" style="display:none">
-  <h2>📰 স্কুল খবর</h2>
-  <ul><li>ক্রিকেট টিম উপজেলা পর্যায়ে চ্যাম্পিয়ন</li></ul>
-</div> 
+<h2>📰 খবর</h2>
+<ul id="newsList" class="list"></ul>
+<div class="admin" id="newsAdmin" style="display:none">
+<input id="newsInput" placeholder="খবর লিখুন">
+<button onclick="addNews()">Add</button>
+</div>
+</div>
 
 <div class="card section" id="student" style="display:none">
-<h2>🔍 শিক্ষার্থী খুঁজুন</h2> 
-
-<select id="classSelect">
-<option value="">ক্লাস</option>
-<option>6</option><option>7</option><option>8</option>
-<option>9</option><option>10</option>
-</select> 
-
-<select id="rollSelect">
-<option value="">রোল</option>
-<script>
-for(let i=1;i<=150;i++)document.write(`<option>${i}</option>`);
-</script>
-</select> 
-
-<select id="sectionSelect">
-<option value="">শাখা</option>
-<option>Science</option><option>Arts</option><option>A</option><option>B</option>
-</select> 
-
-<button onclick="findStudent()">খুঁজুন</button>
+<h2>👨‍🎓 শিক্ষার্থী</h2>
+<select id="sClass"><option value="">ক্লাস</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select>
+<select id="sRoll"></select>
+<select id="sSection"><option value="">শাখা</option><option>Science</option><option>Arts</option><option>A</option><option>B</option></select>
+<button onclick="findStudent()">Search</button>
 <div id="studentResult"></div>
-</div> 
+
+<div class="admin" id="studentAdmin" style="display:none">
+<input id="sn" placeholder="নাম">
+<input id="sc" placeholder="ক্লাস">
+<input id="sr" placeholder="রোল">
+<input id="ss" placeholder="শাখা">
+<button onclick="addStudent()">Add</button>
+<ul id="studentList" class="list"></ul>
+</div>
+</div>
 
 <div class="card section" id="teacher" style="display:none">
-<h2>👩‍🏫 শিক্ষকবৃন্দ</h2>
-<ul><li>প্রধান শিক্ষক: আক্তার হোসেন</li></ul>
-</div> 
+<h2>👩‍🏫 শিক্ষক</h2>
+<ul id="teacherList" class="list"></ul>
+<div class="admin" id="teacherAdmin" style="display:none">
+<input id="tName" placeholder="নাম">
+<input id="tSub" placeholder="বিষয়">
+<button onclick="addTeacher()">Add</button>
+</div>
+</div>
 
 <div class="card section" id="result" style="display:none">
-<h2>📊 রেজাল্ট খুঁজুন</h2> 
-
-<select id="rClass">
-<option value="">ক্লাস</option>
-<option>6</option><option>7</option><option>8</option>
-<option>9</option><option>10</option>
-</select> 
-
-<select id="rRoll">
-<option value="">রোল</option>
-<script>
-for(let i=1;i<=150;i++)document.write(`<option>${i}</option>`);
-</script>
-</select> 
-
-<select id="rSection">
-<option value="">শাখা</option>
-<option>Science</option><option>Arts</option><option>A</option><option>B</option>
-</select> 
-
-<select id="rExam">
-<option value="">পরীক্ষা</option>
-<option>Annual Examination 2025</option>
-</select> 
-
-<button onclick="findResult()">রেজাল্ট দেখুন</button>
+<h2>📊 রেজাল্ট</h2>
+<select id="rClass"><option value="">ক্লাস</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select>
+<select id="rRoll"></select>
+<select id="rSection"><option value="">শাখা</option><option>Science</option><option>Arts</option><option>A</option><option>B</option></select>
+<select id="rExam"><option>Annual Examination 2025</option></select>
+<button onclick="findResult()">Search</button>
 <div id="resultOutput"></div>
-</div> 
 
-<div class="card section" id="ai" style="display:none">
-<h2>🤖 School AI Assistant</h2>
-<input id="aiInput" placeholder="স্কুল সম্পর্কে প্রশ্ন লিখুন">
-<button onclick="askAI()">জিজ্ঞেস করুন</button>
-<div id="aiAnswer"></div>
-</div> 
+<div class="admin" id="resultAdmin" style="display:none">
+<input id="rm" placeholder="প্রাপ্ত নম্বর">
+<button onclick="addResult()">Add</button>
+<ul id="resultList" class="list"></ul>
+</div>
+</div>
 
-</div> 
+<div class="card section" id="admin" style="display:none">
+<h2>🔐 Admin Login</h2>
+<input id="user" placeholder="Username">
+<input id="pass" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
+<button onclick="logout()">Logout</button>
+<p id="status"></p>
+</div>
 
-<footer>© 2026 Gobindapur Govt. High School</footer> 
+</div>
+
+<footer>© 2026 Gobindapur Govt. High School</footer>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
 <script>
-/* Students */
-const students=[
-{name:"হৃতম কর উৎস",class:"9",roll:"1",section:"Science"},
-{name:"মোঃ তাহসিনুজ্জামান",class:"9",roll:"3",section:"Science"},
-{name:"আব্দুল্লাহ আল রফিক",class:"9",roll:"4",section:"Science"},
-{name:"তাহমিদুল ইসলাম",class:"9",roll:"5",section:"Science"}
-]; 
+firebase.initializeApp({
+ apiKey:"AIzaSyA0loay6NSdcRQJ5q_qWCbvzQW10rgErV4",
+ authDomain:"gghs-fcfe6.firebaseapp.com",
+ databaseURL:"https://gghs-fcfe6-default-rtdb.firebaseio.com",
+ projectId:"gghs-fcfe6"
+});
 
-/* Results */
-const results=[
-{class:"9",roll:"1",section:"Science",exam:"Annual Examination 2025",marks:558},
-{class:"9",roll:"3",section:"Science",exam:"Annual Examination 2025",marks:519},
-{class:"9",roll:"4",section:"Science",exam:"Annual Examination 2025",marks:519},
-{class:"9",roll:"5",section:"Science",exam:"Annual Examination 2025",marks:518}
-]; 
+const db=firebase.database();
+const ref={
+ notice:db.ref("notices"),
+ news:db.ref("news"),
+ students:db.ref("students"),
+ teachers:db.ref("teachers"),
+ results:db.ref("results")
+};
 
-function showSection(id){
-document.querySelectorAll('.section').forEach(s=>s.style.display="none");
-document.getElementById(id).style.display="block";
-} 
+for(let i=1;i<=150;i++){
+ sRoll.innerHTML+=`<option>${i}</option>`;
+ rRoll.innerHTML+=`<option>${i}</option>`;
+}
+
+let admin=false;
+let adminUser="HKuk07", adminPass="07122010";
+let notices=[],news=[],students=[],teachers=[],results=[];
+
+Object.keys(ref).forEach(k=>{
+ ref[k].on("value",s=>{
+   window[k]=[];
+   s.forEach(d=>window[k].push({id:d.key,...(typeof d.val()==="object"?d.val():{text:d.val()})}));
+   render();
+ });
+});
+
+function show(id){
+ document.querySelectorAll('.section').forEach(s=>{
+   s.style.display="none"; s.classList.remove("fade");
+ });
+ let el=document.getElementById(id);
+ el.style.display="block";
+ void el.offsetWidth;
+ el.classList.add("fade");
+}
+
+function login(){
+ if(user.value===adminUser && pass.value===adminPass){
+   admin=true; status.innerText="✅ Logged In";
+   noticeAdmin.style.display=newsAdmin.style.display=studentAdmin.style.display=
+   teacherAdmin.style.display=resultAdmin.style.display="block";
+   show("notice");
+ } else alert("Wrong Login");
+}
+function logout(){
+ admin=false; status.innerText="Logged Out";
+ noticeAdmin.style.display=newsAdmin.style.display=studentAdmin.style.display=
+ teacherAdmin.style.display=resultAdmin.style.display="none";
+}
+
+function addNotice(){ref.notice.push(noticeInput.value);noticeInput.value="";}
+function addNews(){ref.news.push(newsInput.value);newsInput.value="";}
+function addStudent(){ref.students.push({name:sn.value,class:sc.value,roll:sr.value,section:ss.value});}
+function addTeacher(){ref.teachers.push({name:tName.value,sub:tSub.value});}
+function addResult(){ref.results.push({class:rClass.value,roll:rRoll.value,section:rSection.value,exam:rExam.value,marks:rm.value});}
+function del(r,id){ref[r].child(id).remove();}
 
 function findStudent(){
-let c=classSelect.value,r=rollSelect.value,s=sectionSelect.value;
-let st=students.find(x=>x.class===c&&x.roll===r&&x.section===s);
-studentResult.innerHTML=st?
-`<b>নাম:</b> ${st.name}<br>
-<b>ক্লাস:</b> ${st.class}<br>
-<b>রোল:</b> ${st.roll}<br>
-<b>শাখা:</b> ${st.section}`:
-`<p style="color:red">Not Found</p>`;
-} 
-
-/* ⭐ FIXED RESULT FUNCTION (NAME ADDED) */
-function findResult(){
-let c=rClass.value,r=rRoll.value,s=rSection.value,e=rExam.value; 
-
-let rs=results.find(x=>x.class===c&&x.roll===r&&x.section===s&&x.exam===e);
-let st=students.find(x=>x.class===c&&x.roll===r&&x.section===s); 
-
-resultOutput.innerHTML=(rs&&st)?
-`<b>নাম:</b> ${st.name}<br>
-<b>রোল:</b> ${rs.roll}<br>
-<b>পরীক্ষা:</b> ${rs.exam}<br>
-<b>প্রাপ্ত নম্বর:</b> ${rs.marks}`:
-`<p style="color:red">Not Found</p>`;
-} 
-
-function askAI(){
-let q=aiInput.value.toLowerCase();
-let a="এই বিষয়ে তথ্য নেই।";
-if(q.includes("স্কুল"))a="Gobindapur Govt. High School";
-if(q.includes("রেজাল্ট"))a="রেজাল্ট মেনু থেকে ক্লাস, রোল, শাখা ও পরীক্ষা নির্বাচন করুন।";
-aiAnswer.innerHTML="<b>AI:</b> "+a;
+ let s=students.find(x=>x.class===sClass.value&&x.roll===sRoll.value&&x.section===sSection.value);
+ studentResult.innerHTML=s?`<div class="admin">${s.name}</div>`:"Not Found";
 }
-</script> 
+
+function findResult(){
+ let r=results.find(x=>x.class===rClass.value&&x.roll===rRoll.value&&x.section===rSection.value);
+ let s=students.find(x=>x.class===rClass.value&&x.roll===rRoll.value&&x.section===rSection.value);
+ resultOutput.innerHTML=(r&&s)?`<div class="admin">${s.name}<br>${r.marks}</div>`:"Not Found";
+}
+
+function render(){
+ noticeList.innerHTML=notices.map(n=>`<li>${n.text||n}${admin?` <button onclick="del('notice','${n.id}')">X</button>`:""}</li>`).join("");
+ newsList.innerHTML=news.map(n=>`<li>${n.text||n}${admin?` <button onclick="del('news','${n.id}')">X</button>`:""}</li>`).join("");
+ teacherList.innerHTML=teachers.map(t=>`<li>${t.name} (${t.sub})${admin?` <button onclick="del('teachers','${t.id}')">X</button>`:""}</li>`).join("");
+ studentList.innerHTML=students.map(s=>`<li>${s.name}${admin?` <button onclick="del('students','${s.id}')">X</button>`:""}</li>`).join("");
+ resultList.innerHTML=results.map(r=>`<li>${r.class}-${r.roll} ${r.marks}${admin?` <button onclick="del('results','${r.id}')">X</button>`:""}</li>`).join("");
+}
+</script>
 
 </body>
   </html>
