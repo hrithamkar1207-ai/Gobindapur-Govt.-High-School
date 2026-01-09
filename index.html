@@ -2,30 +2,58 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-
-<!-- ⭐ এটা যোগ করা হয়েছে (সবচেয়ে গুরুত্বপূর্ণ) -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Gobindapur Govt. High School</title>
 
 <style>
+/* ===== Basic ===== */
 body{
-  font-family:Arial;
-  background:#f4f6f8;
   margin:0;
+  font-family:Arial, sans-serif;
+  background:#f4f6f8;
 }
 
-header{
-  background:#0b5ed7;
+/* ===== Header Image ===== */
+.hero{
+  position:relative;
+  height:220px;
+  overflow:hidden;
+}
+
+.hero img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.hero-text{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.55);
   color:#fff;
-  padding:15px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
   text-align:center;
 }
 
+.hero-text h1{
+  margin:0;
+  font-size:26px;
+}
+
+.hero-text p{
+  margin-top:6px;
+  font-size:15px;
+}
+
+/* ===== Navigation ===== */
 nav{
   background:#084298;
-  text-align:center;
   padding:10px;
+  text-align:center;
 }
 
 nav button{
@@ -35,10 +63,10 @@ nav button{
   padding:10px 14px;
   margin:5px;
   border-radius:6px;
-  cursor:pointer;
-  font-size:16px;
+  font-size:15px;
 }
 
+/* ===== Content ===== */
 .container{
   padding:15px;
 }
@@ -51,120 +79,117 @@ nav button{
   margin-bottom:15px;
 }
 
-select,button{
+select, button{
+  width:100%;
   padding:10px;
   margin:6px 0;
-  width:100%;
-  font-size:16px;
+  font-size:15px;
 }
 
+/* ===== Footer ===== */
 footer{
   background:#0b5ed7;
   color:#fff;
   text-align:center;
   padding:10px;
+  font-size:14px;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-<h1>Gobindapur Govt. High School</h1>
-<p>Official School Website</p>
+<!-- ===== Header ===== -->
+<header class="hero">
+  <img src="school.jpg" alt="Gobindapur Govt. High School">
+  <div class="hero-text">
+    <h1>Gobindapur Govt. High School</h1>
+    <p>Official School Website</p>
+  </div>
 </header>
 
+<!-- ===== Menu ===== -->
 <nav>
-<button onclick="showNotice()">📢 নোটিশ</button>
-<button onclick="showNews()">📰 খবর</button>
-<button onclick="showStudent()">👨‍🎓 শিক্ষার্থী</button>
-<button onclick="showTeacher()">👩‍🏫 শিক্ষক</button>
-<button onclick="showResult()">📊 রেজাল্ট</button>
+  <button onclick="showSection('notice')">📢 নোটিশ</button>
+  <button onclick="showSection('news')">📰 খবর</button>
+  <button onclick="showSection('student')">👨‍🎓 শিক্ষার্থী</button>
+  <button onclick="showSection('teacher')">👩‍🏫 শিক্ষক</button>
+  <button onclick="showSection('result')">📊 রেজাল্ট</button>
 </nav>
 
 <div class="container">
 
-<div class="card" id="noticeSection">
-<h2>📢 নোটিশ বোর্ড</h2>
-<ul>
-<li>নতুন নোটিশ প্রকাশিত হয়নি</li>
-</ul>
+<!-- Notice -->
+<div class="card section" id="notice">
+  <h2>📢 নোটিশ বোর্ড</h2>
+  <ul>
+    <li>নতুন নোটিশ নেই</li>
+  </ul>
 </div>
 
-<div class="card" id="newsSection" style="display:none;">
-<h2>📰 স্কুল খবর</h2>
-<ul>
-<li>ক্রিকেট টিম উপজেলা পর্যায়ে চ্যাম্পিয়ন</li>
-</ul>
+<!-- News -->
+<div class="card section" id="news" style="display:none;">
+  <h2>📰 স্কুল খবর</h2>
+  <ul>
+    <li>ক্রিকেট টিম উপজেলা পর্যায়ে চ্যাম্পিয়ন</li>
+  </ul>
 </div>
 
-<div class="card" id="studentSection" style="display:none;">
-<h2>🔍 Find Student</h2>
+<!-- Student -->
+<div class="card section" id="student" style="display:none;">
+  <h2>🔍 শিক্ষার্থী খুঁজুন</h2>
 
-<select id="classSelect">
-<option value="">Select Class</option>
-<option>6</option><option>7</option><option>8</option>
-<option>9</option><option>10</option>
-</select>
+  <select id="classSelect">
+    <option value="">ক্লাস</option>
+    <option>6</option><option>7</option><option>8</option>
+    <option>9</option><option>10</option>
+  </select>
 
-<select id="rollSelect">
-<option value="">Select Roll</option>
-<script>
-for(let i=1;i<=150;i++){
-document.write(`<option>${i}</option>`);
-}
-</script>
-</select>
+  <select id="rollSelect">
+    <option value="">রোল</option>
+    <script>
+      for(let i=1;i<=150;i++){
+        document.write(`<option>${i}</option>`);
+      }
+    </script>
+  </select>
 
-<select id="sectionSelect">
-<option value="">Select Section</option>
-<option>A</option>
-<option>B</option>
-<option>Science</option>
-<option>Arts</option>
-</select>
+  <select id="sectionSelect">
+    <option value="">শাখা</option>
+    <option>Science</option>
+    <option>Arts</option>
+    <option>A</option>
+    <option>B</option>
+  </select>
 
-<button onclick="findStudent()">Find</button>
-<div id="studentResult"></div>
+  <button onclick="findStudent()">খুঁজুন</button>
+  <div id="studentResult"></div>
 </div>
 
-<div class="card" id="teacherSection" style="display:none;">
-<h2>👩‍🏫 শিক্ষকের তালিকা</h2>
-<ul>
-<li>শিক্ষক ১</li>
-<li>শিক্ষক ২</li>
-<li>শিক্ষক ৩</li>
-</ul>
+<!-- Teacher -->
+<div class="card section" id="teacher" style="display:none;">
+  <h2>👩‍🏫 শিক্ষকবৃন্দ</h2>
+  <ul>
+    <li>শিক্ষক ১</li>
+    <li>শিক্ষক ২</li>
+    <li>শিক্ষক ৩</li>
+  </ul>
 </div>
 
-<div class="card" id="resultSection" style="display:none;">
-<h2>📊 Find Result</h2>
+<!-- Result -->
+<div class="card section" id="result" style="display:none;">
+  <h2>📊 রেজাল্ট খুঁজুন</h2>
 
-<select id="rClass">
-<option value="">Select Class</option>
-<option>6</option><option>7</option><option>8</option>
-<option>9</option><option>10</option>
-</select>
+  <select>
+    <option>ক্লাস</option>
+  </select>
 
-<select id="rRoll">
-<option value="">Select Roll</option>
-<script>
-for(let i=1;i<=150;i++){
-document.write(`<option>${i}</option>`);
-}
-</script>
-</select>
+  <select>
+    <option>রোল</option>
+  </select>
 
-<select id="rSection">
-<option value="">Select Section</option>
-<option>A</option>
-<option>B</option>
-<option>Science</option>
-<option>Arts</option>
-</select>
-
-<button onclick="findResult()">Find Result</button>
-<div id="resultOutput"></div>
+  <button>রেজাল্ট দেখুন</button>
+  <p style="color:red;">Not Found</p>
 </div>
 
 </div>
@@ -175,45 +200,29 @@ document.write(`<option>${i}</option>`);
 
 <script>
 const students=[
-{name:"হৃতম কর (উৎস)",class:"9",roll:"1",section:"Science"},
-{name:"মো: তাহসিনুজ্জামান",class:"9",roll:"3",section:"Science"},
-{name:"আব্দুল্লাহ আল রফিক",class:"9",roll:"4",section:"Science"},
-{name:"তাহমিদুল ইসলাম",class:"9",roll:"5",section:"Science"}
+  {name:"হৃতম কর",class:"9",roll:"1",section:"Science"},
+  {name:"মোঃ তাহসিনুজ্জামান",class:"9",roll:"3",section:"Science"}
 ];
 
-function hideAll(){
-noticeSection.style.display="none";
-newsSection.style.display="none";
-studentSection.style.display="none";
-teacherSection.style.display="none";
-resultSection.style.display="none";
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.style.display="none");
+  document.getElementById(id).style.display="block";
 }
-
-function showNotice(){hideAll();noticeSection.style.display="block";}
-function showNews(){hideAll();newsSection.style.display="block";}
-function showStudent(){hideAll();studentSection.style.display="block";}
-function showTeacher(){hideAll();teacherSection.style.display="block";}
-function showResult(){hideAll();resultSection.style.display="block";}
 
 function findStudent(){
-let c=classSelect.value;
-let r=rollSelect.value;
-let s=sectionSelect.value;
-let res=students.find(st=>st.class==c && st.roll==r && st.section==s);
+  let c=classSelect.value;
+  let r=rollSelect.value;
+  let s=sectionSelect.value;
+  let res=students.find(st=>st.class==c && st.roll==r && st.section==s);
 
-studentResult.innerHTML=res?
-`<p><b>নাম:</b> ${res.name}<br>
-<b>ক্লাস:</b> ${res.class}<br>
-<b>রোল:</b> ${res.roll}<br>
-<b>শাখা:</b> ${res.section}</p>`
-:`<p style="color:red;">Not Found</p>`;
-}
-
-function findResult(){
-document.getElementById("resultOutput").innerHTML =
-'<p style="color:red;">Not Found</p>';
+  studentResult.innerHTML = res
+  ? `<p><b>নাম:</b> ${res.name}<br>
+     <b>ক্লাস:</b> ${res.class}<br>
+     <b>রোল:</b> ${res.roll}<br>
+     <b>শাখা:</b> ${res.section}</p>`
+  : `<p style="color:red;">Not Found</p>`;
 }
 </script>
 
 </body>
-  </html>
+</html>
