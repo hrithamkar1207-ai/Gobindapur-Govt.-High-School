@@ -13,19 +13,17 @@ body{
   background:#f4f6f8;
 }
 
-/* ===== Hero Section ===== */
+/* ===== Hero ===== */
 .hero{
   position:relative;
   height:220px;
   overflow:hidden;
 }
-
 .hero img{
   width:100%;
   height:100%;
   object-fit:cover;
 }
-
 .hero-text{
   position:absolute;
   inset:0;
@@ -37,24 +35,15 @@ body{
   align-items:center;
   text-align:center;
 }
+.hero-text h1{margin:0;font-size:26px;}
+.hero-text p{margin-top:6px;font-size:15px;}
 
-.hero-text h1{
-  margin:0;
-  font-size:26px;
-}
-
-.hero-text p{
-  margin-top:6px;
-  font-size:15px;
-}
-
-/* ===== Navigation ===== */
+/* ===== Nav ===== */
 nav{
   background:#084298;
   padding:10px;
   text-align:center;
 }
-
 nav button{
   background:#0b5ed7;
   color:#fff;
@@ -67,10 +56,7 @@ nav button{
 }
 
 /* ===== Content ===== */
-.container{
-  padding:15px;
-}
-
+.container{padding:15px;}
 .card{
   background:#fff;
   padding:15px;
@@ -78,7 +64,6 @@ nav button{
   box-shadow:0 2px 5px rgba(0,0,0,.1);
   margin-bottom:15px;
 }
-
 select, button{
   width:100%;
   padding:10px;
@@ -99,7 +84,6 @@ footer{
 
 <body>
 
-<!-- ===== Header ===== -->
 <header class="hero">
   <img src="school.jpg" alt="Gobindapur Govt. High School">
   <div class="hero-text">
@@ -108,7 +92,6 @@ footer{
   </div>
 </header>
 
-<!-- ===== Menu ===== -->
 <nav>
   <button onclick="showSection('notice')">📢 নোটিশ</button>
   <button onclick="showSection('news')">📰 খবর</button>
@@ -119,33 +102,24 @@ footer{
 
 <div class="container">
 
-<!-- Notice -->
 <div class="card section" id="notice">
   <h2>📢 নোটিশ বোর্ড</h2>
-  <ul>
-    <li>নতুন নোটিশ নেই</li>
-  </ul>
+  <ul><li>নতুন নোটিশ নেই</li></ul>
 </div>
 
-<!-- News -->
 <div class="card section" id="news" style="display:none;">
   <h2>📰 স্কুল খবর</h2>
-  <ul>
-    <li>ক্রিকেট টিম উপজেলা পর্যায়ে চ্যাম্পিয়ন</li>
-  </ul>
+  <ul><li>ক্রিকেট টিম উপজেলা পর্যায়ে চ্যাম্পিয়ন</li></ul>
 </div>
 
-<!-- Student -->
+<!-- ===== Student ===== -->
 <div class="card section" id="student" style="display:none;">
   <h2>🔍 শিক্ষার্থী খুঁজুন</h2>
 
   <select id="classSelect">
     <option value="">ক্লাস</option>
-    <option>6</option>
-    <option>7</option>
-    <option>8</option>
-    <option>9</option>
-    <option>10</option>
+    <option>6</option><option>7</option><option>8</option>
+    <option>9</option><option>10</option>
   </select>
 
   <select id="rollSelect">
@@ -169,7 +143,7 @@ footer{
   <div id="studentResult"></div>
 </div>
 
-<!-- Teacher -->
+<!-- ===== Teacher ===== -->
 <div class="card section" id="teacher" style="display:none;">
   <h2>👩‍🏫 শিক্ষকবৃন্দ</h2>
   <ul>
@@ -179,10 +153,35 @@ footer{
   </ul>
 </div>
 
-<!-- Result -->
+<!-- ===== Result (NEW) ===== -->
 <div class="card section" id="result" style="display:none;">
-  <h2>📊 রেজাল্ট</h2>
-  <p style="color:red;">এখনো রেজাল্ট প্রকাশিত হয়নি</p>
+  <h2>📊 রেজাল্ট খুঁজুন</h2>
+
+  <select id="rClass">
+    <option value="">ক্লাস</option>
+    <option>6</option><option>7</option><option>8</option>
+    <option>9</option><option>10</option>
+  </select>
+
+  <select id="rRoll">
+    <option value="">রোল</option>
+    <script>
+      for(let i=1;i<=150;i++){
+        document.write(`<option>${i}</option>`);
+      }
+    </script>
+  </select>
+
+  <select id="rSection">
+    <option value="">শাখা</option>
+    <option>Science</option>
+    <option>Arts</option>
+    <option>A</option>
+    <option>B</option>
+  </select>
+
+  <button onclick="findResult()">রেজাল্ট দেখুন</button>
+  <div id="resultOutput"></div>
 </div>
 
 </div>
@@ -200,30 +199,42 @@ const students=[
   {name:"তাহমিদুল ইসলাম", class:"9", roll:"5", section:"Science"}
 ];
 
+/* ===== Result Data (এখন খালি) ===== */
+const results=[];
+
 /* ===== Section Control ===== */
 function showSection(id){
-  document.querySelectorAll('.section').forEach(sec=>{
-    sec.style.display="none";
-  });
+  document.querySelectorAll('.section').forEach(s=>s.style.display="none");
   document.getElementById(id).style.display="block";
 }
 
 /* ===== Student Search ===== */
 function findStudent(){
-  let c=document.getElementById("classSelect").value;
-  let r=document.getElementById("rollSelect").value;
-  let s=document.getElementById("sectionSelect").value;
+  let c=classSelect.value;
+  let r=rollSelect.value;
+  let s=sectionSelect.value;
 
   let res=students.find(st=>st.class===c && st.roll===r && st.section===s);
 
-  document.getElementById("studentResult").innerHTML = res
-    ? `<p>
-        <b>নাম:</b> ${res.name}<br>
-        <b>ক্লাস:</b> ${res.class}<br>
-        <b>রোল:</b> ${res.roll}<br>
-        <b>শাখা:</b> ${res.section}
-      </p>`
-    : `<p style="color:red;">তথ্য পাওয়া যায়নি</p>`;
+  studentResult.innerHTML = res
+  ? `<p><b>নাম:</b> ${res.name}<br>
+     <b>ক্লাস:</b> ${res.class}<br>
+     <b>রোল:</b> ${res.roll}<br>
+     <b>শাখা:</b> ${res.section}</p>`
+  : `<p style="color:red;">তথ্য পাওয়া যায়নি</p>`;
+}
+
+/* ===== Result Search ===== */
+function findResult(){
+  let c=rClass.value;
+  let r=rRoll.value;
+  let s=rSection.value;
+
+  let res=results.find(rt=>rt.class===c && rt.roll===r && rt.section===s);
+
+  resultOutput.innerHTML = res
+  ? `<p><b>GPA:</b> ${res.gpa}</p>`
+  : `<p style="color:red;">এখনো কোনো রেজাল্ট তথ্য নেই</p>`;
 }
 </script>
 
