@@ -3,33 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gobindapur Govt. High School</title>
+<title>Gobindapur Govt. High School</title> 
 
 <style>
 body{margin:0;font-family:Arial;background:#f4f6f8}
 .hero{position:relative;height:220px}
 .hero img{width:100%;height:100%;object-fit:cover}
 .hero-text{
- position:absolute;inset:0;
- background:rgba(0,0,0,.55);
- color:#fff;
- display:flex;
- flex-direction:column;
- justify-content:center;
- align-items:center;
- text-align:center
+position:absolute;inset:0;
+background:rgba(0,0,0,.55);
+color:#fff;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center
 }
 nav{background:#084298;padding:10px;text-align:center}
 nav button{
- background:#0b5ed7;color:#fff;border:none;
- padding:10px 16px;margin:4px;
- border-radius:20px;font-size:14px
+background:#0b5ed7;color:#fff;border:none;
+padding:10px 16px;margin:4px;
+border-radius:20px;font-size:14px
 }
 .container{padding:15px}
 .card{
- background:#fff;padding:15px;border-radius:12px;
- box-shadow:0 3px 6px rgba(0,0,0,.15);
- margin-bottom:15px
+background:#fff;padding:15px;border-radius:12px;
+box-shadow:0 3px 6px rgba(0,0,0,.15);
+margin-bottom:15px
 }
 select,input,button{width:100%;padding:10px;margin:6px 0}
 .admin{background:#eef;padding:10px;border-radius:10px;margin-top:10px;display:none}
@@ -37,14 +37,28 @@ select,input,button{width:100%;padding:10px;margin:6px 0}
 .list button{background:red;color:#fff;border:none;border-radius:12px;padding:4px 10px}
 .fade{animation:fade .5s ease}
 @keyframes fade{
- from{opacity:0;transform:scale(.95)}
- to{opacity:1;transform:scale(1)}
+from{opacity:0;transform:scale(.95)}
+to{opacity:1;transform:scale(1)}
 }
 footer{background:#0b5ed7;color:#fff;text-align:center;padding:10px}
+table{
+ width:100%;
+ border-collapse:collapse;
+ margin-top:10px
+}
+th,td{
+ border:1px solid #ccc;
+ padding:8px;
+ text-align:center
+}
+th{
+ background:#0b5ed7;
+ color:#fff
+}
 </style>
-</head>
+</head> 
 
-<body>
+<body> 
 
 <header class="hero">
 <img src="school.jpg">
@@ -52,7 +66,7 @@ footer{background:#0b5ed7;color:#fff;text-align:center;padding:10px}
 <h1>Gobindapur Govt. High School</h1>
 <p>Official School Website</p>
 </div>
-</header>
+</header> 
 
 <nav>
 <button onclick="show('notice')">📢 নোটিশ</button>
@@ -60,10 +74,11 @@ footer{background:#0b5ed7;color:#fff;text-align:center;padding:10px}
 <button onclick="show('student')">👨‍🎓 শিক্ষার্থী</button>
 <button onclick="show('teacher')">👩‍🏫 শিক্ষক</button>
 <button onclick="show('result')">📊 রেজাল্ট</button>
+<button onclick="show('routine')">📅 রুটিন</button>
 <button onclick="show('admin')">🔐 Admin</button>
-</nav>
+</nav> 
 
-<div class="container">
+<div class="container"> 
 
 <div class="card section" id="notice">
 <h2>📢 নোটিশ</h2>
@@ -72,7 +87,7 @@ footer{background:#0b5ed7;color:#fff;text-align:center;padding:10px}
 <input id="noticeInput" placeholder="নোটিশ লিখুন">
 <button onclick="addNotice()">Add</button>
 </div>
-</div>
+</div> 
 
 <div class="card section" id="news" style="display:none">
 <h2>📰 খবর</h2>
@@ -81,27 +96,27 @@ footer{background:#0b5ed7;color:#fff;text-align:center;padding:10px}
 <input id="newsInput" placeholder="খবর লিখুন">
 <button onclick="addNews()">Add</button>
 </div>
-</div>
+</div> 
 
 <div class="card section" id="student" style="display:none">
-<h2>👨‍🎓 শিক্ষার্থী</h2>
+<h2>👨‍🎓 শিক্ষার্থী</h2> 
 
 <select id="sClass">
 <option value="">ক্লাস নির্বাচন</option>
 <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
-</select>
+</select> 
 
 <select id="sRoll">
 <option value="">রোল নির্বাচন</option>
-</select>
+</select> 
 
 <select id="sSection">
 <option value="">শাখা নির্বাচন</option>
 <option>Science</option><option>Arts</option><option>A</option><option>B</option>
-</select>
+</select> 
 
 <button onclick="findStudent()">Search</button>
-<div id="studentResult"></div>
+<div id="studentResult"></div> 
 
 <div class="admin">
 <input id="sn" placeholder="নাম">
@@ -111,7 +126,7 @@ footer{background:#0b5ed7;color:#fff;text-align:center;padding:10px}
 <button onclick="addStudent()">Add</button>
 <ul id="studentList" class="list"></ul>
 </div>
-</div>
+</div> 
 
 <div class="card section" id="teacher" style="display:none">
 <h2>👩‍🏫 শিক্ষক</h2>
@@ -121,32 +136,83 @@ footer{background:#0b5ed7;color:#fff;text-align:center;padding:10px}
 <input id="tSub" placeholder="বিষয়">
 <button onclick="addTeacher()">Add</button>
 </div>
-</div>
+</div> 
 
 <div class="card section" id="result" style="display:none">
-<h2>📊 রেজাল্ট</h2>
+<h2>📊 রেজাল্ট</h2> 
 
 <select id="rClass">
 <option value="">ক্লাস নির্বাচন</option>
 <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
-</select>
+</select> 
 
 <select id="rRoll">
 <option value="">রোল নির্বাচন</option>
-</select>
+</select> 
 
 <select id="rSection">
 <option value="">শাখা নির্বাচন</option>
 <option>Science</option><option>Arts</option><option>A</option><option>B</option>
-</select>
+</select> 
 
 <button onclick="findResult()">Search</button>
-<div id="resultOutput"></div>
+<div id="resultOutput"></div> 
 
 <div class="admin">
 <input id="rm" placeholder="নম্বর">
 <button onclick="addResult()">Add</button>
 <ul id="resultList" class="list"></ul>
+</div>
+</div> 
+
+<div class="card section" id="routine" style="display:none">
+<h2>📅 ক্লাস রুটিন</h2>
+
+<select id="rtClass">
+<option value="">ক্লাস নির্বাচন</option>
+<option>6</option><option>7</option><option>8</option>
+<option>9</option><option>10</option>
+</select>
+
+<select id="searchDay">
+<option value="">সব বার</option>
+<option>রবি</option>
+<option>সোম</option>
+<option>মঙ্গল</option>
+<option>বুধ</option>
+<option>বৃহঃ</option>
+</select>
+
+<button onclick="loadRoutine()">Show Routine</button>
+
+<div id="routineTable"></div>
+
+<div class="admin">
+<h3>➕ রুটিন যোগ করুন</h3>
+
+<select id="addRtClass">
+<option value="">ক্লাস নির্বাচন</option>
+<option>6</option>
+<option>7</option>
+<option>8</option>
+<option>9</option>
+<option>10</option>
+</select>
+
+<select id="rtDay">
+<option value="">বার নির্বাচন</option>
+<option>রবি</option>
+<option>সোম</option>
+<option>মঙ্গল</option>
+<option>বুধ</option>
+<option>বৃহঃ</option>
+</select>
+
+<input id="rtPeriod" placeholder="পিরিয়ড (১ম / ২য়)">
+<input id="rtSub" placeholder="বিষয়">
+<input id="rtTeacher" placeholder="শিক্ষক">
+
+<button onclick="addRoutine()">Add Routine</button>
 </div>
 </div>
 
@@ -157,114 +223,202 @@ footer{background:#0b5ed7;color:#fff;text-align:center;padding:10px}
 <button onclick="login()">Login</button>
 <button onclick="logout()">Logout</button>
 <p id="status"></p>
-</div>
+</div> 
 
-</div>
+</div> 
 
-<footer>© 2026 Gobindapur Govt. High School</footer>
+<footer>© 2026 Gobindapur Govt. High School</footer> 
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script> 
 
 <script>
 firebase.initializeApp({
- apiKey:"AIzaSyA0loay6NSdcRQJ5q_qWCbvzQW10rgErV4",
- databaseURL:"https://gghs-fcfe6-default-rtdb.firebaseio.com"
+apiKey:"AIzaSyA0loay6NSdcRQJ5q_qWCbvzQW10rgErV4",
+databaseURL:"https://gghs-fcfe6-default-rtdb.firebaseio.com"
 });
-const db=firebase.database();
+const db=firebase.database(); 
 
 const ADMIN_USER="HKuk07";
 const ADMIN_PASS="07122010";
-let admin=false;
+let admin=false; 
 
 for(let i=1;i<=150;i++){
- sRoll.innerHTML+=`<option>${i}</option>`;
- rRoll.innerHTML+=`<option>${i}</option>`;
-}
+sRoll.innerHTML+=`<option>${i}</option>`;
+rRoll.innerHTML+=`<option>${i}</option>`;
+} 
 
 function show(id){
- document.querySelectorAll('.section').forEach(s=>{
-  s.style.display="none";
-  s.classList.remove("fade");
- });
- let el=document.getElementById(id);
- el.style.display="block";
- void el.offsetWidth;
- el.classList.add("fade");
-}
+document.querySelectorAll('.section').forEach(s=>{
+  s.style.display="none";
+  s.classList.remove("fade");
+});
+let el=document.getElementById(id);
+el.style.display="block";
+void el.offsetWidth;
+el.classList.add("fade");
+} 
 
 function login(){
- if(user.value===ADMIN_USER && pass.value===ADMIN_PASS){
-  admin=true;
-  status.innerText="Logged In";
-  document.querySelectorAll('.admin').forEach(a=>a.style.display="block");
-  loadAll();
-  show('notice');
- }else alert("Wrong Login");
-}
+if(user.value===ADMIN_USER && pass.value===ADMIN_PASS){
+  admin=true;
+  status.innerText="Logged In";
+  document.querySelectorAll('.admin').forEach(a=>a.style.display="block");
+  loadAll();
+  show('notice');
+}else alert("Wrong Login");
+} 
 
 function logout(){
- admin=false;
- status.innerText="Logged Out";
- document.querySelectorAll('.admin').forEach(a=>a.style.display="none");
- loadAll();
- show('notice');
-}
+admin=false;
+status.innerText="Logged Out";
+document.querySelectorAll('.admin').forEach(a=>a.style.display="none");
+loadAll();
+show('notice');
+} 
 
-function del(path,key){
- if(!admin){alert("Admin only");return;}
- db.ref(path+"/"+key).remove();
+function del(path, key){
+ if(!admin){
+  alert("Admin only");
+  return;
+ }
+
+ firebase.database().ref(path + "/" + key).remove()
+ .then(()=>{
+  alert("Deleted Successfully");
+
+  // যদি রুটিন হয়, তাহলে রুটিন আবার লোড
+  if(path === "routines"){
+   loadRoutine();
+  }
+ })
+ .catch(err=>{
+  alert("Delete failed: " + err.message);
+ });
 }
 
 function addNotice(){ if(admin) db.ref("notices").push({text:noticeInput.value}); }
 function addNews(){ if(admin) db.ref("news").push({text:newsInput.value}); }
 function addStudent(){ if(admin) db.ref("students").push({name:sn.value,class:sc.value,roll:sr.value,section:ss.value}); }
 function addTeacher(){ if(admin) db.ref("teachers").push({name:tName.value,sub:tSub.value}); }
-function addResult(){ if(admin) db.ref("results").push({class:rClass.value,roll:rRoll.value,section:rSection.value,marks:rm.value}); }
+function addResult(){ if(admin) db.ref("results").push({class:rClass.value,roll:rRoll.value,section:rSection.value,marks:rm.value}); } 
 
 function load(path,list,template){
- db.ref(path).on("value",snap=>{
-  list.innerHTML="";
-  snap.forEach(c=>{
-   list.innerHTML+=template(c);
-  });
- });
-}
+db.ref(path).on("value",snap=>{
+  list.innerHTML="";
+  snap.forEach(c=>{
+   list.innerHTML+=template(c);
+  });
+});
+} 
 
 function loadAll(){
- load("notices",noticeList,c=>`<li>${c.val().text}${admin?` <button onclick="del('notices','${c.key}')">X</button>`:""}</li>`);
- load("news",newsList,c=>`<li>${c.val().text}${admin?` <button onclick="del('news','${c.key}')">X</button>`:""}</li>`);
- load("teachers",teacherList,c=>`<li>${c.val().name} (${c.val().sub})${admin?` <button onclick="del('teachers','${c.key}')">X</button>`:""}</li>`);
- load("students",studentList,c=>`<li>${c.val().name} | ${c.val().class}-${c.val().roll}${admin?` <button onclick="del('students','${c.key}')">X</button>`:""}</li>`);
- load("results",resultList,c=>`<li>${c.val().class}-${c.val().roll} : ${c.val().marks}${admin?` <button onclick="del('results','${c.key}')">X</button>`:""}</li>`);
-}
+load("notices",noticeList,c=>`<li>${c.val().text}${admin?` <button onclick="del('notices','${c.key}')">X</button>`:""}</li>`);
+load("news",newsList,c=>`<li>${c.val().text}${admin?` <button onclick="del('news','${c.key}')">X</button>`:""}</li>`);
+load("teachers",teacherList,c=>`<li>${c.val().name} (${c.val().sub})${admin?` <button onclick="del('teachers','${c.key}')">X</button>`:""}</li>`);
+load("students",studentList,c=>`<li>${c.val().name} | ${c.val().class}-${c.val().roll}${admin?` <button onclick="del('students','${c.key}')">X</button>`:""}</li>`);
+load("results",resultList,c=>`<li>${c.val().class}-${c.val().roll} : ${c.val().marks}${admin?` <button onclick="del('results','${c.key}')">X</button>`:""}</li>`);
+} 
 
-loadAll();
+loadAll(); 
 
 function findStudent(){
- studentResult.innerHTML="পাওয়া যায়নি";
- db.ref("students").once("value",s=>{
-  s.forEach(c=>{
-   let d=c.val();
-   if(d.class===sClass.value && d.roll===sRoll.value && d.section===sSection.value){
-    studentResult.innerHTML=`নাম: ${d.name}<br>ক্লাস: ${d.class}<br>রোল: ${d.roll}<br>শাখা: ${d.section}`;
-   }
-  });
- });
-}
+studentResult.innerHTML="পাওয়া যায়নি";
+db.ref("students").once("value",s=>{
+  s.forEach(c=>{
+   let d=c.val();
+   if(d.class===sClass.value && d.roll===sRoll.value && d.section===sSection.value){
+    studentResult.innerHTML=`নাম: ${d.name}<br>ক্লাস: ${d.class}<br>রোল: ${d.roll}<br>শাখা: ${d.section}`;
+   }
+  });
+});
+} 
 
 function findResult(){
- resultOutput.innerHTML="পাওয়া যায়নি";
- db.ref("results").once("value",s=>{
-  s.forEach(c=>{
-   let d=c.val();
-   if(d.class===rClass.value && d.roll===rRoll.value && d.section===rSection.value){
-    resultOutput.innerHTML=`নম্বর: ${d.marks}`;
+resultOutput.innerHTML="পাওয়া যায়নি";
+db.ref("results").once("value",s=>{
+  s.forEach(c=>{
+   let d=c.val();
+   if(d.class===rClass.value && d.roll===rRoll.value && d.section===rSection.value){
+    resultOutput.innerHTML=`নম্বর: ${d.marks}`;
+   }
+  });
+});
+}
+
+const addRtClass = document.getElementById("addRtClass");
+
+function addRoutine(){
+ if(!admin){
+  alert("Admin only");
+  return;
+ }
+
+ if(!addRtClass.value || !rtDay.value || !rtPeriod.value || !rtSub.value || !rtTeacher.value){
+  alert("সব ফিল্ড পূরণ করো");
+  return;
+ }
+
+ db.ref("routines").push({
+  class: addRtClass.value,
+  day: rtDay.value,
+  period: rtPeriod.value,
+  subject: rtSub.value,
+  teacher: rtTeacher.value
+ });
+
+ alert("Routine Added");
+
+ rtPeriod.value="";
+ rtSub.value="";
+ rtTeacher.value="";
+}
+
+function loadRoutine(){
+ routineTable.innerHTML = "";
+
+ let cls = rtClass.value;
+ let dayFilter = document.getElementById("searchDay").value;
+
+ if(!cls){
+  alert("ক্লাস নির্বাচন করো");
+  return;
+ }
+
+ let html = `
+ <table>
+  <tr>
+   <th>বার</th>
+   <th>পিরিয়ড</th>
+   <th>বিষয়</th>
+   <th>শিক্ষক</th>
+   <th>Action</th>
+  </tr>`;
+
+ db.ref("routines").once("value")
+ .then(snapshot=>{
+  snapshot.forEach(c=>{
+   let d = c.val();
+
+   if(d.class === cls && (dayFilter === "" || d.day === dayFilter)){
+    html += `
+    <tr>
+     <td>${d.day}</td>
+     <td>${d.period}</td>
+     <td>${d.subject}</td>
+     <td>${d.teacher}</td>
+     <td>
+      ${admin ? `<button onclick="del('routines','${c.key}')">Delete</button>` : ""}
+     </td>
+    </tr>`;
    }
   });
+
+  html += "</table>";
+  routineTable.innerHTML = html;
  });
 }
-</script>
+</script> 
 
 </body>
-  </html>
+ </html>
