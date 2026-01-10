@@ -42,18 +42,18 @@ to{opacity:1;transform:scale(1)}
 }
 footer{background:#0b5ed7;color:#fff;text-align:center;padding:10px}
 table{
- width:100%;
- border-collapse:collapse;
- margin-top:10px
+width:100%;
+border-collapse:collapse;
+margin-top:10px
 }
 th,td{
- border:1px solid #ccc;
- padding:8px;
- text-align:center
+border:1px solid #ccc;
+padding:8px;
+text-align:center
 }
 th{
- background:#0b5ed7;
- color:#fff
+background:#0b5ed7;
+color:#fff
 }
 </style>
 </head> 
@@ -134,6 +134,7 @@ th{
 <div class="admin">
 <input id="tName" placeholder="নাম">
 <input id="tSub" placeholder="বিষয়">
+<input id="tPhone" placeholder="মোবাইল নম্বর">
 <button onclick="addTeacher()">Add</button>
 </div>
 </div> 
@@ -166,13 +167,13 @@ th{
 </div> 
 
 <div class="card section" id="routine" style="display:none">
-<h2>📅 ক্লাস রুটিন</h2>
+<h2>📅 ক্লাস রুটিন</h2> 
 
 <select id="rtClass">
 <option value="">ক্লাস নির্বাচন</option>
 <option>6</option><option>7</option><option>8</option>
 <option>9</option><option>10</option>
-</select>
+</select> 
 
 <select id="searchDay">
 <option value="">সব বার</option>
@@ -181,14 +182,14 @@ th{
 <option>মঙ্গল</option>
 <option>বুধ</option>
 <option>বৃহঃ</option>
-</select>
+</select> 
 
-<button onclick="loadRoutine()">Show Routine</button>
+<button onclick="loadRoutine()">Show Routine</button> 
 
-<div id="routineTable"></div>
+<div id="routineTable"></div> 
 
 <div class="admin">
-<h3>➕ রুটিন যোগ করুন</h3>
+<h3>➕ রুটিন যোগ করুন</h3> 
 
 <select id="addRtClass">
 <option value="">ক্লাস নির্বাচন</option>
@@ -197,7 +198,7 @@ th{
 <option>8</option>
 <option>9</option>
 <option>10</option>
-</select>
+</select> 
 
 <select id="rtDay">
 <option value="">বার নির্বাচন</option>
@@ -206,15 +207,15 @@ th{
 <option>মঙ্গল</option>
 <option>বুধ</option>
 <option>বৃহঃ</option>
-</select>
+</select> 
 
 <input id="rtPeriod" placeholder="পিরিয়ড (১ম / ২য়)">
 <input id="rtSub" placeholder="বিষয়">
-<input id="rtTeacher" placeholder="শিক্ষক">
+<input id="rtTeacher" placeholder="শিক্ষক"> 
 
 <button onclick="addRoutine()">Add Routine</button>
 </div>
-</div>
+</div> 
 
 <div class="card section" id="admin" style="display:none">
 <h2>🔐 Admin Login</h2>
@@ -278,29 +279,40 @@ show('notice');
 } 
 
 function del(path, key){
- if(!admin){
-  alert("Admin only");
-  return;
- }
+if(!admin){
+  alert("Admin only");
+  return;
+} 
 
- firebase.database().ref(path + "/" + key).remove()
- .then(()=>{
-  alert("Deleted Successfully");
+firebase.database().ref(path + "/" + key).remove()
+.then(()=>{
+  alert("Deleted Successfully"); 
 
-  // যদি রুটিন হয়, তাহলে রুটিন আবার লোড
-  if(path === "routines"){
-   loadRoutine();
-  }
- })
- .catch(err=>{
-  alert("Delete failed: " + err.message);
- });
-}
+  // যদি রুটিন হয়, তাহলে রুটিন আবার লোড
+  if(path === "routines"){
+   loadRoutine();
+  }
+})
+.catch(err=>{
+  alert("Delete failed: " + err.message);
+});
+} 
 
 function addNotice(){ if(admin) db.ref("notices").push({text:noticeInput.value}); }
 function addNews(){ if(admin) db.ref("news").push({text:newsInput.value}); }
 function addStudent(){ if(admin) db.ref("students").push({name:sn.value,class:sc.value,roll:sr.value,section:ss.value}); }
-function addTeacher(){ if(admin) db.ref("teachers").push({name:tName.value,sub:tSub.value}); }
+function addTeacher(){
+ if(admin){
+  db.ref("teachers").push({
+   name: tName.value,
+   sub: tSub.value,
+   phone: tPhone.value
+  });
+  tName.value="";
+  tSub.value="";
+  tPhone.value="";
+ }
+}
 function addResult(){ if(admin) db.ref("results").push({class:rClass.value,roll:rRoll.value,section:rSection.value,marks:rm.value}); } 
 
 function load(path,list,template){
@@ -315,7 +327,12 @@ db.ref(path).on("value",snap=>{
 function loadAll(){
 load("notices",noticeList,c=>`<li>${c.val().text}${admin?` <button onclick="del('notices','${c.key}')">X</button>`:""}</li>`);
 load("news",newsList,c=>`<li>${c.val().text}${admin?` <button onclick="del('news','${c.key}')">X</button>`:""}</li>`);
-load("teachers",teacherList,c=>`<li>${c.val().name} (${c.val().sub})${admin?` <button onclick="del('teachers','${c.key}')">X</button>`:""}</li>`);
+load("teachers",teacherList,c=>`
+<li>
+ ${c.val().name} (${c.val().sub})<br>
+ 📞 ${c.val().phone || "নেই"}
+ ${admin?` <button onclick="del('teachers','${c.key}')">X</button>`:""}
+</li>`);
 load("students",studentList,c=>`<li>${c.val().name} | ${c.val().class}-${c.val().roll}${admin?` <button onclick="del('students','${c.key}')">X</button>`:""}</li>`);
 load("results",resultList,c=>`<li>${c.val().class}-${c.val().roll} : ${c.val().marks}${admin?` <button onclick="del('results','${c.key}')">X</button>`:""}</li>`);
 } 
@@ -344,79 +361,79 @@ db.ref("results").once("value",s=>{
    }
   });
 });
-}
+} 
 
-const addRtClass = document.getElementById("addRtClass");
+const addRtClass = document.getElementById("addRtClass"); 
 
 function addRoutine(){
- if(!admin){
-  alert("Admin only");
-  return;
- }
+if(!admin){
+  alert("Admin only");
+  return;
+} 
 
- if(!addRtClass.value || !rtDay.value || !rtPeriod.value || !rtSub.value || !rtTeacher.value){
-  alert("সব ফিল্ড পূরণ করো");
-  return;
- }
+if(!addRtClass.value || !rtDay.value || !rtPeriod.value || !rtSub.value || !rtTeacher.value){
+  alert("সব ফিল্ড পূরণ করো");
+  return;
+} 
 
- db.ref("routines").push({
-  class: addRtClass.value,
-  day: rtDay.value,
-  period: rtPeriod.value,
-  subject: rtSub.value,
-  teacher: rtTeacher.value
- });
+db.ref("routines").push({
+  class: addRtClass.value,
+  day: rtDay.value,
+  period: rtPeriod.value,
+  subject: rtSub.value,
+  teacher: rtTeacher.value
+}); 
 
- alert("Routine Added");
+alert("Routine Added"); 
 
- rtPeriod.value="";
- rtSub.value="";
- rtTeacher.value="";
-}
+rtPeriod.value="";
+rtSub.value="";
+rtTeacher.value="";
+} 
 
 function loadRoutine(){
- routineTable.innerHTML = "";
+routineTable.innerHTML = ""; 
 
- let cls = rtClass.value;
- let dayFilter = document.getElementById("searchDay").value;
+let cls = rtClass.value;
+let dayFilter = document.getElementById("searchDay").value; 
 
- if(!cls){
-  alert("ক্লাস নির্বাচন করো");
-  return;
- }
+if(!cls){
+  alert("ক্লাস নির্বাচন করো");
+  return;
+} 
 
- let html = `
- <table>
-  <tr>
-   <th>বার</th>
-   <th>পিরিয়ড</th>
-   <th>বিষয়</th>
-   <th>শিক্ষক</th>
-   <th>Action</th>
-  </tr>`;
+let html = `
+<table>
+  <tr>
+   <th>বার</th>
+   <th>পিরিয়ড</th>
+   <th>বিষয়</th>
+   <th>শিক্ষক</th>
+   <th>Action</th>
+  </tr>`; 
 
- db.ref("routines").once("value")
- .then(snapshot=>{
-  snapshot.forEach(c=>{
-   let d = c.val();
+db.ref("routines").once("value")
+.then(snapshot=>{
+  snapshot.forEach(c=>{
+   let d = c.val(); 
 
-   if(d.class === cls && (dayFilter === "" || d.day === dayFilter)){
-    html += `
-    <tr>
-     <td>${d.day}</td>
-     <td>${d.period}</td>
-     <td>${d.subject}</td>
-     <td>${d.teacher}</td>
-     <td>
-      ${admin ? `<button onclick="del('routines','${c.key}')">Delete</button>` : ""}
-     </td>
-    </tr>`;
-   }
-  });
+   if(d.class === cls && (dayFilter === "" || d.day === dayFilter)){
+    html += `
+    <tr>
+     <td>${d.day}</td>
+     <td>${d.period}</td>
+     <td>${d.subject}</td>
+     <td>${d.teacher}</td>
+     <td>
+      ${admin ? `<button onclick="del('routines','${c.key}')">Delete</button>` : ""}
+     </td>
+    </tr>`;
+   }
+  }); 
 
-  html += "</table>";
-  routineTable.innerHTML = html;
- });
+  html += "</table>";
+  routineTable.innerHTML = html;
+});
 }
 </script> 
 
