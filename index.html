@@ -10,59 +10,48 @@ body{margin:0;font-family:Arial;background:#f4f6f8}
 .hero{position:relative;height:220px}
 .hero img{width:100%;height:100%;object-fit:cover}
 .hero-text{
-  position:absolute;inset:0;
-  background:rgba(0,0,0,.55);
-  color:#fff;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center
+ position:absolute;inset:0;
+ background:rgba(0,0,0,.55);
+ color:#fff;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ align-items:center;
+ text-align:center
 }
 nav{background:#084298;padding:10px;text-align:center}
 nav button{
-  background:#0b5ed7;color:#fff;border:none;
-  padding:10px 16px;margin:4px;
-  border-radius:20px;font-size:14px
+ background:#0b5ed7;color:#fff;border:none;
+ padding:10px 16px;margin:4px;
+ border-radius:20px;font-size:14px
 }
 .container{padding:15px}
 .card{
-  background:#fff;padding:15px;border-radius:12px;
-  box-shadow:0 3px 6px rgba(0,0,0,.15);
-  margin-bottom:15px
+ background:#fff;padding:15px;border-radius:12px;
+ box-shadow:0 3px 6px rgba(0,0,0,.15);
+ margin-bottom:15px
 }
-select,input,button{
-  width:100%;padding:10px;margin:6px 0
-}
-.admin{
-  background:#eef;padding:10px;
-  border-radius:10px;margin-top:10px
-}
+select,input,button{width:100%;padding:10px;margin:6px 0}
+.admin{background:#eef;padding:10px;border-radius:10px;margin-top:10px;display:none}
 .list li{margin:6px 0}
-.list button{
-  background:red;color:#fff;border:none;
-  border-radius:12px;padding:4px 10px
-}
-.fade{animation:fade .5s}
+.list button{background:red;color:#fff;border:none;border-radius:12px;padding:4px 10px}
+.fade{animation:fade .5s ease}
 @keyframes fade{
-  from{opacity:0;transform:scale(.95)}
-  to{opacity:1}
+ from{opacity:0;transform:scale(.95)}
+ to{opacity:1;transform:scale(1)}
 }
-footer{
-  background:#0b5ed7;color:#fff;
-  text-align:center;padding:10px
-}
+footer{background:#0b5ed7;color:#fff;text-align:center;padding:10px}
 </style>
 </head>
 
 <body>
 
 <header class="hero">
-  <img src="school.jpg">
-  <div class="hero-text">
-    <h1>Gobindapur Govt. High School</h1>
-    <p>Official School Website</p>
-  </div>
+<img src="school.jpg">
+<div class="hero-text">
+<h1>Gobindapur Govt. High School</h1>
+<p>Official School Website</p>
+</div>
 </header>
 
 <nav>
@@ -76,53 +65,45 @@ footer{
 
 <div class="container">
 
-<!-- NOTICE -->
 <div class="card section" id="notice">
 <h2>📢 নোটিশ</h2>
 <ul id="noticeList" class="list"></ul>
-<div class="admin" id="noticeAdmin" style="display:none">
+<div class="admin">
 <input id="noticeInput" placeholder="নোটিশ লিখুন">
 <button onclick="addNotice()">Add</button>
 </div>
 </div>
 
-<!-- NEWS -->
 <div class="card section" id="news" style="display:none">
 <h2>📰 খবর</h2>
 <ul id="newsList" class="list"></ul>
-<div class="admin" id="newsAdmin" style="display:none">
+<div class="admin">
 <input id="newsInput" placeholder="খবর লিখুন">
 <button onclick="addNews()">Add</button>
 </div>
 </div>
 
-<!-- STUDENT -->
 <div class="card section" id="student" style="display:none">
 <h2>👨‍🎓 শিক্ষার্থী</h2>
 
 <select id="sClass">
-  <option value="">ক্লাস নির্বাচন করুন</option>
-  <option>6</option><option>7</option><option>8</option>
-  <option>9</option><option>10</option>
+<option value="">ক্লাস নির্বাচন</option>
+<option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
 </select>
 
 <select id="sRoll">
-  <option value="">রোল নির্বাচন করুন</option>
+<option value="">রোল নির্বাচন</option>
 </select>
 
 <select id="sSection">
-  <option value="">শাখা নির্বাচন করুন</option>
-  <option>Science</option>
-  <option>Arts</option>
-  <option>A</option>
-  <option>B</option>
+<option value="">শাখা নির্বাচন</option>
+<option>Science</option><option>Arts</option><option>A</option><option>B</option>
 </select>
 
 <button onclick="findStudent()">Search</button>
 <div id="studentResult"></div>
 
-<div class="admin" id="studentAdmin" style="display:none">
-<h4>➕ শিক্ষার্থী যোগ</h4>
+<div class="admin">
 <input id="sn" placeholder="নাম">
 <input id="sc" placeholder="ক্লাস">
 <input id="sr" placeholder="রোল">
@@ -132,50 +113,43 @@ footer{
 </div>
 </div>
 
-<!-- TEACHER -->
 <div class="card section" id="teacher" style="display:none">
 <h2>👩‍🏫 শিক্ষক</h2>
 <ul id="teacherList" class="list"></ul>
-<div class="admin" id="teacherAdmin" style="display:none">
+<div class="admin">
 <input id="tName" placeholder="নাম">
 <input id="tSub" placeholder="বিষয়">
 <button onclick="addTeacher()">Add</button>
 </div>
 </div>
 
-<!-- RESULT -->
 <div class="card section" id="result" style="display:none">
 <h2>📊 রেজাল্ট</h2>
 
 <select id="rClass">
-  <option value="">ক্লাস নির্বাচন করুন</option>
-  <option>6</option><option>7</option><option>8</option>
-  <option>9</option><option>10</option>
+<option value="">ক্লাস নির্বাচন</option>
+<option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
 </select>
 
 <select id="rRoll">
-  <option value="">রোল নির্বাচন করুন</option>
+<option value="">রোল নির্বাচন</option>
 </select>
 
 <select id="rSection">
-  <option value="">শাখা নির্বাচন করুন</option>
-  <option>Science</option>
-  <option>Arts</option>
-  <option>A</option>
-  <option>B</option>
+<option value="">শাখা নির্বাচন</option>
+<option>Science</option><option>Arts</option><option>A</option><option>B</option>
 </select>
 
 <button onclick="findResult()">Search</button>
 <div id="resultOutput"></div>
 
-<div class="admin" id="resultAdmin" style="display:none">
+<div class="admin">
 <input id="rm" placeholder="নম্বর">
 <button onclick="addResult()">Add</button>
 <ul id="resultList" class="list"></ul>
 </div>
 </div>
 
-<!-- ADMIN -->
 <div class="card section" id="admin" style="display:none">
 <h2>🔐 Admin Login</h2>
 <input id="user" placeholder="Username">
@@ -189,32 +163,29 @@ footer{
 
 <footer>© 2026 Gobindapur Govt. High School</footer>
 
-<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <script>
 firebase.initializeApp({
-  apiKey: "AIzaSyA0loay6NSdcRQJ5q_qWCbvzQW10rgErV4",
-  authDomain:"gghs-fcfe6.firebaseapp.com",
-  databaseURL:"https://gghs-fcfe6-default-rtdb.firebaseio.com",
-  projectId:"gghs-fcfe6"
+ apiKey:"AIzaSyA0loay6NSdcRQJ5q_qWCbvzQW10rgErV4",
+ databaseURL:"https://gghs-fcfe6-default-rtdb.firebaseio.com"
 });
-
 const db=firebase.database();
+
 const ADMIN_USER="HKuk07";
 const ADMIN_PASS="07122010";
 let admin=false;
 
-/* Roll dropdown fill */
 for(let i=1;i<=150;i++){
-  sRoll.innerHTML+=`<option>${i}</option>`;
-  rRoll.innerHTML+=`<option>${i}</option>`;
+ sRoll.innerHTML+=`<option>${i}</option>`;
+ rRoll.innerHTML+=`<option>${i}</option>`;
 }
 
 function show(id){
  document.querySelectorAll('.section').forEach(s=>{
-   s.style.display="none";s.classList.remove("fade");
+  s.style.display="none";
+  s.classList.remove("fade");
  });
  let el=document.getElementById(id);
  el.style.display="block";
@@ -224,83 +195,73 @@ function show(id){
 
 function login(){
  if(user.value===ADMIN_USER && pass.value===ADMIN_PASS){
-  admin=true;status.innerText="Logged In";
+  admin=true;
+  status.innerText="Logged In";
   document.querySelectorAll('.admin').forEach(a=>a.style.display="block");
+  loadAll();
   show('notice');
  }else alert("Wrong Login");
 }
+
 function logout(){
- admin=false;status.innerText="Logged Out";
+ admin=false;
+ status.innerText="Logged Out";
  document.querySelectorAll('.admin').forEach(a=>a.style.display="none");
+ loadAll();
+ show('notice');
 }
 
-/* ADD */
-function addNotice(){db.ref("notices").push({text:noticeInput.value});noticeInput.value="";}
-function addNews(){db.ref("news").push({text:newsInput.value});newsInput.value="";}
-function addStudent(){db.ref("students").push({name:sn.value,class:sc.value,roll:sr.value,section:ss.value});}
-function addTeacher(){db.ref("teachers").push({name:tName.value,sub:tSub.value});}
-function addResult(){db.ref("results").push({class:rClass.value,roll:rRoll.value,section:rSection.value,marks:rm.value});}
+function del(path,key){
+ if(!admin){alert("Admin only");return;}
+ db.ref(path+"/"+key).remove();
+}
 
-/* DELETE */
-function del(path,key){db.ref(path+"/"+key).remove();}
+function addNotice(){ if(admin) db.ref("notices").push({text:noticeInput.value}); }
+function addNews(){ if(admin) db.ref("news").push({text:newsInput.value}); }
+function addStudent(){ if(admin) db.ref("students").push({name:sn.value,class:sc.value,roll:sr.value,section:ss.value}); }
+function addTeacher(){ if(admin) db.ref("teachers").push({name:tName.value,sub:tSub.value}); }
+function addResult(){ if(admin) db.ref("results").push({class:rClass.value,roll:rRoll.value,section:rSection.value,marks:rm.value}); }
 
-/* REALTIME RENDER */
-db.ref("news").on("value",s=>{
- newsList.innerHTML="";
- s.forEach(c=>newsList.innerHTML+=
- `<li>${c.val().text}${admin?` <button onclick="del('news','${c.key}')">X</button>`:""}</li>`);
-});
+function load(path,list,template){
+ db.ref(path).on("value",snap=>{
+  list.innerHTML="";
+  snap.forEach(c=>{
+   list.innerHTML+=template(c);
+  });
+ });
+}
 
-db.ref("notices").on("value",s=>{
- noticeList.innerHTML="";
- s.forEach(c=>noticeList.innerHTML+=
- `<li>${c.val().text}${admin?` <button onclick="del('notices','${c.key}')">X</button>`:""}</li>`);
-});
+function loadAll(){
+ load("notices",noticeList,c=>`<li>${c.val().text}${admin?` <button onclick="del('notices','${c.key}')">X</button>`:""}</li>`);
+ load("news",newsList,c=>`<li>${c.val().text}${admin?` <button onclick="del('news','${c.key}')">X</button>`:""}</li>`);
+ load("teachers",teacherList,c=>`<li>${c.val().name} (${c.val().sub})${admin?` <button onclick="del('teachers','${c.key}')">X</button>`:""}</li>`);
+ load("students",studentList,c=>`<li>${c.val().name} | ${c.val().class}-${c.val().roll}${admin?` <button onclick="del('students','${c.key}')">X</button>`:""}</li>`);
+ load("results",resultList,c=>`<li>${c.val().class}-${c.val().roll} : ${c.val().marks}${admin?` <button onclick="del('results','${c.key}')">X</button>`:""}</li>`);
+}
 
-db.ref("students").on("value",s=>{
- studentList.innerHTML="";
- s.forEach(c=>studentList.innerHTML+=
- `<li>${c.val().name} | ${c.val().class}-${c.val().roll}${admin?` <button onclick="del('students','${c.key}')">X</button>`:""}</li>`);
-});
+loadAll();
 
-db.ref("teachers").on("value",s=>{
- teacherList.innerHTML="";
- s.forEach(c=>teacherList.innerHTML+=
- `<li>${c.val().name} (${c.val().sub})${admin?` <button onclick="del('teachers','${c.key}')">X</button>`:""}</li>`);
-});
-
-db.ref("results").on("value",s=>{
- resultList.innerHTML="";
- s.forEach(c=>resultList.innerHTML+=
- `<li>${c.val().class}-${c.val().roll} ${c.val().marks}${admin?` <button onclick="del('results','${c.key}')">X</button>`:""}</li>`);
-});
-
-/* SEARCH */
 function findStudent(){
+ studentResult.innerHTML="পাওয়া যায়নি";
  db.ref("students").once("value",s=>{
-  let found=false;
   s.forEach(c=>{
    let d=c.val();
    if(d.class===sClass.value && d.roll===sRoll.value && d.section===sSection.value){
-    found=true;
     studentResult.innerHTML=`নাম: ${d.name}<br>ক্লাস: ${d.class}<br>রোল: ${d.roll}<br>শাখা: ${d.section}`;
    }
   });
-  if(!found) studentResult.innerHTML="পাওয়া যায়নি";
  });
 }
 
 function findResult(){
+ resultOutput.innerHTML="পাওয়া যায়নি";
  db.ref("results").once("value",s=>{
-  let found=false;
   s.forEach(c=>{
    let d=c.val();
    if(d.class===rClass.value && d.roll===rRoll.value && d.section===rSection.value){
-    found=true;
-    resultOutput.innerHTML=`ক্লাস: ${d.class}<br>রোল: ${d.roll}<br>শাখা: ${d.section}<br>নম্বর: ${d.marks}`;
+    resultOutput.innerHTML=`নম্বর: ${d.marks}`;
    }
   });
-  if(!found) resultOutput.innerHTML="পাওয়া যায়নি";
  });
 }
 </script>
