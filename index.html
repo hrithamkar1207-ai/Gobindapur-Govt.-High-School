@@ -160,11 +160,19 @@ color:#fff
 <div id="resultOutput"></div> 
 
 <div class="admin">
-<input id="rm" placeholder="নম্বর">
+<input id="resName" placeholder="নাম">
+<input id="resClass" placeholder="ক্লাস">
+<input id="resRoll" placeholder="রোল">
+<input id="resSection" placeholder="শাখা">
+<input id="resPos" placeholder="স্থান (১ম/২য়/৩য়)">
+<input id="resMarks" placeholder="নম্বর">
+
 <button onclick="addResult()">Add</button>
+
 <ul id="resultList" class="list"></ul>
 </div>
-</div> 
+
+</div>   <!-- ⭐ এই লাইনটা তুমি যোগ করবে -->
 
 <div class="card section" id="routine" style="display:none">
 <h2>📅 ক্লাস রুটিন</h2> 
@@ -302,18 +310,39 @@ function addNotice(){ if(admin) db.ref("notices").push({text:noticeInput.value})
 function addNews(){ if(admin) db.ref("news").push({text:newsInput.value}); }
 function addStudent(){ if(admin) db.ref("students").push({name:sn.value,class:sc.value,roll:sr.value,section:ss.value}); }
 function addTeacher(){
- if(admin){
-  db.ref("teachers").push({
-   name: tName.value,
-   sub: tSub.value,
-   phone: tPhone.value
-  });
-  tName.value="";
-  tSub.value="";
-  tPhone.value="";
- }
+if(admin){
+  db.ref("teachers").push({
+   name: tName.value,
+   sub: tSub.value,
+   phone: tPhone.value
+  });
+  tName.value="";
+  tSub.value="";
+  tPhone.value="";
 }
-function addResult(){ if(admin) db.ref("results").push({class:rClass.value,roll:rRoll.value,section:rSection.value,marks:rm.value}); } 
+}
+function addResult(){
+ if(!admin){
+  alert("Admin only");
+  return;
+ }
+
+ db.ref("results").push({
+  name: resName.value,
+  class: resClass.value,
+  roll: resRoll.value,
+  section: resSection.value,
+  position: resPos.value,
+  marks: resMarks.value
+ });
+
+ resName.value="";
+ resClass.value="";
+ resRoll.value="";
+ resSection.value="";
+ resPos.value="";
+ resMarks.value="";
+}
 
 function load(path,list,template){
 db.ref(path).on("value",snap=>{
@@ -329,12 +358,22 @@ load("notices",noticeList,c=>`<li>${c.val().text}${admin?` <button onclick="del(
 load("news",newsList,c=>`<li>${c.val().text}${admin?` <button onclick="del('news','${c.key}')">X</button>`:""}</li>`);
 load("teachers",teacherList,c=>`
 <li>
- ${c.val().name} (${c.val().sub})<br>
- 📞 ${c.val().phone || "নেই"}
- ${admin?` <button onclick="del('teachers','${c.key}')">X</button>`:""}
+${c.val().name} (${c.val().sub})<br>
+📞 ${c.val().phone || "নেই"}
+${admin?` <button onclick="del('teachers','${c.key}')">X</button>`:""}
 </li>`);
 load("students",studentList,c=>`<li>${c.val().name} | ${c.val().class}-${c.val().roll}${admin?` <button onclick="del('students','${c.key}')">X</button>`:""}</li>`);
-load("results",resultList,c=>`<li>${c.val().class}-${c.val().roll} : ${c.val().marks}${admin?` <button onclick="del('results','${c.key}')">X</button>`:""}</li>`);
+load("results", resultList, c => `
+<li>
+<b>${c.val().name}</b><br>
+ক্লাস: ${c.val().class} |
+রোল: ${c.val().roll} |
+শাখা: ${c.val().section}<br>
+স্থান: ${c.val().position} |
+নম্বর: ${c.val().marks}
+${admin ? ` <button onclick="del('results','${c.key}')">X</button>` : ""}
+</li>
+`);
 } 
 
 loadAll(); 
@@ -352,16 +391,28 @@ db.ref("students").once("value",s=>{
 } 
 
 function findResult(){
-resultOutput.innerHTML="পাওয়া যায়নি";
-db.ref("results").once("value",s=>{
-  s.forEach(c=>{
-   let d=c.val();
-   if(d.class===rClass.value && d.roll===rRoll.value && d.section===rSection.value){
-    resultOutput.innerHTML=`নম্বর: ${d.marks}`;
-   }
-  });
-});
-} 
+ resultOutput.innerHTML="পাওয়া যায়নি";
+
+ db.ref("results").once("value", s=>{
+  s.forEach(c=>{
+   let d=c.val();
+   if(
+    d.class===rClass.value &&
+    d.roll===rRoll.value &&
+    d.section===rSection.value
+   ){
+    resultOutput.innerHTML=`
+    <b>নাম:</b> ${d.name}<br>
+    <b>ক্লাস:</b> ${d.class}<br>
+    <b>রোল:</b> ${d.roll}<br>
+    <b>শাখা:</b> ${d.section}<br>
+    <b>স্থান:</b> ${d.position}<br>
+    <b>নম্বর:</b> ${d.marks}
+    `;
+   }
+  });
+ });
+}
 
 const addRtClass = document.getElementById("addRtClass"); 
 
@@ -438,4 +489,4 @@ db.ref("routines").once("value")
 </script> 
 
 </body>
- </html>
+</html>
