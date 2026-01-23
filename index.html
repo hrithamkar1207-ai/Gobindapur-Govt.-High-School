@@ -99,6 +99,36 @@ nav button{
   border-radius: 20px;
   font-size: 12px;
 }
+
+/* ===== Student Result Card ===== */
+.student-card{
+  margin-top:12px;
+  padding:15px;
+  border-radius:15px;
+  background:linear-gradient(135deg,#e3f2fd,#ffffff);
+  box-shadow:0 6px 15px rgba(0,0,0,.15);
+  animation:fade .4s ease;
+}
+
+.student-card h3{
+  margin:0 0 8px;
+  color:#0b5ed7;
+}
+
+.student-card p{
+  margin:4px 0;
+  font-size:14px;
+}
+
+.not-found{
+  margin-top:10px;
+  padding:12px;
+  border-radius:12px;
+  background:#ffe5e5;
+  color:#b02a37;
+  font-weight:bold;
+  text-align:center;
+}
 </style>
 </head> 
 
@@ -424,15 +454,26 @@ loadAll();
 
 function findStudent(){
 studentResult.innerHTML = "<span style='color:red;font-weight:bold;'>Not Found!</span>";
-db.ref("students").once("value",s=>{
-  s.forEach(c=>{
-   let d=c.val();
-   if(d.class===sClass.value && d.roll===sRoll.value && d.section===sSection.value){
-    studentResult.innerHTML=`নাম: ${d.name}<br>ক্লাস: ${d.class}<br>রোল: ${d.roll}<br>শাখা: ${d.section}`;
-   }
-  });
-});
-} 
+  db.ref("students").once("value",s=>{
+    s.forEach(c=>{
+      let d=c.val();
+      if(
+        d.class===sClass.value &&
+        d.roll===sRoll.value &&
+        d.section===sSection.value
+      ){
+        studentResult.innerHTML = `
+        <div class="student-card">
+          <h3>👨‍🎓 ${d.name}</h3>
+          <p><b>ক্লাস:</b> ${d.class}</p>
+          <p><b>রোল:</b> ${d.roll}</p>
+          <p><b>শাখা:</b> ${d.section}</p>
+        </div>
+        `;
+      }
+    });
+  });
+}
 
 function findResult(){
 resultOutput.innerHTML = "<span style='color:red;font-weight:bold;'>Not Found!</span>";
@@ -533,4 +574,4 @@ db.ref("routines").once("value")
 </script> 
 
 </body>
- </html>
+  </html>
