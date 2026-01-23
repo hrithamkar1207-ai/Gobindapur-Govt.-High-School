@@ -55,6 +55,50 @@ th{
 background:#0b5ed7;
 color:#fff
 }
+
+/* ========= BEAUTIFUL BUTTON DESIGN ========= */
+
+/* সব বাটনের জন্য */
+button{
+  background: linear-gradient(135deg, #0d6efd, #0b5ed7);
+  color: #fff;
+  border: none;
+  padding: 12px 18px;
+  margin: 6px 0;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 6px 12px rgba(0,0,0,.2);
+  transition: all .3s ease;
+}
+
+/* Hover করলে */
+button:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 10px 18px rgba(0,0,0,.25);
+}
+
+/* Click করলে */
+button:active{
+  transform: scale(.95);
+}
+
+/* Navigation বাটন (উপরে মেনু) */
+nav button{
+  background: linear-gradient(135deg, #20c997, #0d6efd);
+  border-radius: 25px;
+  padding: 10px 16px;
+  font-size: 13px;
+}
+
+/* Delete (X) বাটন */
+.list button{
+  background: linear-gradient(135deg, #dc3545, #b02a37);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+}
 </style>
 </head> 
 
@@ -165,14 +209,14 @@ color:#fff
 <input id="resRoll" placeholder="রোল">
 <input id="resSection" placeholder="শাখা">
 <input id="resPos" placeholder="স্থান (১ম/২য়/৩য়)">
-<input id="resMarks" placeholder="নম্বর">
+<input id="resMarks" placeholder="নম্বর"> 
 
-<button onclick="addResult()">Add</button>
+<button onclick="addResult()">Add</button> 
 
 <ul id="resultList" class="list"></ul>
-</div>
+</div> 
 
-</div>   <!-- ⭐ এই লাইনটা তুমি যোগ করবে -->
+</div>   <!-- ⭐ এই লাইনটা তুমি যোগ করবে --> 
 
 <div class="card section" id="routine" style="display:none">
 <h2>📅 ক্লাস রুটিন</h2> 
@@ -322,27 +366,27 @@ if(admin){
 }
 }
 function addResult(){
- if(!admin){
-  alert("Admin only");
-  return;
- }
+if(!admin){
+  alert("Admin only");
+  return;
+} 
 
- db.ref("results").push({
-  name: resName.value,
-  class: resClass.value,
-  roll: resRoll.value,
-  section: resSection.value,
-  position: resPos.value,
-  marks: resMarks.value
- });
+db.ref("results").push({
+  name: resName.value,
+  class: resClass.value,
+  roll: resRoll.value,
+  section: resSection.value,
+  position: resPos.value,
+  marks: resMarks.value
+}); 
 
- resName.value="";
- resClass.value="";
- resRoll.value="";
- resSection.value="";
- resPos.value="";
- resMarks.value="";
-}
+resName.value="";
+resClass.value="";
+resRoll.value="";
+resSection.value="";
+resPos.value="";
+resMarks.value="";
+} 
 
 function load(path,list,template){
 db.ref(path).on("value",snap=>{
@@ -379,7 +423,7 @@ ${admin ? ` <button onclick="del('results','${c.key}')">X</button>` : ""}
 loadAll(); 
 
 function findStudent(){
-studentResult.innerHTML="পাওয়া যায়নি";
+studentResult.innerHTML = "<span style='color:red;font-weight:bold;'>Not Found!</span>";
 db.ref("students").once("value",s=>{
   s.forEach(c=>{
    let d=c.val();
@@ -391,28 +435,28 @@ db.ref("students").once("value",s=>{
 } 
 
 function findResult(){
- resultOutput.innerHTML="পাওয়া যায়নি";
+resultOutput.innerHTML = "<span style='color:red;font-weight:bold;'>Not Found!</span>";
 
- db.ref("results").once("value", s=>{
-  s.forEach(c=>{
-   let d=c.val();
-   if(
-    d.class===rClass.value &&
-    d.roll===rRoll.value &&
-    d.section===rSection.value
-   ){
-    resultOutput.innerHTML=`
-    <b>নাম:</b> ${d.name}<br>
-    <b>ক্লাস:</b> ${d.class}<br>
-    <b>রোল:</b> ${d.roll}<br>
-    <b>শাখা:</b> ${d.section}<br>
-    <b>স্থান:</b> ${d.position}<br>
-    <b>নম্বর:</b> ${d.marks}
-    `;
-   }
-  });
- });
-}
+db.ref("results").once("value", s=>{
+  s.forEach(c=>{
+   let d=c.val();
+   if(
+    d.class===rClass.value &&
+    d.roll===rRoll.value &&
+    d.section===rSection.value
+   ){
+    resultOutput.innerHTML=`
+    <b>নাম:</b> ${d.name}<br>
+    <b>ক্লাস:</b> ${d.class}<br>
+    <b>রোল:</b> ${d.roll}<br>
+    <b>শাখা:</b> ${d.section}<br>
+    <b>স্থান:</b> ${d.position}<br>
+    <b>নম্বর:</b> ${d.marks}
+    `;
+   }
+  });
+});
+} 
 
 const addRtClass = document.getElementById("addRtClass"); 
 
@@ -489,4 +533,4 @@ db.ref("routines").once("value")
 </script> 
 
 </body>
-</html>
+ </html>
