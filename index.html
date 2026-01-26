@@ -6,30 +6,113 @@
 <title>Gobindapur Govt. High School</title> 
 
 <style>
-body{margin:0;font-family:Arial;background:#f4f6f8}
-.hero{position:relative;height:220px}
-.hero img{width:100%;height:100%;object-fit:cover}
-.hero-text{
-position:absolute;inset:0;
-background:rgba(0,0,0,.55);
-color:#fff;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center
+/* ===== BASE FONT & BODY ===== */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  background: #f0f4f8;
+  color: #333;
 }
-nav{background:#084298;padding:10px;text-align:center}
-nav button{
-background:#0b5ed7;color:#fff;border:none;
-padding:10px 16px;margin:4px;
-border-radius:20px;font-size:14px
+h1,h2,h3 {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0 0 10px;
+}
+body{margin:0;font-family:Arial;background:#f4f6f8}
+.hero {
+  position: relative;
+  height: 240px;
+  overflow: hidden;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.75);
+  transition: transform 0.5s ease;
+}
+
+.hero:hover img {
+  transform: scale(1.05);
+}
+
+.hero-text {
+  position: absolute;
+  inset: 0;
+  background: rgba(13,110,253,0.55);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  backdrop-filter: blur(5px);
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.hero-text h1 {
+  font-size: 32px;
+  font-weight: bold;
+  text-shadow: 0 3px 10px rgba(0,0,0,0.4);
+}
+
+.hero-text p {
+  font-size: 16px;
+  font-weight: 500;
+}
+nav {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  padding: 12px 0;
+  text-align: center;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+nav button {
+  background: linear-gradient(145deg,#0d6efd,#20c997);
+  border-radius: 25px;
+  padding: 10px 18px;
+  font-size: 14px;
+  color: #fff;
+  font-weight: 600;
+  margin: 6px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.25);
+  transition: all 0.3s ease;
+}
+
+nav button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(13,110,253,0.4);
 }
 .container{padding:15px}
-.card{
-background:#fff;padding:15px;border-radius:12px;
-box-shadow:0 3px 6px rgba(0,0,0,.15);
-margin-bottom:15px
+.card {
+  background: rgba(255,255,255,0.85);
+  border-radius: 20px;
+  padding: 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
+
+.student-card, .teacher-card {
+  background: linear-gradient(135deg,#e3f2fd,#ffffff);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  border-radius: 15px;
+  padding: 15px;
+  margin-top: 10px;
 }
 select,input,button{width:100%;padding:10px;margin:6px 0}
 .admin{background:#eef;padding:10px;border-radius:10px;margin-top:10px;display:none}
@@ -40,11 +123,13 @@ select,input,button{width:100%;padding:10px;margin:6px 0}
 from{opacity:0;transform:scale(.95)}
 to{opacity:1;transform:scale(1)}
 }
-footer{background:#0b5ed7;color:#fff;text-align:center;padding:10px}
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:10px
+footer {
+  background: linear-gradient(135deg,#0d6efd,#20c997);
+  color: #fff;
+  text-align: center;
+  padding: 15px 0;
+  font-weight: 600;
+  box-shadow: 0 -5px 15px rgba(0,0,0,0.2);
 }
 th,td{
 border:1px solid #ccc;
@@ -128,6 +213,226 @@ nav button{
   color:#b02a37;
   font-weight:bold;
   text-align:center;
+}
+
+/* ===== Teacher Card Design ===== */
+.teacher-card{
+  background: linear-gradient(135deg,#f1f9ff,#ffffff);
+  padding:15px;
+  border-radius:16px;
+  box-shadow:0 6px 14px rgba(0,0,0,.15);
+  margin-bottom:12px;
+  animation:fade .4s ease;
+}
+
+.teacher-card h3{
+  margin:0 0 6px;
+  color:#0b5ed7;
+  font-size:16px;
+}
+
+.teacher-card p{
+  margin:4px 0;
+  font-size:14px;
+}
+
+.teacher-card .phone{
+  font-weight:bold;
+  color:#198754;
+}
+
+/* ===== ULTRA MODERN SCHOOL BUTTON ===== */
+button {
+  position: relative;
+  overflow: hidden;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: .3px;
+  border-radius: 50px; /* pill shape */
+  padding: 12px 22px;
+  color: #fff;
+  background: linear-gradient(135deg, #0d6efd, #20c997);
+  box-shadow:
+    0 6px 15px rgba(13,110,253,.4),
+    inset 0 0 0 1px rgba(255,255,255,.15);
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+/* Hover Effect */
+button:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 12px 25px rgba(13,110,253,.5),
+    inset 0 0 0 1px rgba(255,255,255,.25);
+  filter: brightness(1.1);
+}
+
+/* Click Effect */
+button:active {
+  transform: scale(.95);
+}
+
+/* Ripple Effect */
+button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,.3) 10%, transparent 10%);
+  background-size: 0 0;
+  background-position: center;
+  transition: background-size 0.4s ease;
+}
+button:active::after {
+  background-size: 1200% 1200%;
+}
+
+/* ===== Navigation Buttons ===== */
+nav button {
+  background: linear-gradient(135deg,#0d6efd,#0dcaf0);
+  box-shadow: 0 8px 18px rgba(13,110,253,.4);
+  font-size: 13px;
+  padding: 10px 16px;
+}
+
+/* ===== Delete (X) Buttons ===== */
+.list button {
+  background: linear-gradient(135deg,#ff4d4d,#dc3545);
+  box-shadow: 0 6px 15px rgba(220,53,69,.4);
+  font-size: 12px;
+  padding: 6px 14px;
+}
+
+/* ===== Disabled Button ===== */
+button:disabled {
+  background:#adb5bd;
+  box-shadow:none;
+  cursor:not-allowed;
+}
+
+/* ===== 3D BUTTON ===== */
+button {
+  position: relative;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 15px; /* slight rounded */
+  padding: 12px 22px;
+  color: #fff;
+  background: linear-gradient(145deg, #0d6efd, #0b5ed7); /* blue 3D gradient */
+  box-shadow: 
+    0 5px 0 #0a4e9c,     /* bottom shadow for 3D effect */
+    0 10px 20px rgba(0,0,0,0.25); /* soft shadow */
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+/* Hover effect: lift the button */
+button:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 8px 0 #0a4e9c,
+    0 15px 25px rgba(0,0,0,0.3);
+  filter: brightness(1.1);
+}
+
+/* Click effect: press down */
+button:active {
+  transform: translateY(2px);
+  box-shadow: 
+    0 2px 0 #0a4e9c,
+    0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Ripple effect on click */
+button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,.35) 10%, transparent 10%);
+  background-size: 0 0;
+  background-position: center;
+  transition: background-size .4s ease;
+}
+button:active::after {
+  background-size: 1200% 1200%;
+}
+
+/* Navigation buttons */
+nav button {
+  background: linear-gradient(145deg, #20c997, #0dcaf0);
+  box-shadow: 0 5px 0 #0a8c6b, 0 10px 20px rgba(0,0,0,0.25);
+}
+
+/* Delete buttons */
+.list button {
+  background: linear-gradient(145deg, #ff4d4d, #b02a37);
+  box-shadow: 0 5px 0 #8a1a1a, 0 10px 15px rgba(0,0,0,0.25);
+  font-size: 12px;
+  padding: 6px 14px;
+}
+
+/* Disabled buttons */
+button:disabled {
+  background:#adb5bd;
+  box-shadow:none;
+  cursor:not-allowed;
+}
+
+button {
+  position: relative;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 15px;
+  padding: 12px 22px;
+  color: #fff;
+  background: linear-gradient(145deg, #0d6efd, #20c997);
+  box-shadow: 0 5px 0 #0a4e9c, 0 10px 20px rgba(0,0,0,0.25);
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 0 #0a4e9c, 0 15px 25px rgba(0,0,0,0.3);
+  filter: brightness(1.1);
+}
+
+button:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #0a4e9c, 0 5px 15px rgba(0,0,0,0.2);
+}
+
+button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,.35) 10%, transparent 10%);
+  background-size: 0 0;
+  background-position: center;
+  transition: background-size .4s ease;
+}
+
+button:active::after {
+  background-size: 1200% 1200%;
+}
+
+nav button {
+  background: linear-gradient(145deg,#0d6efd,#20c997);
+}
+
+.list button {
+  background: linear-gradient(145deg,#ff4d4d,#b02a37);
+  font-size: 12px;
+  padding: 6px 14px;
+}
+
+button:disabled {
+  background:#adb5bd;
+  box-shadow:none;
+  cursor:not-allowed;
 }
 </style>
 </head> 
@@ -430,12 +735,14 @@ db.ref(path).on("value",snap=>{
 function loadAll(){
 load("notices",noticeList,c=>`<li>${c.val().text}${admin?` <button onclick="del('notices','${c.key}')">X</button>`:""}</li>`);
 load("news",newsList,c=>`<li>${c.val().text}${admin?` <button onclick="del('news','${c.key}')">X</button>`:""}</li>`);
-load("teachers",teacherList,c=>`
-<li>
-${c.val().name} (${c.val().sub})<br>
-📞 ${c.val().phone || "নেই"}
-${admin?` <button onclick="del('teachers','${c.key}')">X</button>`:""}
-</li>`);
+load("teachers", teacherList, c => `
+<div class="teacher-card">
+  <h3>👩‍🏫 ${c.val().name}</h3>
+  <p><b>বিষয়:</b> ${c.val().sub}</p>
+  <p class="phone">📞 ${c.val().phone || "নেই"}</p>
+  ${admin ? `<button onclick="del('teachers','${c.key}')">Delete</button>` : ""}
+</div>
+`);
 load("students",studentList,c=>`<li>${c.val().name} | ${c.val().class}-${c.val().roll}${admin?` <button onclick="del('students','${c.key}')">X</button>`:""}</li>`);
 load("results", resultList, c => `
 <li>
