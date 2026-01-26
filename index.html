@@ -129,9 +129,34 @@ nav button{
   font-weight:bold;
   text-align:center;
 }
+
+/* Teacher Card Style */
+.teacher-card{
+  background: linear-gradient(135deg,#e3f2fd,#ffffff);
+  padding: 12px;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0,0,0,.15);
+  margin: 10px 0;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.teacher-card:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0,0,0,.25);
+}
+
+.teacher-card h3{
+  margin:0 0 6px;
+  color:#0b5ed7;
+  font-size:16px;
+}
+
+.teacher-card p{
+  margin:2px 0;
+  font-size:14px;
+}
 </style>
 </head> 
-
 <body> 
 
 <header class="hero">
@@ -430,12 +455,14 @@ db.ref(path).on("value",snap=>{
 function loadAll(){
 load("notices",noticeList,c=>`<li>${c.val().text}${admin?` <button onclick="del('notices','${c.key}')">X</button>`:""}</li>`);
 load("news",newsList,c=>`<li>${c.val().text}${admin?` <button onclick="del('news','${c.key}')">X</button>`:""}</li>`);
-load("teachers",teacherList,c=>`
-<li>
-${c.val().name} (${c.val().sub})<br>
-📞 ${c.val().phone || "নেই"}
-${admin?` <button onclick="del('teachers','${c.key}')">X</button>`:""}
-</li>`);
+load("teachers", teacherList, c => `
+<div class="teacher-card">
+  <h3>${c.val().name}</h3>
+  <p><b>বিষয়:</b> ${c.val().sub}</p>
+  <p>📞 ${c.val().phone || "নেই"}</p>
+  ${admin ? `<button onclick="del('teachers','${c.key}')">X</button>` : ""}
+</div>
+`);
 load("students",studentList,c=>`<li>${c.val().name} | ${c.val().class}-${c.val().roll}${admin?` <button onclick="del('students','${c.key}')">X</button>`:""}</li>`);
 load("results", resultList, c => `
 <li>
