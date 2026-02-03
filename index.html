@@ -588,8 +588,17 @@ db.ref("routines").once("value")
      <td>${d.subject}</td>
      <td>${d.teacher}</td>
      <td>
-      ${admin ? `<button onclick="del('routines','${c.key}')">Delete</button>` : ""}
-     </td>
+ ${admin ? `
+ <button onclick="editRoutine(
+  '${c.key}',
+  '${d.period}',
+  '${d.subject}',
+  '${d.teacher}'
+ )">Edit</button>
+
+ <button onclick="del('routines','${c.key}')">Delete</button>
+ ` : ""}
+</td>
     </tr>`;
    }
   }); 
@@ -597,6 +606,28 @@ db.ref("routines").once("value")
   html += "</table>";
   routineTable.innerHTML = html;
 });
+}
+
+function editRoutine(key, oldPeriod, oldSub, oldTeacher){
+ if(!admin){
+  alert("Admin only");
+  return;
+ }
+
+ let newPeriod = prompt("নতুন পিরিয়ড লিখুন:", oldPeriod);
+ let newSub = prompt("নতুন বিষয় লিখুন:", oldSub);
+ let newTeacher = prompt("নতুন শিক্ষক লিখুন:", oldTeacher);
+
+ if(newPeriod && newSub && newTeacher){
+  db.ref("routines/" + key).update({
+   period: newPeriod,
+   subject: newSub,
+   teacher: newTeacher
+  }).then(()=>{
+   alert("Routine Updated");
+   loadRoutine();
+  });
+ }
 }
 </script> 
 
