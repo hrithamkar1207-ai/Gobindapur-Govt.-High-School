@@ -155,8 +155,154 @@ nav button{
   margin:2px 0;
   font-size:14px;
 }
+
+/* ===== DARK MODE ===== */
+body.dark{
+  background:#121212;
+  color:#e0e0e0;
+}
+
+body.dark nav{
+  background:#1f1f1f;
+}
+
+body.dark .card{
+  background:#1e1e1e;
+  color:#e0e0e0;
+  box-shadow:0 6px 15px rgba(0,0,0,.6);
+}
+
+body.dark footer{
+  background:#1f1f1f;
+  color:#ccc;
+}
+
+body.dark input,
+body.dark select{
+  background:#2a2a2a;
+  color:#fff;
+  border:1px solid #444;
+}
+
+body.dark table th{
+  background:#0d6efd;
+}
+
+body.dark table td{
+  background:#1e1e1e;
+  color:#fff;
+  border-color:#333;
+}
+
+body.dark .admin{
+  background:#1b1b1b;
+  border:2px dashed #0d6efd;
+}
+
+body.dark .teacher-card,
+body.dark .student-card{
+  background:linear-gradient(135deg,#1e1e1e,#2a2a2a);
+}
+
+body.dark .not-found{
+  background:#3a1a1a;
+  color:#ff8a8a;
+}
+
+/* ===== Floating Dark Mode Button ===== */
+#darkBtn{
+  position:fixed;
+  top:15px;
+  right:15px;
+  z-index:2000;
+
+  width:45px;
+  height:45px;
+  border-radius:50%;
+
+  font-size:18px;
+  padding:0;
+
+  background:linear-gradient(135deg,#0d6efd,#0b5ed7);
+  box-shadow:0 6px 15px rgba(0,0,0,.4);
+}
+
+#darkBtn{
+  cursor:grab;
+}
+
+#darkBtn:active{
+  cursor:grabbing;
+}
+
+/* Dark mode এ বাটন আলাদা দেখাবে */
+body.dark #darkBtn{
+  background:linear-gradient(135deg,#ffc107,#ff9800);
+  color:#000;
+}
+
+.bottom-nav button.active{
+  color:#20c997;
+  transform:scale(1.1);
+}
+
+/* ===== Bottom Navigation (Mobile App Style) ===== */
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:60px;
+
+  background:#ffffff;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+
+  box-shadow:0 -4px 12px rgba(0,0,0,.2);
+  z-index:1500;
+}
+
+/* Bottom nav button */
+.bottom-nav button{
+  background:none;
+  box-shadow:none;
+  border-radius:0;
+  padding:4px 0;
+  font-size:20px;
+  color:#0b5ed7;
+}
+
+/* Text under icon */
+.bottom-nav span{
+  display:block;
+  font-size:11px;
+  margin-top:2px;
+}
+
+/* Dark mode support */
+body.dark .bottom-nav{
+  background:#1f1f1f;
+}
+
+body.dark .bottom-nav button{
+  color:#fff;
+}
+
+/* Mobile only */
+@media (min-width:768px){
+  .bottom-nav{
+    display:none;
+  }
+}
+
+/* Footer hide under bottom nav */
+footer{
+  margin-bottom:60px;
+}
 </style>
 </head> 
+<button id="darkBtn" onclick="toggleDark()">🌙</button>
 <body> 
 
 <header class="hero">
@@ -175,7 +321,7 @@ nav button{
 <button onclick="show('result')">📊 Result</button>
 <button onclick="show('routine')">📅 Routine</button>
 <button onclick="show('admin')">🔐 Admin</button>
-</nav> 
+</nav>
 
 <div class="container"> 
 
@@ -334,6 +480,15 @@ nav button{
 </div> 
 
 </div> 
+
+<!-- ===== Bottom Navigation ===== -->
+<div class="bottom-nav">
+  <button onclick="show('notice')">📢<span>Notice</span></button>
+  <button onclick="show('student')">👨‍🎓<span>Student</span></button>
+  <button onclick="show('teacher')">👩‍🏫<span>Teacher</span></button>
+  <button onclick="show('result')">📊<span>Result</span></button>
+  <button onclick="show('routine')">📅<span>Routine</span></button>
+</div>
 
 <footer>© 2026 Gobindapur Govt. High School</footer> 
 
@@ -629,6 +784,67 @@ function editRoutine(key, oldPeriod, oldSub, oldTeacher){
   });
  }
 }
+
+function toggleDark(){
+  document.body.classList.toggle("dark");
+
+  if(document.body.classList.contains("dark")){
+    localStorage.setItem("theme","dark");
+  }else{
+    localStorage.setItem("theme","light");
+  }
+}
+
+/* Page reload হলেও theme থাকবে */
+if(localStorage.getItem("theme")==="dark"){
+  document.body.classList.add("dark");
+}
+
+/* ===== DRAGGABLE DARK BUTTON ===== */
+const darkBtn = document.getElementById("darkBtn");
+
+let isDrag = false, offsetX = 0, offsetY = 0;
+
+darkBtn.addEventListener("mousedown", startDrag);
+darkBtn.addEventListener("touchstart", startDrag);
+
+function startDrag(e){
+  isDrag = true;
+  const rect = darkBtn.getBoundingClientRect();
+  const x = e.touches ? e.touches[0].clientX : e.clientX;
+  const y = e.touches ? e.touches[0].clientY : e.clientY;
+  offsetX = x - rect.left;
+  offsetY = y - rect.top;
+}
+
+document.addEventListener("mousemove", drag);
+document.addEventListener("touchmove", drag);
+
+function drag(e){
+  if(!isDrag) return;
+  const x = e.touches ? e.touches[0].clientX : e.clientX;
+  const y = e.touches ? e.touches[0].clientY : e.clientY;
+
+  darkBtn.style.left = (x - offsetX) + "px";
+  darkBtn.style.top  = (y - offsetY) + "px";
+  darkBtn.style.right = "auto";
+}
+
+document.addEventListener("mouseup", stopDrag);
+document.addEventListener("touchend", stopDrag);
+
+function stopDrag(){
+  isDrag = false;
+}
+
+/* Bottom nav active state */
+document.querySelectorAll(".bottom-nav button").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".bottom-nav button")
+    .forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+  });
+});
 </script> 
 
 </body>
