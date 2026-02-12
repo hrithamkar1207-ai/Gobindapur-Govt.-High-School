@@ -301,9 +301,11 @@ footer{
   margin-bottom:60px;
 }
 </style>
-</head> 
+
+</head>
+<body>
+
 <button id="darkBtn" onclick="toggleDark()">🌙</button>
-<body> 
 
 <header class="hero">
 <img src="school.jpg">
@@ -314,13 +316,14 @@ footer{
 </header> 
 
 <nav>
-<button onclick="show('notice')">📢 Notice</button>
-<button onclick="show('news')">📰 News</button>
-<button onclick="show('student')">👨‍🎓 Student</button>
-<button onclick="show('teacher')">👩‍🏫 Teacher</button>
-<button onclick="show('result')">📊 Result</button>
-<button onclick="show('routine')">📅 Routine</button>
-<button onclick="show('admin')">🔐 Admin</button>
+  <button onclick="show('notice')">📢 Notice</button>
+  <button onclick="show('news')">📰 News</button>
+  <button onclick="show('student')">👨‍🎓 Student</button>
+  <button onclick="show('teacher')">👩‍🏫 Teacher</button>
+  <button onclick="show('result')">📊 Result</button>
+  <button onclick="show('routine')">📅 Routine</button>
+  <button onclick="show('auth')">📝🔑 Register/Login</button> <!-- এখানে নাম পরিবর্তন -->
+  <button onclick="show('admin')">🔐 Admin</button>
 </nav>
 
 <div class="container"> 
@@ -472,12 +475,52 @@ footer{
 
 <div class="card section" id="admin" style="display:none">
 <h2>🔐 Admin Login</h2>
+<h3>⏳ Pending Student Approval</h3>
+<ul id="pendingList" class="list"></ul>
 <input id="user" placeholder="Username">
 <input id="pass" type="password" placeholder="Password">
+<button onclick="autoFixOldStudents()">🛠 Fix Old Students</button>
 <button onclick="login()">Login</button>
 <button onclick="logout()">Logout</button>
 <p id="status"></p>
 </div> 
+
+<div class="card section" id="auth" style="display:none">
+  <h2>📝 Student Signup / Login</h2>
+
+  <!-- Signup -->
+  <h3>Signup</h3>
+  <input id="upName" placeholder="নাম">
+  <input id="upClass" placeholder="ক্লাস">
+  <input id="upRoll" placeholder="রোল">
+  <input id="upSection" placeholder="শাখা">
+  <input id="upPhone" placeholder="মোবাইল নম্বর">
+  <button onclick="signup()">Submit</button>
+  <p id="signupMsg"></p>
+
+  <hr>
+
+  <!-- Login -->
+  <h3>Login</h3>
+  <input id="loginClass" placeholder="ক্লাস">
+  <input id="loginRoll" placeholder="রোল">
+  <select id="loginSection">
+  <option value="">শাখা নির্বাচন</option>
+  <option value="science">Science</option>
+  <option value="arts">Arts</option>
+  <option value="a">A</option>
+  <option value="b">B</option>
+</select>
+  <input id="loginPhone" placeholder="মোবাইল নম্বর">
+  <button onclick="studentLogin()">Login</button>
+  <p id="loginMsg"></p>
+</div>
+
+<div class="card section" id="studentDash" style="display:none">
+  <h2>👨‍🎓 Student Dashboard</h2>
+  <div id="myInfo"></div>
+  <button onclick="studentLogout()">Logout</button>
+</div>
 
 </div> 
 
@@ -523,22 +566,24 @@ el.classList.add("fade");
 } 
 
 function login(){
-if(user.value===ADMIN_USER && pass.value===ADMIN_PASS){
-  admin=true;
-  status.innerText="Logged In";
-  document.querySelectorAll('.admin').forEach(a=>a.style.display="block");
-  loadAll();
-  show('notice');
-}else alert("Wrong Login");
-} 
+  if(user.value===ADMIN_USER && pass.value===ADMIN_PASS){
+    admin=true;
+    status.innerText="Logged In";
+    document.querySelectorAll('.admin').forEach(a=>a.style.display="block");
+    loadAll();
+    loadPending(); // ✅ শুধুমাত্র এখন Pending দেখাবে
+    show('notice');
+  }else alert("Wrong Login");
+}
 
 function logout(){
-admin=false;
-status.innerText="Logged Out";
-document.querySelectorAll('.admin').forEach(a=>a.style.display="none");
-loadAll();
-show('notice');
-} 
+  admin=false;
+  status.innerText="Logged Out";
+  document.querySelectorAll('.admin').forEach(a=>a.style.display="none");
+  pendingList.innerHTML=""; // ❌ logout হলে Pending clear
+  loadAll();
+  show('notice');
+}
 
 function del(path, key){
 if(!admin){
@@ -845,6 +890,206 @@ document.querySelectorAll(".bottom-nav button").forEach(btn=>{
     btn.classList.add("active");
   });
 });
+
+function signup(){
+  if(
+    !upName.value || !upClass.value ||
+    !upRoll.value || !upSection.value || !upPhone.value
+  ){
+    alert("সব ফিল্ড পূরণ করো");
+    return;
+  }
+
+  db.ref("pendingStudents").push({
+  name: upName.value,
+  class: upClass.value,
+  roll: upRoll.value,
+  section: upSection.value.toLowerCase(), // ✅
+  phone: upPhone.value
+});
+
+  signupMsg.innerText = "✅ আবেদন জমা হয়েছে, Admin approval অপেক্ষায়";
+  
+  upName.value="";
+  upClass.value="";
+  upRoll.value="";
+  upSection.value="";
+  upPhone.value="";
+}
+
+function approveStudent(key, name, cls, roll, section, phone){
+  if(!admin){
+    alert("Admin only");
+    return;
+  }
+
+  db.ref("students").push({
+    name: name,
+    class: cls,
+    roll: roll,
+    section: section.toLowerCase(),
+    phone: phone
+  });
+
+  db.ref("pendingStudents/" + key).remove();
+  alert("✅ Student Approved & Added");
+}
+
+function loadPending() {
+  if(!admin) {
+    pendingList.innerHTML = ""; // Admin না হলে খালি দেখাবে
+    return;
+  }
+
+  db.ref("pendingStudents").on("value", snap => {
+    pendingList.innerHTML = "";
+    snap.forEach(c => {
+      pendingList.innerHTML += `
+        <li>
+          ${c.val().name} | ${c.val().class}-${c.val().roll}
+         <button onclick="approveStudent(
+  '${c.key}',
+  '${c.val().name}',
+  '${c.val().class}',
+  '${c.val().roll}',
+  '${c.val().section}',
+  '${c.val().phone}'  // ✅ phone পাঠানো
+)">Approve</button>
+
+          <button onclick="cancelStudent(
+            '${c.key}'
+          )" style="background:#dc3545;margin-left:5px;">Cancel</button>
+        </li>
+      `;
+    });
+  });
+}
+
+function cancelStudent(key){
+  if(!admin){
+    alert("Admin only");
+    return;
+  }
+
+  if(confirm("এই আবেদন বাতিল করতে চাও?")){
+    db.ref("pendingStudents/" + key).remove()
+    .then(()=>{
+      alert("❌ Student Signup Cancelled");
+      loadPending(); // লিস্ট refresh হবে
+    })
+    .catch(err=>{
+      alert("Cancel failed: " + err.message);
+    });
+  }
+}
+
+let studentLoggedIn = null; // লগিন স্টেট ট্র্যাক করবে
+
+function studentLogin(){
+  const cls = loginClass.value.trim();
+  const roll = loginRoll.value.trim();
+  const section = loginSection.value.trim().toLowerCase();
+  const phone = loginPhone.value.trim();
+
+  if(!cls || !roll || !section || !phone){
+    loginMsg.innerText = "সব ফিল্ড পূরণ করো!";
+    return;
+  }
+
+  db.ref("students").once("value").then(snap=>{
+    let found = false;
+
+    snap.forEach(c=>{
+      let d = c.val();
+
+      let dClass = String(d.class).trim();
+      let dRoll = String(d.roll).trim();
+      let dSection = String(d.section).trim().toLowerCase();
+      let dPhone = String(d.phone).trim();
+
+      if(
+  dClass === cls &&
+  dRoll === roll &&
+  dSection === section &&
+  (!dPhone || dPhone === phone) // ✅ fallback
+){
+        found = true;
+        studentLoggedIn = {
+          key: c.key,
+          ...d
+        };
+      }
+    });
+
+    if(found){
+      loginMsg.innerText = "✅ Logged In Successfully!";
+      showStudentDashboard(); // নিজের Dashboard দেখাবে
+    }else{
+      loginMsg.innerText = "❌ Login Failed: Approved student নয় বা তথ্য ভুল";
+    }
+  });
+}
+
+function showStudentDashboard(){
+  document.querySelectorAll('.section').forEach(s=>{
+    s.style.display = "none";
+    s.classList.remove("fade");
+  });
+
+  let el = document.getElementById("studentDash");
+  el.style.display = "block";
+  void el.offsetWidth;
+  el.classList.add("fade");
+
+  myInfo.innerHTML = `
+    <p><b>নাম:</b> ${studentLoggedIn.name}</p>
+    <p><b>ক্লাস:</b> ${studentLoggedIn.class}</p>
+    <p><b>রোল:</b> ${studentLoggedIn.roll}</p>
+    <p><b>শাখা:</b> ${studentLoggedIn.section}</p>
+    <p><b>মোবাইল:</b> ${studentLoggedIn.phone}</p>
+  `;
+}
+
+function studentLogout(){
+  studentLoggedIn = null;
+  loginClass.value = "";
+  loginRoll.value = "";
+  loginSection.value = "";
+  loginPhone.value = "";
+  loginMsg.innerText = "";
+
+  show('auth'); // আবার Login / Signup দেখাবে
+}
+
+function autoFixOldStudents(){
+  if(!admin){
+    alert("Admin only");
+    return;
+  }
+
+  db.ref("students").once("value").then(snap=>{
+    snap.forEach(c=>{
+      let d = c.val();
+      let updates = {};
+
+      // phone না থাকলে placeholder
+      if(!d.phone){
+        updates.phone = "0000000000";
+      }
+
+      // section lowercase
+      if(d.section){
+        updates.section = String(d.section).toLowerCase();
+      }
+
+      if(Object.keys(updates).length > 0){
+        db.ref("students/" + c.key).update(updates);
+      }
+    });
+
+    alert("✅ Old students auto updated!");
+  });
+}
 </script> 
 
 </body>
