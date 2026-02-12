@@ -300,6 +300,27 @@ body.dark .bottom-nav button{
 footer{
   margin-bottom:60px;
 }
+
+#myRoutine h4{
+  margin-top:15px;
+  color:#2c3e50;
+}
+
+#myRoutine table{
+  width:100%;
+  border-collapse:collapse;
+  margin-bottom:20px;
+}
+
+#myRoutine th, #myRoutine td{
+  border:1px solid #ddd;
+  padding:8px;
+  text-align:center;
+}
+
+#myRoutine th{
+  background:#f1f3f6;
+}
 </style>
 
 </head>
@@ -513,16 +534,25 @@ footer{
 </select>
   <input id="loginPhone" placeholder="মোবাইল নম্বর">
   <button onclick="studentLogin()">Login</button>
+  <button id="dashBtn" onclick="showStudentDashboard()" style="display:none">
+📘 Dashboard
+</button>
   <p id="loginMsg"></p>
 </div>
 
-<div class="card section" id="studentDash" style="display:none">
+ <div class="card section" id="studentDash" style="display:none">
   <h2>👨‍🎓 Student Dashboard</h2>
+
   <div id="myInfo"></div>
+
+  <h3>📊 My Result</h3>
+  <div id="myResult"></div>
+
+  <h3>📅 My Class Routine</h3>
+  <div id="myRoutine"></div>
+
   <button onclick="studentLogout()">Logout</button>
 </div>
-
-</div> 
 
 <!-- ===== Bottom Navigation ===== -->
 <div class="bottom-nav">
@@ -706,7 +736,7 @@ function findStudent(){
       }
     });
   });
-  }
+}
 
 function findResult(){
 resultOutput.innerHTML = "<span style='color:red;font-weight:bold;'>Not Found!</span>";
@@ -1011,14 +1041,14 @@ function studentLogin(){
       let dClass = String(d.class).trim();
       let dRoll = String(d.roll).trim();
       let dSection = String(d.section).trim().toLowerCase();
-      let dPhone = String(d.phone).trim();
+      let dPhone = String(d.phone || "").trim();
 
       if(
-  dClass === cls &&
-  dRoll === roll &&
-  dSection === section &&
-  (!dPhone || dPhone === phone) // ✅ fallback
-){
+        dClass === cls &&
+        dRoll === roll &&
+        dSection === section &&
+        (!dPhone || dPhone === phone)
+      ){
         found = true;
         studentLoggedIn = {
           key: c.key,
@@ -1029,7 +1059,11 @@ function studentLogin(){
 
     if(found){
       loginMsg.innerText = "✅ Logged In Successfully!";
-      showStudentDashboard(); // নিজের Dashboard দেখাবে
+
+      // 🔥 সরাসরি Dashboard এ পাঠাবে
+      showStudentDashboard();
+      show('studentDash');
+
     }else{
       loginMsg.innerText = "❌ Login Failed: Approved student নয় বা তথ্য ভুল";
     }
@@ -1054,6 +1088,10 @@ function showStudentDashboard(){
     <p><b>শাখা:</b> ${studentLoggedIn.section}</p>
     <p><b>মোবাইল:</b> ${studentLoggedIn.phone}</p>
   `;
+
+  // ✅ এগুলো HTML এর বাইরে
+  loadMyResult();
+  loadMyRoutine();
 }
 
 function studentLogout(){
@@ -1094,6 +1132,93 @@ function autoFixOldStudents(){
     });
 
     alert("✅ Old students auto updated!");
+  });
+}
+function loadMyResult(){
+  myResult.innerHTML = "⏳ Loading...";
+
+  db.ref("results").once("value", snap=>{
+    let found = false;
+    myResult.innerHTML = "";
+
+    snap.forEach(c=>{
+      let d = c.val();
+
+      if(
+        String(d.class) === String(studentLoggedIn.class) &&
+        String(d.roll) === String(studentLoggedIn.roll) &&
+        String(d.section).toLowerCase() === String(studentLoggedIn.section).toLowerCase()
+      ){
+        found = true;
+        myResult.innerHTML = `
+          <div class="student-card">
+            <p><b>নাম:</b> ${d.name}</p>
+            <p><b>ক্লাস:</b> ${d.class}</p>
+            <p><b>রোল:</b> ${d.roll}</p>
+            <p><b>শাখা:</b> ${d.section}</p>
+            <p><b>স্থান:</b> ${d.position}</p>
+            <p><b>নম্বর:</b> ${d.marks}</p>
+          </div>
+        `;
+      }
+    });
+
+    if(!found){
+      myResult.innerHTML = "<p class='not-found'>❌ Result পাওয়া যায়নি</p>";
+    }
+  });
+}
+
+function loadMyRoutine(){
+  myRoutine.innerHTML = "⏳ Loading...";
+
+  let cls = String(studentLoggedIn.class);
+  let routineByDay = {};
+
+  db.ref("routines").once("value", snap=>{
+    snap.forEach(c=>{
+      let d = c.val();
+
+      if(String(d.class) === cls){
+        let day = d.day;
+
+        if(!routineByDay[day]){
+          routineByDay[day] = [];
+        }
+        routineByDay[day].push(d);
+      }
+    });
+
+    if(Object.keys(routineByDay).length === 0){
+      myRoutine.innerHTML = "<p class='not-found'>❌ Routine পাওয়া যায়নি</p>";
+      return;
+    }
+
+    let html = "";
+
+    for(let day in routineByDay){
+      html += `<h4>📅 ${day}</h4>`;
+      html += `
+      <table>
+        <tr>
+          <th>পিরিয়ড</th>
+          <th>বিষয়</th>
+          <th>শিক্ষক</th>
+        </tr>`;
+
+      routineByDay[day].forEach(r=>{
+        html += `
+        <tr>
+          <td>${r.period}</td>
+          <td>${r.subject}</td>
+          <td>${r.teacher}</td>
+        </tr>`;
+      });
+
+      html += "</table>";
+    }
+
+    myRoutine.innerHTML = html;
   });
 }
 </script> 
