@@ -680,15 +680,21 @@ ${admin ? ` <button onclick="del('results','${c.key}')">X</button>` : ""}
 loadAll(); 
 
 function findStudent(){
-studentResult.innerHTML = "<span style='color:red;font-weight:bold;'>Not Found!</span>";
-  db.ref("students").once("value",s=>{
+  studentResult.innerHTML = "<span style='color:red;font-weight:bold;'>Not Found!</span>";
+  
+  const cls = sClass.value.trim();
+  const roll = sRoll.value.trim();
+  const section = sSection.value.trim().toLowerCase(); // lowercase
+
+  db.ref("students").once("value", s=>{
     s.forEach(c=>{
-      let d=c.val();
-      if(
-        d.class===sClass.value &&
-        d.roll===sRoll.value &&
-        d.section===sSection.value
-      ){
+      let d = c.val();
+
+      let dClass = String(d.class).trim();
+      let dRoll = String(d.roll).trim();
+      let dSection = String(d.section).trim().toLowerCase(); // lowercase
+
+      if(dClass === cls && dRoll === roll && dSection === section){
         studentResult.innerHTML = `
         <div class="student-card">
           <h3>👨‍🎓 ${d.name}</h3>
@@ -700,7 +706,7 @@ studentResult.innerHTML = "<span style='color:red;font-weight:bold;'>Not Found!<
       }
     });
   });
-}
+  }
 
 function findResult(){
 resultOutput.innerHTML = "<span style='color:red;font-weight:bold;'>Not Found!</span>";
