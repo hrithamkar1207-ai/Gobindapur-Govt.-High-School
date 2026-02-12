@@ -1058,13 +1058,16 @@ function studentLogin(){
     });
 
     if(found){
-      loginMsg.innerText = "✅ Logged In Successfully!";
+  loginMsg.innerText = "✅ Logged In Successfully!";
 
-      // 🔥 সরাসরি Dashboard এ পাঠাবে
-      showStudentDashboard();
-      show('studentDash');
+  // ✅ Dashboard button show হবে
+  document.getElementById("dashBtn").style.display = "block";
 
-    }else{
+  // চাইলে সরাসরি Dashboard এ যাবে
+  showStudentDashboard();
+  show('studentDash');
+
+}else{
       loginMsg.innerText = "❌ Login Failed: Approved student নয় বা তথ্য ভুল";
     }
   });
@@ -1096,6 +1099,10 @@ function showStudentDashboard(){
 
 function studentLogout(){
   studentLoggedIn = null;
+
+  // 🔴 Dashboard button hide হবে
+  document.getElementById("dashBtn").style.display = "none";
+
   loginClass.value = "";
   loginRoll.value = "";
   loginSection.value = "";
