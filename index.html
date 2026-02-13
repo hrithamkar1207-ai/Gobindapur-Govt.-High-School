@@ -398,6 +398,7 @@ body.dark #aiBtn{
 <div class="card section" id="ai" style="display:none">
   <h2>🤖 School AI Assistant</h2>
 
+  <!-- ✅ সবার জন্য -->
   <ul id="aiQuestionList" class="list"></ul>
 
   <!-- AI Answer Box -->
@@ -413,7 +414,7 @@ body.dark #aiBtn{
     <textarea id="aiA" placeholder="উত্তর লিখুন" style="width:100%;height:80px"></textarea>
     <button onclick="addAIQA()">Add</button>
   </div>
-</div>
+      </div>
 
 <div class="card section" id="news" style="display:none">
 <h2>📰 খবর</h2>
@@ -1316,27 +1317,18 @@ function loadAI(){
 
     snap.forEach(c=>{
       aiQuestionList.innerHTML += `
-        <li style="margin-bottom:8px">
-          <b 
-            onclick="showAIAnswer('${c.key}', \`${c.val().answer}\`)"
-            style="cursor:pointer;color:#0d6efd"
-          >
+        <li>
+          <b onclick="showAIAnswer('${c.key}', \`${c.val().answer}\`)">
             ❓ ${c.val().question}
           </b>
-
-          ${admin 
-            ? `<button 
-                 onclick="del('aiQA','${c.key}')"
-                 style="margin-left:8px;color:red"
-               >❌</button>` 
+          ${admin
+            ? `<button onclick="del('aiQA','${c.key}')">❌</button>`
             : ""
           }
         </li>
       `;
     });
   });
-  }
-
 /* Typing Effect AI Answer */
 function showAIAnswer(key, answer){
   aiAnswerBox.style.display="block";
