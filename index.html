@@ -321,13 +321,50 @@ footer{
 #myRoutine th{
   background:#f1f3f6;
 }
+
+/* ===== Floating AI Button ===== */
+#aiBtn{
+  position:fixed;
+  top:70px;              /* Dark button এর নিচে থাকবে */
+  right:15px;
+  z-index:2000;
+
+  width:60px;            /* 🔥 একটু বড় */
+  height:60px;
+  border-radius:50%;
+
+  font-size:26px;
+  padding:0;
+
+  background:linear-gradient(135deg,#20c997,#0d6efd);
+  box-shadow:0 6px 15px rgba(0,0,0,.4);
+
+  cursor:pointer;
+  transition:all .3s ease;
+}
+
+/* Hover effect */
+#aiBtn:hover{
+  transform:scale(1.1);
+}
+
+/* Active click */
+#aiBtn:active{
+  transform:scale(.95);
+}
+
+/* Dark mode এ আলাদা রং */
+body.dark #aiBtn{
+  background:linear-gradient(135deg,#ffc107,#ff9800);
+  color:#000;
+}
 </style>
 
 </head>
 <body>
 
 <button id="darkBtn" onclick="toggleDark()">🌙</button>
-
+<button id="aiBtn" onclick="show('ai')">🤖</button>
 <header class="hero">
 <img src="school.jpg">
 <div class="hero-text">
@@ -357,6 +394,26 @@ footer{
 <button onclick="addNotice()">Add</button>
 </div>
 </div> 
+
+<div class="card section" id="ai" style="display:none">
+  <h2>🤖 School AI Assistant</h2>
+
+  <ul id="aiQuestionList" class="list"></ul>
+
+  <!-- AI Answer Box -->
+  <div id="aiAnswerBox" class="student-card" style="display:none">
+    <h3>🤖 AI Answer</h3>
+    <p id="aiAnswerText"></p>
+  </div>
+
+  <!-- Admin Panel -->
+  <div class="admin">
+    <h3>➕ Add AI Question & Answer</h3>
+    <input id="aiQ" placeholder="প্রশ্ন লিখুন">
+    <textarea id="aiA" placeholder="উত্তর লিখুন" style="width:100%;height:80px"></textarea>
+    <button onclick="addAIQA()">Add</button>
+  </div>
+</div>
 
 <div class="card section" id="news" style="display:none">
 <h2>📰 খবর</h2>
@@ -1227,6 +1284,62 @@ function loadMyRoutine(){
 
     myRoutine.innerHTML = html;
   });
+}
+
+/* ===== AI QUESTION & ANSWER SYSTEM ===== */
+
+function addAIQA(){
+  if(!admin){
+    alert("Admin only");
+    return;
+  }
+
+  if(!aiQ.value || !aiA.value){
+    alert("প্রশ্ন ও উত্তর লিখুন");
+    return;
+  }
+
+  db.ref("aiQA").push({
+    question: aiQ.value,
+    answer: aiA.value
+  });
+
+  aiQ.value="";
+  aiA.value="";
+}
+
+/* Load AI Questions */
+db.ref("aiQA").on("value", snap=>{
+  aiQuestionList.innerHTML="";
+  snap.forEach(c=>{
+    aiQuestionList.innerHTML += `
+      <li>
+        <b onclick="showAIAnswer('${c.key}', \`${c.val().answer}\`)"
+           style="cursor:pointer;color:#0b5ed7">
+          ❓ ${c.val().question}
+        </b>
+        ${admin ? `<button onclick="del('aiQA','${c.key}')">X</button>` : ""}
+      </li>
+    `;
+  });
+});
+
+/* Typing Effect AI Answer */
+function showAIAnswer(key, answer){
+  aiAnswerBox.style.display="block";
+  aiAnswerText.innerHTML="";
+  
+  let i = 0;
+  let speed = 25; // typing speed
+
+  function type(){
+    if(i < answer.length){
+      aiAnswerText.innerHTML += answer.charAt(i);
+      i++;
+      setTimeout(type, speed);
+    }
+  }
+  type();
 }
 </script> 
 
