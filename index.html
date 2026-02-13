@@ -414,7 +414,7 @@ body.dark #aiBtn{
     <textarea id="aiA" placeholder="উত্তর লিখুন" style="width:100%;height:80px"></textarea>
     <button onclick="addAIQA()">Add</button>
   </div>
-      </div>
+</div>
 
 <div class="card section" id="news" style="display:none">
 <h2>📰 খবর</h2>
@@ -1329,6 +1329,10 @@ function loadAI(){
       `;
     });
   });
+}
+
+// ✅ page load এ call
+loadAI();
 /* Typing Effect AI Answer */
 function showAIAnswer(key, answer){
   aiAnswerBox.style.display="block";
