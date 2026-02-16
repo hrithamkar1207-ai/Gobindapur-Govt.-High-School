@@ -633,6 +633,8 @@ databaseURL:"https://gghs-fcfe6-default-rtdb.firebaseio.com"
 });
 const db=firebase.database(); 
 
+let aiTypingTimer = null; // 🔹 AI typing control
+
 const ADMIN_USER="HKuk12";
 const ADMIN_PASS="HKuk12@#*";
 let admin=false; 
@@ -1335,19 +1337,27 @@ function loadAI(){
 loadAI();
 /* Typing Effect AI Answer */
 function showAIAnswer(key, answer){
-  aiAnswerBox.style.display="block";
-  aiAnswerText.innerHTML="";
-  
+  aiAnswerBox.style.display = "block";
+
+  // 🔴 আগের টাইপিং চললে বন্ধ করবে
+  if(aiTypingTimer){
+    clearTimeout(aiTypingTimer);
+    aiTypingTimer = null;
+  }
+
+  aiAnswerText.innerHTML = "";
+
   let i = 0;
-  let speed = 25; // typing speed
+  let speed = 25;
 
   function type(){
     if(i < answer.length){
       aiAnswerText.innerHTML += answer.charAt(i);
       i++;
-      setTimeout(type, speed);
+      aiTypingTimer = setTimeout(type, speed);
     }
   }
+
   type();
 }
 </script> 
