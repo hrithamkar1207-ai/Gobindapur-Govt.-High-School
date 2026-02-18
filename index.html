@@ -363,6 +363,12 @@ body.dark #aiBtn{
 </head>
 <body>
 
+
+</button>
+<!-- Admin-only Homework Button -->
+<button id="hwBtn" onclick="show('homework')" style="display:none">
+📚 Homework
+</button>
 <button id="darkBtn" onclick="toggleDark()">🌙</button>
 <button id="aiBtn" onclick="show('ai')">🤖</button>
 <header class="hero">
@@ -394,6 +400,30 @@ body.dark #aiBtn{
 <button onclick="addNotice()">Add</button>
 </div>
 </div> 
+
+<div class="card section" id="homework" style="display:none">
+  <h2>📚 বাড়ির কাজ</h2>
+
+  <!-- Student View -->
+  <div id="homeworkList"></div>
+
+  <!-- Admin Panel -->
+  <div class="admin">
+    <h3>➕ Add Homework</h3>
+
+    <select id="hwClass">
+      <option value="">ক্লাস নির্বাচন</option>
+      <option>6</option><option>7</option><option>8</option>
+      <option>9</option><option>10</option>
+    </select>
+
+    <input id="hwSubject" placeholder="বিষয়">
+    <textarea id="hwText" placeholder="বাড়ির কাজ লিখুন" style="width:100%;height:80px"></textarea>
+    <input id="hwDate" type="date">
+
+    <button onclick="addHomework()">Add Homework</button>
+  </div>
+</div>
 
 <div class="card section" id="ai" style="display:none">
   <h2>🤖 School AI Assistant</h2>
@@ -592,7 +622,7 @@ body.dark #aiBtn{
 </select>
   <input id="loginPhone" placeholder="মোবাইল নম্বর">
   <button onclick="studentLogin()">Login</button>
-  <button id="dashBtn" onclick="showStudentDashboard()" style="display:none">
+  <button id="dashBtn" onclick="showStudentDashboard()" style "display:none">
 📘 Dashboard
 </button>
   <p id="loginMsg"></p>
@@ -605,6 +635,9 @@ body.dark #aiBtn{
 
   <h3>📊 My Result</h3>
   <div id="myResult"></div>
+  
+  <h3>📚 My Homework</h3>
+<div id="myHomework"></div>
 
   <h3>📅 My Class Routine</h3>
   <div id="myRoutine"></div>
@@ -645,34 +678,56 @@ rRoll.innerHTML+=`<option>${i}</option>`;
 } 
 
 function show(id){
-document.querySelectorAll('.section').forEach(s=>{
-  s.style.display="none";
-  s.classList.remove("fade");
-});
-let el=document.getElementById(id);
-el.style.display="block";
-void el.offsetWidth;
-el.classList.add("fade");
-} 
+  document.querySelectorAll('.section').forEach(s=>{
+    s.style.display="none";
+    s.classList.remove("fade");
+  });
+
+  let el = document.getElementById(id);
+  el.style.display="block";
+  void el.offsetWidth;
+  el.classList.add("fade");
+
+  // 🔒 Homework page restriction
+  if(id === "homework"){
+    // ❌ Public block
+    if(!studentLoggedIn && !admin){
+      alert("Homework দেখতে Student Login প্রয়োজন");
+      show('auth');
+      return;
+    }
+    loadHomework();
+  }
+}
 
 function login(){
   if(user.value===ADMIN_USER && pass.value===ADMIN_PASS){
     admin=true;
     status.innerText="Logged In";
+
+    // সব Admin panel দেখাবে
     document.querySelectorAll('.admin').forEach(a=>a.style.display="block");
     loadAll();
-    loadPending(); // ✅ শুধুমাত্র এখন Pending দেখাবে
+    loadPending(); 
     loadAI();
     show('notice');
-  }else alert("Wrong Login");
+
+    // ✅ শুধু Admin-এর জন্য Homework বাটন দেখাবে
+    document.getElementById("hwBtn").style.display = "inline-block";
+
+  } else alert("Wrong Login");
 }
 
 function logout(){
   admin=false;
   status.innerText="Logged Out";
   document.querySelectorAll('.admin').forEach(a=>a.style.display="none");
-  pendingList.innerHTML=""; // ❌ logout হলে Pending clear
+  pendingList.innerHTML="";
   loadAll();
+
+  // 🔴 Logout হলে Homework বাটন লুকানো
+  document.getElementById("hwBtn").style.display = "none";
+
   show('notice');
 }
 
@@ -1123,6 +1178,8 @@ function studentLogin(){
 
   // ✅ Dashboard button show হবে
   document.getElementById("dashBtn").style.display = "block";
+  
+  document.getElementById("hwBtn").style.display = "inline-block";
 
   // চাইলে সরাসরি Dashboard এ যাবে
   showStudentDashboard();
@@ -1156,6 +1213,7 @@ function showStudentDashboard(){
   // ✅ এগুলো HTML এর বাইরে
   loadMyResult();
   loadMyRoutine();
+  loadMyHomework();
 }
 
 function studentLogout(){
@@ -1163,6 +1221,8 @@ function studentLogout(){
 
   // 🔴 Dashboard button hide হবে
   document.getElementById("dashBtn").style.display = "none";
+  
+  document.getElementById("hwBtn").style.display = "none";
 
   loginClass.value = "";
   loginRoll.value = "";
@@ -1359,6 +1419,86 @@ function showAIAnswer(key, answer){
   }
 
   type();
+}
+
+function addHomework(){
+  if(!admin){
+    alert("Admin only");
+    return;
+  }
+
+  if(!hwClass.value || !hwSubject.value || !hwText.value || !hwDate.value){
+    alert("সব ফিল্ড পূরণ করো");
+    return;
+  }
+
+  db.ref("homeworks").push({
+    class: hwClass.value,
+    subject: hwSubject.value,
+    text: hwText.value,
+    date: hwDate.value
+  });
+
+  hwSubject.value="";
+  hwText.value="";
+  hwDate.value="";
+}
+
+function loadHomework() {
+  homeworkList.innerHTML = "";
+
+  db.ref("homeworks").once("value", snap => {
+    snap.forEach(c => {
+      let d = c.val();
+
+      if(admin){
+        // Admin view - show delete button
+        homeworkList.innerHTML += `
+          <div class="student-card">
+            <h3>📘 ${d.subject}</h3>
+            <p>${d.text}</p>
+            <p><b>তারিখ:</b> ${d.date}</p>
+            <button onclick="del('homeworks','${c.key}')">❌ Delete</button>
+          </div>
+        `;
+      } else if(studentLoggedIn && String(d.class) === String(studentLoggedIn.class)){
+        // Student view
+        homeworkList.innerHTML += `
+          <div class="student-card">
+            <h3>📘 ${d.subject}</h3>
+            <p>${d.text}</p>
+            <p><b>তারিখ:</b> ${d.date}</p>
+          </div>
+        `;
+      }
+    });
+  });
+}
+
+function loadMyHomework(){
+  myHomework.innerHTML = "";
+
+  db.ref("homeworks").once("value", snap=>{
+    let found = false;
+
+    snap.forEach(c=>{
+      let d = c.val();
+      if(String(d.class) === String(studentLoggedIn.class)){
+        found = true;
+        myHomework.innerHTML += `
+          <div class="student-card">
+            <p><b>${d.subject}</b></p>
+            <p>${d.text}</p>
+            <p>📅 ${d.date}</p>
+          </div>
+        `;
+      }
+    });
+
+    if(!found){
+      myHomework.innerHTML = "<p class='not-found'>কোনো বাড়ির কাজ নেই</p>";
+    }
+  });
 }
 </script> 
 
