@@ -364,7 +364,6 @@ body.dark #aiBtn{
 <body>
 
 
-</button>
 <!-- Admin-only Homework Button -->
 <button id="hwBtn" onclick="show('homework')" style="display:none">
 📚 Homework
@@ -588,9 +587,30 @@ body.dark #aiBtn{
 <ul id="pendingList" class="list"></ul>
 <input id="user" placeholder="Username">
 <input id="pass" type="password" placeholder="Password">
-<button onclick="autoFixOldStudents()">🛠 Fix Old Students</button>
+
 <button onclick="login()">Login</button>
 <button onclick="logout()">Logout</button>
+<!-- Admin Panel Buttons -->
+<div id="adminPanel" class="admin">
+  <button class="admin-only" onclick="autoFixOldStudents()" style="display:none">
+    🛠 Auto Fix Old Students
+  </button>
+
+  <button class="admin-only" onclick="previewStudentPDF()" style="display:none">
+    👁 Preview Student PDF
+  </button>
+</div>
+
+<!-- PDF Preview Box -->
+<div id="pdfPreviewBox" style="display:none;margin-top:15px">
+  <iframe id="pdfFrame" style="width:100%;height:500px;border:1px solid #ccc"></iframe>
+  <button onclick="downloadPreviewPDF()">⬇ Download PDF</button>
+</div>
+
+<div id="pdfPreviewBox" style="display:none;margin-top:15px">
+  <iframe id="pdfFrame" style="width:100%;height:500px;border:1px solid #ccc"></iframe>
+  <button onclick="downloadPreviewPDF()">⬇ Download PDF</button>
+</div>
 <p id="status"></p>
 </div> 
 
@@ -622,7 +642,7 @@ body.dark #aiBtn{
 </select>
   <input id="loginPhone" placeholder="মোবাইল নম্বর">
   <button onclick="studentLogin()">Login</button>
-  <button id="dashBtn" onclick="showStudentDashboard()" style "display:none">
+  <button id="dashBtn" onclick="showStudentDashboard()" style="display:none">
 📘 Dashboard
 </button>
   <p id="loginMsg"></p>
@@ -658,6 +678,8 @@ body.dark #aiBtn{
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
 
 <script>
 firebase.initializeApp({
@@ -707,12 +729,16 @@ function login(){
 
     // সব Admin panel দেখাবে
     document.querySelectorAll('.admin').forEach(a=>a.style.display="block");
+
+    // Admin-only বাটনগুলো দেখাবে
+    document.querySelectorAll('.admin-only').forEach(b=>b.style.display="inline-block");
+
     loadAll();
     loadPending(); 
     loadAI();
     show('notice');
 
-    // ✅ শুধু Admin-এর জন্য Homework বাটন দেখাবে
+    // শুধু Admin-এর জন্য Homework বাটন দেখাবে
     document.getElementById("hwBtn").style.display = "inline-block";
 
   } else alert("Wrong Login");
@@ -721,11 +747,17 @@ function login(){
 function logout(){
   admin=false;
   status.innerText="Logged Out";
+
+  // সব Admin panel লুকাবে
   document.querySelectorAll('.admin').forEach(a=>a.style.display="none");
+
+  // Admin-only বাটনগুলোও লুকাবে
+  document.querySelectorAll('.admin-only').forEach(b=>b.style.display="none");
+
   pendingList.innerHTML="";
   loadAll();
 
-  // 🔴 Logout হলে Homework বাটন লুকানো
+  // Homework বাটন লুকাবে
   document.getElementById("hwBtn").style.display = "none";
 
   show('notice');
@@ -1498,6 +1530,164 @@ function loadMyHomework(){
     if(!found){
       myHomework.innerHTML = "<p class='not-found'>কোনো বাড়ির কাজ নেই</p>";
     }
+  });
+}
+
+function downloadStudentPDF(){
+  if(!admin){
+    alert("Admin only");
+    return;
+  }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF("p","mm","a4");
+
+  // ===== Header =====
+  doc.setFontSize(14);
+  doc.text("Gobindapur Govt. High School",105,15,{align:"center"});
+  doc.setFontSize(11);
+  doc.text("Student Information List",105,22,{align:"center"});
+
+  // ===== Table =====
+  let tableData = [];
+  let count = 1;
+
+  db.ref("students").once("value",snap=>{
+    snap.forEach(c=>{
+      let d = c.val();
+      tableData.push([
+        count++,
+        d.name || "",
+        d.roll || "",
+        d.class || "",
+        d.section || "",
+        d.phone || ""
+      ]);
+    });
+
+    doc.autoTable({
+      startY: 30,
+      head: [[
+        "ক্রমিক নং",
+        "নাম",
+        "রোল",
+        "ক্লাস",
+        "শাখা",
+        "মোবাইল"
+      ]],
+      body: tableData,
+      theme: "grid",
+      styles: {
+        fontSize: 9,
+        halign: "center",
+        valign: "middle"
+      },
+      headStyles:{
+        fillColor:[11,94,215],
+        textColor:255
+      }
+    });
+
+    // ===== Signature =====
+    let y = doc.lastAutoTable.finalY + 20;
+    doc.text("_____________________",150,y);
+    doc.text("Headmaster",155,y+6);
+
+    doc.save("Student_List.pdf");
+  });
+}
+
+let previewDoc = null;
+
+function createStudentPDF(){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF("p","mm","a4");
+
+  // ===== Header =====
+  doc.setFontSize(14);
+  doc.text("Gobindapur Govt. High School",105,15,{align:"center"});
+  doc.setFontSize(11);
+  doc.text("Student Information List",105,22,{align:"center"});
+
+  let tableData = [];
+  let sl = 1;
+
+  return db.ref("students").once("value").then(snap=>{
+    snap.forEach(c=>{
+      let d = c.val();
+      tableData.push([
+        sl++,
+        d.name || "",
+        d.roll || "",
+        d.class || "",
+        d.section || "",
+        d.phone || ""
+      ]);
+    });
+
+    doc.autoTable({
+      startY: 30,
+      head: [[
+        "ক্রমিক",
+        "নাম",
+        "রোল",
+        "ক্লাস",
+        "শাখা",
+        "মোবাইল"
+      ]],
+      body: tableData,
+      theme: "grid",
+      styles:{
+        fontSize:9,
+        halign:"center"
+      },
+      headStyles:{
+        fillColor:[11,94,215],
+        textColor:255
+      }
+    });
+
+    let y = doc.lastAutoTable.finalY + 15;
+    doc.text("_____________________",150,y);
+    doc.text("Headmaster",155,y+6);
+
+    return doc;
+  });
+}
+
+// 👁 Preview
+function previewStudentPDF() {
+  if(!admin){ alert("Admin only"); return; }
+
+  db.ref("students").once("value").then(snap => {
+    const doc = new jspdf.jsPDF();
+    const data = [];
+    snap.forEach(c => {
+      let d = c.val();
+      data.push([d.name, d.class, d.roll, d.section, d.phone]);
+    });
+
+    doc.autoTable({ head:[['Name','Class','Roll','Section','Phone']], body: data });
+
+    const pdfBlob = doc.output('bloburl');
+    document.getElementById('pdfFrame').src = pdfBlob;
+    document.getElementById('pdfPreviewBox').style.display = "block";
+  });
+}
+
+function downloadPreviewPDF() {
+  if(!admin){ alert("Admin only"); return; }
+
+  const doc = new jspdf.jsPDF();
+  db.ref("students").once("value").then(snap => {
+    const data = [];
+    snap.forEach(c => {
+      let d = c.val();
+      data.push([d.name, d.class, c.roll, d.section, d.phone]);
+    });
+
+    doc.autoTable({ head:[['Name','Class','Roll','Section','Phone']], body: data });
+    doc.save("Students.pdf");
   });
 }
 </script> 
