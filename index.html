@@ -1,33 +1,1690 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <title>Notice</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f2f2f2;
-            font-family: Arial, sans-serif;
-        }
-        .message-box {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        h2 {
-            color: #d9534f;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gobindapur Govt. High School</title> 
+
+<style>
+body{margin:0;font-family:Arial;background:#f4f6f8}
+.hero{position:relative;height:220px}
+.hero img{width:100%;height:100%;object-fit:cover}
+.hero-text{
+position:absolute;inset:0;
+background:rgba(0,0,0,.55);
+color:#fff;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center
+}
+nav{background:#084298;padding:10px;text-align:center}
+nav button{
+background:#0b5ed7;color:#fff;border:none;
+padding:10px 16px;margin:4px;
+border-radius:20px;font-size:14px
+}
+.container{padding:15px}
+.card{
+background:#fff;padding:15px;border-radius:12px;
+box-shadow:0 3px 6px rgba(0,0,0,.15);
+margin-bottom:15px
+}
+select,input,button{width:100%;padding:10px;margin:6px 0}
+.admin{background:#eef;padding:10px;border-radius:10px;margin-top:10px;display:none}
+.list li{margin:6px 0}
+.list button{background:red;color:#fff;border:none;border-radius:12px;padding:4px 10px}
+.fade{animation:fade .5s ease}
+@keyframes fade{
+from{opacity:0;transform:scale(.95)}
+to{opacity:1;transform:scale(1)}
+}
+footer{background:#0b5ed7;color:#fff;text-align:center;padding:10px}
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px
+}
+th,td{
+border:1px solid #ccc;
+padding:8px;
+text-align:center
+}
+th{
+background:#0b5ed7;
+color:#fff
+}
+
+/* ========= BEAUTIFUL BUTTON DESIGN ========= */
+
+/* সব বাটনের জন্য */
+button{
+  background: linear-gradient(135deg, #0d6efd, #0b5ed7);
+  color: #fff;
+  border: none;
+  padding: 12px 18px;
+  margin: 6px 0;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 6px 12px rgba(0,0,0,.2);
+  transition: all .3s ease;
+}
+
+/* Hover করলে */
+button:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 10px 18px rgba(0,0,0,.25);
+}
+
+/* Click করলে */
+button:active{
+  transform: scale(.95);
+}
+
+/* Navigation বাটন (উপরে মেনু) */
+nav button{
+  background: linear-gradient(135deg, #20c997, #0d6efd);
+  border-radius: 25px;
+  padding: 10px 16px;
+  font-size: 13px;
+}
+
+/* Delete (X) বাটন */
+.list button{
+  background: linear-gradient(135deg, #dc3545, #b02a37);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+/* ===== Student Result Card ===== */
+.student-card{
+  margin-top:12px;
+  padding:15px;
+  border-radius:15px;
+  background:linear-gradient(135deg,#e3f2fd,#ffffff);
+  box-shadow:0 6px 15px rgba(0,0,0,.15);
+  animation:fade .4s ease;
+}
+
+.student-card h3{
+  margin:0 0 8px;
+  color:#0b5ed7;
+}
+
+.student-card p{
+  margin:4px 0;
+  font-size:14px;
+}
+
+.not-found{
+  margin-top:10px;
+  padding:12px;
+  border-radius:12px;
+  background:#ffe5e5;
+  color:#b02a37;
+  font-weight:bold;
+  text-align:center;
+}
+
+/* Teacher Card Style */
+.teacher-card{
+  background: linear-gradient(135deg,#e3f2fd,#ffffff);
+  padding: 12px;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0,0,0,.15);
+  margin: 10px 0;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.teacher-card:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0,0,0,.25);
+}
+
+.teacher-card h3{
+  margin:0 0 6px;
+  color:#0b5ed7;
+  font-size:16px;
+}
+
+.teacher-card p{
+  margin:2px 0;
+  font-size:14px;
+}
+
+/* ===== DARK MODE ===== */
+body.dark{
+  background:#121212;
+  color:#e0e0e0;
+}
+
+body.dark nav{
+  background:#1f1f1f;
+}
+
+body.dark .card{
+  background:#1e1e1e;
+  color:#e0e0e0;
+  box-shadow:0 6px 15px rgba(0,0,0,.6);
+}
+
+body.dark footer{
+  background:#1f1f1f;
+  color:#ccc;
+}
+
+body.dark input,
+body.dark select{
+  background:#2a2a2a;
+  color:#fff;
+  border:1px solid #444;
+}
+
+body.dark table th{
+  background:#0d6efd;
+}
+
+body.dark table td{
+  background:#1e1e1e;
+  color:#fff;
+  border-color:#333;
+}
+
+body.dark .admin{
+  background:#1b1b1b;
+  border:2px dashed #0d6efd;
+}
+
+body.dark .teacher-card,
+body.dark .student-card{
+  background:linear-gradient(135deg,#1e1e1e,#2a2a2a);
+}
+
+body.dark .not-found{
+  background:#3a1a1a;
+  color:#ff8a8a;
+}
+
+/* ===== Floating Dark Mode Button ===== */
+#darkBtn{
+  position:fixed;
+  top:15px;
+  right:15px;
+  z-index:2000;
+
+  width:45px;
+  height:45px;
+  border-radius:50%;
+
+  font-size:18px;
+  padding:0;
+
+  background:linear-gradient(135deg,#0d6efd,#0b5ed7);
+  box-shadow:0 6px 15px rgba(0,0,0,.4);
+}
+
+#darkBtn{
+  cursor:grab;
+}
+
+#darkBtn:active{
+  cursor:grabbing;
+}
+
+/* Dark mode এ বাটন আলাদা দেখাবে */
+body.dark #darkBtn{
+  background:linear-gradient(135deg,#ffc107,#ff9800);
+  color:#000;
+}
+
+.bottom-nav button.active{
+  color:#20c997;
+  transform:scale(1.1);
+}
+
+/* ===== Bottom Navigation (Mobile App Style) ===== */
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:60px;
+
+  background:#ffffff;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+
+  box-shadow:0 -4px 12px rgba(0,0,0,.2);
+  z-index:1500;
+}
+
+/* Bottom nav button */
+.bottom-nav button{
+  background:none;
+  box-shadow:none;
+  border-radius:0;
+  padding:4px 0;
+  font-size:20px;
+  color:#0b5ed7;
+}
+
+/* Text under icon */
+.bottom-nav span{
+  display:block;
+  font-size:11px;
+  margin-top:2px;
+}
+
+/* Dark mode support */
+body.dark .bottom-nav{
+  background:#1f1f1f;
+}
+
+body.dark .bottom-nav button{
+  color:#fff;
+}
+
+/* Mobile only */
+@media (min-width:768px){
+  .bottom-nav{
+    display:none;
+  }
+}
+
+/* Footer hide under bottom nav */
+footer{
+  margin-bottom:60px;
+}
+
+#myRoutine h4{
+  margin-top:15px;
+  color:#2c3e50;
+}
+
+#myRoutine table{
+  width:100%;
+  border-collapse:collapse;
+  margin-bottom:20px;
+}
+
+#myRoutine th, #myRoutine td{
+  border:1px solid #ddd;
+  padding:8px;
+  text-align:center;
+}
+
+#myRoutine th{
+  background:#f1f3f6;
+}
+
+/* ===== Floating AI Button ===== */
+#aiBtn{
+  position:fixed;
+  top:70px;              /* Dark button এর নিচে থাকবে */
+  right:15px;
+  z-index:2000;
+
+  width:60px;            /* 🔥 একটু বড় */
+  height:60px;
+  border-radius:50%;
+
+  font-size:26px;
+  padding:0;
+
+  background:linear-gradient(135deg,#20c997,#0d6efd);
+  box-shadow:0 6px 15px rgba(0,0,0,.4);
+
+  cursor:pointer;
+  transition:all .3s ease;
+}
+
+/* Hover effect */
+#aiBtn:hover{
+  transform:scale(1.1);
+}
+
+/* Active click */
+#aiBtn:active{
+  transform:scale(.95);
+}
+
+/* Dark mode এ আলাদা রং */
+body.dark #aiBtn{
+  background:linear-gradient(135deg,#ffc107,#ff9800);
+  color:#000;
+}
+</style>
+
 </head>
 <body>
-    <div class="message-box">
-        <h2>দুঃখিত!</h2>
-        <p>সার্ভার সমস্যার জন্য Apps টি কয়েকদিনের জন্য বন্ধ থাকবে।</p>
-    </div>
+
+
+<!-- Admin-only Homework Button -->
+<button id="hwBtn" onclick="show('homework')" style="display:none">
+📚 Homework
+</button>
+<button id="darkBtn" onclick="toggleDark()">🌙</button>
+<button id="aiBtn" onclick="show('ai')">🤖</button>
+<header class="hero">
+<img src="school.jpg">
+<div class="hero-text">
+<h1>Gobindapur Govt. High School</h1>
+<p>Official School Website</p>
+</div>
+</header> 
+
+<nav>
+  <button onclick="show('notice')">📢 Notice</button>
+  <button onclick="show('news')">📰 News</button>
+  <button onclick="show('student')">👨‍🎓 Student</button>
+  <button onclick="show('teacher')">👩‍🏫 Teacher</button>
+  <button onclick="show('result')">📊 Result</button>
+  <button onclick="show('routine')">📅 Routine</button>
+  <button onclick="show('auth')">📝🔑 Register/Login</button> <!-- এখানে নাম পরিবর্তন -->
+  <button onclick="show('admin')">🔐 Admin</button>
+</nav>
+
+<div class="container"> 
+
+<div class="card section" id="notice">
+<h2>📢 নোটিশ</h2>
+<ul id="noticeList" class="list"></ul>
+<div class="admin">
+<input id="noticeInput" placeholder="নোটিশ লিখুন">
+<button onclick="addNotice()">Add</button>
+</div>
+</div> 
+
+<div class="card section" id="homework" style="display:none">
+  <h2>📚 বাড়ির কাজ</h2>
+
+  <!-- Student View -->
+  <div id="homeworkList"></div>
+
+  <!-- Admin Panel -->
+  <div class="admin">
+    <h3>➕ Add Homework</h3>
+
+    <select id="hwClass">
+      <option value="">ক্লাস নির্বাচন</option>
+      <option>6</option><option>7</option><option>8</option>
+      <option>9</option><option>10</option>
+    </select>
+
+    <input id="hwSubject" placeholder="বিষয়">
+    <textarea id="hwText" placeholder="বাড়ির কাজ লিখুন" style="width:100%;height:80px"></textarea>
+    <input id="hwDate" type="date">
+
+    <button onclick="addHomework()">Add Homework</button>
+  </div>
+</div>
+
+<div class="card section" id="ai" style="display:none">
+  <h2>🤖 School AI Assistant</h2>
+
+  <!-- ✅ সবার জন্য -->
+  <ul id="aiQuestionList" class="list"></ul>
+
+  <!-- AI Answer Box -->
+  <div id="aiAnswerBox" class="student-card" style="display:none">
+    <h3>🤖 AI Answer</h3>
+    <p id="aiAnswerText"></p>
+  </div>
+
+  <!-- Admin Panel -->
+  <div class="admin">
+    <h3>➕ Add AI Question & Answer</h3>
+    <input id="aiQ" placeholder="প্রশ্ন লিখুন">
+    <textarea id="aiA" placeholder="উত্তর লিখুন" style="width:100%;height:80px"></textarea>
+    <button onclick="addAIQA()">Add</button>
+  </div>
+</div>
+
+<div class="card section" id="news" style="display:none">
+<h2>📰 খবর</h2>
+<ul id="newsList" class="list"></ul>
+<div class="admin">
+<input id="newsInput" placeholder="খবর লিখুন">
+<button onclick="addNews()">Add</button>
+</div>
+</div> 
+
+<div class="card section" id="student" style="display:none">
+<h2>👨‍🎓 শিক্ষার্থী</h2> 
+
+<select id="sClass">
+<option value="">ক্লাস নির্বাচন</option>
+<option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+</select> 
+
+<select id="sRoll">
+<option value="">রোল নির্বাচন</option>
+</select> 
+
+<select id="sSection">
+<option value="">শাখা নির্বাচন</option>
+<option>Science</option><option>Arts</option><option>A</option><option>B</option>
+</select> 
+
+<button onclick="findStudent()">Search</button>
+<div id="studentResult"></div> 
+
+<div class="admin">
+<input id="sn" placeholder="নাম">
+<input id="sc" placeholder="ক্লাস">
+<input id="sr" placeholder="রোল">
+<input id="ss" placeholder="শাখা">
+<button onclick="addStudent()">Add</button>
+<ul id="studentList" class="list"></ul>
+</div>
+</div> 
+
+<div class="card section" id="teacher" style="display:none">
+<h2>👩‍🏫 শিক্ষক</h2>
+<ul id="teacherList" class="list"></ul>
+<div class="admin">
+<input id="tName" placeholder="নাম">
+<input id="tSub" placeholder="বিষয়">
+<input id="tPhone" placeholder="মোবাইল নম্বর">
+<button onclick="addTeacher()">Add</button>
+</div>
+</div> 
+
+<div class="card section" id="result" style="display:none">
+<h2>📊 রেজাল্ট</h2> 
+
+<select id="rClass">
+<option value="">ক্লাস নির্বাচন</option>
+<option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+</select> 
+
+<select id="rRoll">
+<option value="">রোল নির্বাচন</option>
+</select> 
+
+<select id="rSection">
+<option value="">শাখা নির্বাচন</option>
+<option>Science</option><option>Arts</option><option>A</option><option>B</option>
+</select> 
+
+<button onclick="findResult()">Search</button>
+<div id="resultOutput"></div> 
+
+<div class="admin">
+<input id="resName" placeholder="নাম">
+<input id="resClass" placeholder="ক্লাস">
+<input id="resRoll" placeholder="রোল">
+<input id="resSection" placeholder="শাখা">
+<input id="resPos" placeholder="স্থান (১ম/২য়/৩য়)">
+<input id="resMarks" placeholder="নম্বর"> 
+
+<button onclick="addResult()">Add</button> 
+
+<ul id="resultList" class="list"></ul>
+</div> 
+
+</div>   <!-- ⭐ এই লাইনটা তুমি যোগ করবে --> 
+
+<div class="card section" id="routine" style="display:none">
+<h2>📅 ক্লাস রুটিন</h2> 
+
+<select id="rtClass">
+<option value="">ক্লাস নির্বাচন</option>
+<option>6</option><option>7</option><option>8</option>
+<option>9</option><option>10</option>
+</select> 
+
+<select id="searchDay">
+<option value="">সব বার</option>
+<option>রবি</option>
+<option>সোম</option>
+<option>মঙ্গল</option>
+<option>বুধ</option>
+<option>বৃহঃ</option>
+</select> 
+
+<button onclick="loadRoutine()">Show Routine</button> 
+
+<div id="routineTable"></div> 
+
+<div class="admin">
+<h3>➕ রুটিন যোগ করুন</h3> 
+
+<select id="addRtClass">
+<option value="">ক্লাস নির্বাচন</option>
+<option>6</option>
+<option>7</option>
+<option>8</option>
+<option>9</option>
+<option>10</option>
+</select> 
+
+<select id="rtDay">
+<option value="">বার নির্বাচন</option>
+<option>রবি</option>
+<option>সোম</option>
+<option>মঙ্গল</option>
+<option>বুধ</option>
+<option>বৃহঃ</option>
+</select> 
+
+<input id="rtPeriod" placeholder="পিরিয়ড (১ম / ২য়)">
+<input id="rtSub" placeholder="বিষয়">
+<input id="rtTeacher" placeholder="শিক্ষক"> 
+
+<button onclick="addRoutine()">Add Routine</button>
+</div>
+</div> 
+
+<div class="card section" id="admin" style="display:none">
+<h2>🔐 Admin Login</h2>
+<h3>⏳ Pending Student Approval</h3>
+<ul id="pendingList" class="list"></ul>
+<input id="user" placeholder="Username">
+<input id="pass" type="password" placeholder="Password">
+
+<button onclick="login()">Login</button>
+<button onclick="logout()">Logout</button>
+<!-- Admin Panel Buttons -->
+<div id="adminPanel" class="admin">
+  <button class="admin-only" onclick="autoFixOldStudents()" style="display:none">
+    🛠 Auto Fix Old Students
+  </button>
+
+  <button class="admin-only" onclick="previewStudentPDF()" style="display:none">
+    👁 Preview Student PDF
+  </button>
+</div>
+
+<div id="pdfPreviewBox" style="display:none;margin-top:15px">
+  <iframe id="pdfFrame" style="width:100%;height:500px;border:1px solid #ccc"></iframe>
+  <button onclick="downloadPreviewPDF()">⬇ Download PDF</button>
+</div>
+<p id="status"></p>
+</div> 
+
+<div class="card section" id="auth" style="display:none">
+  <h2>📝 Student Signup / Login</h2>
+
+  <!-- Signup -->
+  <h3>Signup</h3>
+  <input id="upName" placeholder="নাম">
+  <input id="upClass" placeholder="ক্লাস">
+  <input id="upRoll" placeholder="রোল">
+  <input id="upSection" placeholder="শাখা">
+  <input id="upPhone" placeholder="মোবাইল নম্বর">
+  <button onclick="signup()">Submit</button>
+  <p id="signupMsg"></p>
+
+  <hr>
+
+  <!-- Login -->
+  <h3>Login</h3>
+  <input id="loginClass" placeholder="ক্লাস">
+  <input id="loginRoll" placeholder="রোল">
+  <select id="loginSection">
+  <option value="">শাখা নির্বাচন</option>
+  <option value="science">Science</option>
+  <option value="arts">Arts</option>
+  <option value="a">A</option>
+  <option value="b">B</option>
+</select>
+  <input id="loginPhone" placeholder="মোবাইল নম্বর">
+  <button onclick="studentLogin()">Login</button>
+  <button id="dashBtn" onclick="showStudentDashboard()" style="display:none">
+📘 Dashboard
+</button>
+  <p id="loginMsg"></p>
+</div>
+
+ <div class="card section" id="studentDash" style="display:none">
+  <h2>👨‍🎓 Student Dashboard</h2>
+
+  <div id="myInfo"></div>
+
+  <h3>📊 My Result</h3>
+  <div id="myResult"></div>
+  
+  <h3>📚 My Homework</h3>
+<div id="myHomework"></div>
+
+  <h3>📅 My Class Routine</h3>
+  <div id="myRoutine"></div>
+
+  <button onclick="studentLogout()">Logout</button>
+</div>
+
+<!-- ===== Bottom Navigation ===== -->
+<div class="bottom-nav">
+  <button onclick="show('notice')">📢<span>Notice</span></button>
+  <button onclick="show('student')">👨‍🎓<span>Student</span></button>
+  <button onclick="show('teacher')">👩‍🏫<span>Teacher</span></button>
+  <button onclick="show('result')">📊<span>Result</span></button>
+  <button onclick="show('routine')">📅<span>Routine</span></button>
+</div>
+
+<footer>© 2026 Gobindapur Govt. High School</footer> 
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+
+<script>
+firebase.initializeApp({
+apiKey:"AIzaSyA0loay6NSdcRQJ5q_qWCbvzQW10rgErV4",
+databaseURL:"https://gghs-fcfe6-default-rtdb.firebaseio.com"
+});
+const db=firebase.database(); 
+
+let aiTypingTimer = null; // 🔹 AI typing control
+
+const ADMIN_USER="HKuk12";
+const ADMIN_PASS="HKuk12@#*";
+let admin=false; 
+
+for(let i=1;i<=150;i++){
+sRoll.innerHTML+=`<option>${i}</option>`;
+rRoll.innerHTML+=`<option>${i}</option>`;
+} 
+
+function show(id){
+  document.querySelectorAll('.section').forEach(s=>{
+    s.style.display="none";
+    s.classList.remove("fade");
+  });
+
+  let el = document.getElementById(id);
+  el.style.display="block";
+  void el.offsetWidth;
+  el.classList.add("fade");
+
+  // 🔒 Homework page restriction
+  if(id === "homework"){
+    // ❌ Public block
+    if(!studentLoggedIn && !admin){
+      alert("Homework দেখতে Student Login প্রয়োজন");
+      show('auth');
+      return;
+    }
+    loadHomework();
+  }
+}
+
+function login(){
+  if(user.value===ADMIN_USER && pass.value===ADMIN_PASS){
+    admin=true;
+    status.innerText="Logged In";
+
+    // সব Admin panel দেখাবে
+    document.querySelectorAll('.admin').forEach(a=>a.style.display="block");
+
+    // Admin-only বাটনগুলো দেখাবে
+    document.querySelectorAll('.admin-only').forEach(b=>b.style.display="inline-block");
+
+    loadAll();
+    loadPending(); 
+    loadAI();
+    show('notice');
+
+    // শুধু Admin-এর জন্য Homework বাটন দেখাবে
+    document.getElementById("hwBtn").style.display = "inline-block";
+
+  } else alert("Wrong Login");
+}
+
+function logout(){
+  admin=false;
+  status.innerText="Logged Out";
+
+  // সব Admin panel লুকাবে
+  document.querySelectorAll('.admin').forEach(a=>a.style.display="none");
+
+  // Admin-only বাটনগুলোও লুকাবে
+  document.querySelectorAll('.admin-only').forEach(b=>b.style.display="none");
+
+  pendingList.innerHTML="";
+  loadAll();
+
+  // Homework বাটন লুকাবে
+  document.getElementById("hwBtn").style.display = "none";
+
+  show('notice');
+}
+
+function del(path, key){
+if(!admin){
+  alert("Admin only");
+  return;
+} 
+
+firebase.database().ref(path + "/" + key).remove()
+.then(()=>{
+  alert("Deleted Successfully"); 
+
+  // যদি রুটিন হয়, তাহলে রুটিন আবার লোড
+  if(path === "routines"){
+   loadRoutine();
+  }
+})
+.catch(err=>{
+  alert("Delete failed: " + err.message);
+});
+} 
+
+function addNotice(){ if(admin) db.ref("notices").push({text:noticeInput.value}); }
+function addNews(){ if(admin) db.ref("news").push({text:newsInput.value}); }
+function addStudent(){ if(admin) db.ref("students").push({name:sn.value,class:sc.value,roll:sr.value,section:ss.value}); }
+function addTeacher(){
+if(admin){
+  db.ref("teachers").push({
+   name: tName.value,
+   sub: tSub.value,
+   phone: tPhone.value
+  });
+  tName.value="";
+  tSub.value="";
+  tPhone.value="";
+}
+}
+function addResult(){
+if(!admin){
+  alert("Admin only");
+  return;
+} 
+
+db.ref("results").push({
+  name: resName.value,
+  class: resClass.value,
+  roll: resRoll.value,
+  section: resSection.value,
+  position: resPos.value,
+  marks: resMarks.value
+}); 
+
+resName.value="";
+resClass.value="";
+resRoll.value="";
+resSection.value="";
+resPos.value="";
+resMarks.value="";
+} 
+
+function load(path,list,template){
+db.ref(path).on("value",snap=>{
+  list.innerHTML="";
+  snap.forEach(c=>{
+   list.innerHTML+=template(c);
+  });
+});
+} 
+
+function loadAll(){
+load("notices",noticeList,c=>`<li>${c.val().text}${admin?` <button onclick="del('notices','${c.key}')">X</button>`:""}</li>`);
+load("news",newsList,c=>`<li>${c.val().text}${admin?` <button onclick="del('news','${c.key}')">X</button>`:""}</li>`);
+load("teachers", teacherList, c => `
+<div class="teacher-card">
+  <h3>${c.val().name}</h3>
+  <p><b>বিষয়:</b> ${c.val().sub}</p>
+  <p>📞 ${c.val().phone || "নেই"}</p>
+  ${admin ? `<button onclick="del('teachers','${c.key}')">X</button>` : ""}
+</div>
+`);
+load("students",studentList,c=>`<li>${c.val().name} | ${c.val().class}-${c.val().roll}${admin?` <button onclick="del('students','${c.key}')">X</button>`:""}</li>`);
+load("results", resultList, c => `
+<li>
+<b>${c.val().name}</b><br>
+ক্লাস: ${c.val().class} |
+রোল: ${c.val().roll} |
+শাখা: ${c.val().section}<br>
+স্থান: ${c.val().position} |
+নম্বর: ${c.val().marks}
+${admin ? ` <button onclick="del('results','${c.key}')">X</button>` : ""}
+</li>
+`);
+} 
+
+loadAll(); 
+
+function findStudent(){
+  studentResult.innerHTML = "<span style='color:red;font-weight:bold;'>Not Found!</span>";
+  
+  const cls = sClass.value.trim();
+  const roll = sRoll.value.trim();
+  const section = sSection.value.trim().toLowerCase(); // lowercase
+
+  db.ref("students").once("value", s=>{
+    s.forEach(c=>{
+      let d = c.val();
+
+      let dClass = String(d.class).trim();
+      let dRoll = String(d.roll).trim();
+      let dSection = String(d.section).trim().toLowerCase(); // lowercase
+
+      if(dClass === cls && dRoll === roll && dSection === section){
+        studentResult.innerHTML = `
+        <div class="student-card">
+          <h3>👨‍🎓 ${d.name}</h3>
+          <p><b>ক্লাস:</b> ${d.class}</p>
+          <p><b>রোল:</b> ${d.roll}</p>
+          <p><b>শাখা:</b> ${d.section}</p>
+        </div>
+        `;
+      }
+    });
+  });
+}
+
+function findResult(){
+resultOutput.innerHTML = "<span style='color:red;font-weight:bold;'>Not Found!</span>";
+
+db.ref("results").once("value", s=>{
+  s.forEach(c=>{
+   let d=c.val();
+   if(
+    d.class===rClass.value &&
+    d.roll===rRoll.value &&
+    d.section===rSection.value
+   ){
+    resultOutput.innerHTML=`
+    <b>নাম:</b> ${d.name}<br>
+    <b>ক্লাস:</b> ${d.class}<br>
+    <b>রোল:</b> ${d.roll}<br>
+    <b>শাখা:</b> ${d.section}<br>
+    <b>স্থান:</b> ${d.position}<br>
+    <b>নম্বর:</b> ${d.marks}
+    `;
+   }
+  });
+});
+} 
+
+const addRtClass = document.getElementById("addRtClass"); 
+
+function addRoutine(){
+if(!admin){
+  alert("Admin only");
+  return;
+} 
+
+if(!addRtClass.value || !rtDay.value || !rtPeriod.value || !rtSub.value || !rtTeacher.value){
+  alert("সব ফিল্ড পূরণ করো");
+  return;
+} 
+
+db.ref("routines").push({
+  class: addRtClass.value,
+  day: rtDay.value,
+  period: rtPeriod.value,
+  subject: rtSub.value,
+  teacher: rtTeacher.value
+}); 
+
+alert("Routine Added"); 
+
+rtPeriod.value="";
+rtSub.value="";
+rtTeacher.value="";
+} 
+
+function loadRoutine(){
+routineTable.innerHTML = ""; 
+
+let cls = rtClass.value;
+let dayFilter = document.getElementById("searchDay").value; 
+
+if(!cls){
+  alert("ক্লাস নির্বাচন করো");
+  return;
+} 
+
+let html = `
+<table>
+  <tr>
+   <th>বার</th>
+   <th>পিরিয়ড</th>
+   <th>বিষয়</th>
+   <th>শিক্ষক</th>
+   <th>Action</th>
+  </tr>`; 
+
+db.ref("routines").once("value")
+.then(snapshot=>{
+  snapshot.forEach(c=>{
+   let d = c.val(); 
+
+   if(d.class === cls && (dayFilter === "" || d.day === dayFilter)){
+    html += `
+    <tr>
+     <td>${d.day}</td>
+     <td>${d.period}</td>
+     <td>${d.subject}</td>
+     <td>${d.teacher}</td>
+     <td>
+ ${admin ? `
+ <button onclick="editRoutine(
+  '${c.key}',
+  '${d.period}',
+  '${d.subject}',
+  '${d.teacher}'
+ )">Edit</button>
+
+ <button onclick="del('routines','${c.key}')">Delete</button>
+ ` : ""}
+</td>
+    </tr>`;
+   }
+  }); 
+
+  html += "</table>";
+  routineTable.innerHTML = html;
+});
+}
+
+function editRoutine(key, oldPeriod, oldSub, oldTeacher){
+ if(!admin){
+  alert("Admin only");
+  return;
+ }
+
+ let newPeriod = prompt("নতুন পিরিয়ড লিখুন:", oldPeriod);
+ let newSub = prompt("নতুন বিষয় লিখুন:", oldSub);
+ let newTeacher = prompt("নতুন শিক্ষক লিখুন:", oldTeacher);
+
+ if(newPeriod && newSub && newTeacher){
+  db.ref("routines/" + key).update({
+   period: newPeriod,
+   subject: newSub,
+   teacher: newTeacher
+  }).then(()=>{
+   alert("Routine Updated");
+   loadRoutine();
+  });
+ }
+}
+
+function toggleDark(){
+  document.body.classList.toggle("dark");
+
+  if(document.body.classList.contains("dark")){
+    localStorage.setItem("theme","dark");
+  }else{
+    localStorage.setItem("theme","light");
+  }
+}
+
+/* Page reload হলেও theme থাকবে */
+if(localStorage.getItem("theme")==="dark"){
+  document.body.classList.add("dark");
+}
+
+/* ===== DRAGGABLE DARK BUTTON ===== */
+const darkBtn = document.getElementById("darkBtn");
+
+let isDrag = false, offsetX = 0, offsetY = 0;
+
+darkBtn.addEventListener("mousedown", startDrag);
+darkBtn.addEventListener("touchstart", startDrag);
+
+function startDrag(e){
+  isDrag = true;
+  const rect = darkBtn.getBoundingClientRect();
+  const x = e.touches ? e.touches[0].clientX : e.clientX;
+  const y = e.touches ? e.touches[0].clientY : e.clientY;
+  offsetX = x - rect.left;
+  offsetY = y - rect.top;
+}
+
+document.addEventListener("mousemove", drag);
+document.addEventListener("touchmove", drag);
+
+function drag(e){
+  if(!isDrag) return;
+  const x = e.touches ? e.touches[0].clientX : e.clientX;
+  const y = e.touches ? e.touches[0].clientY : e.clientY;
+
+  darkBtn.style.left = (x - offsetX) + "px";
+  darkBtn.style.top  = (y - offsetY) + "px";
+  darkBtn.style.right = "auto";
+}
+
+document.addEventListener("mouseup", stopDrag);
+document.addEventListener("touchend", stopDrag);
+
+function stopDrag(){
+  isDrag = false;
+}
+
+/* Bottom nav active state */
+document.querySelectorAll(".bottom-nav button").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".bottom-nav button")
+    .forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+  });
+});
+
+function signup(){
+  if(
+    !upName.value || !upClass.value ||
+    !upRoll.value || !upSection.value || !upPhone.value
+  ){
+    alert("সব ফিল্ড পূরণ করো");
+    return;
+  }
+
+  db.ref("pendingStudents").push({
+  name: upName.value,
+  class: upClass.value,
+  roll: upRoll.value,
+  section: upSection.value.toLowerCase(), // ✅
+  phone: upPhone.value
+});
+
+  signupMsg.innerText = "✅ আবেদন জমা হয়েছে, Admin approval অপেক্ষায়";
+  
+  upName.value="";
+  upClass.value="";
+  upRoll.value="";
+  upSection.value="";
+  upPhone.value="";
+}
+
+function approveStudent(key, name, cls, roll, section, phone){
+  if(!admin){
+    alert("Admin only");
+    return;
+  }
+
+  db.ref("students").push({
+    name: name,
+    class: cls,
+    roll: roll,
+    section: section.toLowerCase(),
+    phone: phone
+  });
+
+  db.ref("pendingStudents/" + key).remove();
+  alert("✅ Student Approved & Added");
+}
+
+function loadPending() {
+  if(!admin) {
+    pendingList.innerHTML = ""; // Admin না হলে খালি দেখাবে
+    return;
+  }
+
+  db.ref("pendingStudents").on("value", snap => {
+    pendingList.innerHTML = "";
+    snap.forEach(c => {
+      pendingList.innerHTML += `
+        <li>
+          ${c.val().name} | ${c.val().class}-${c.val().roll}
+         <button onclick="approveStudent(
+  '${c.key}',
+  '${c.val().name}',
+  '${c.val().class}',
+  '${c.val().roll}',
+  '${c.val().section}',
+  '${c.val().phone}'  // ✅ phone পাঠানো
+)">Approve</button>
+
+          <button onclick="cancelStudent(
+            '${c.key}'
+          )" style="background:#dc3545;margin-left:5px;">Cancel</button>
+        </li>
+      `;
+    });
+  });
+}
+
+function cancelStudent(key){
+  if(!admin){
+    alert("Admin only");
+    return;
+  }
+
+  if(confirm("এই আবেদন বাতিল করতে চাও?")){
+    db.ref("pendingStudents/" + key).remove()
+    .then(()=>{
+      alert("❌ Student Signup Cancelled");
+      loadPending(); // লিস্ট refresh হবে
+    })
+    .catch(err=>{
+      alert("Cancel failed: " + err.message);
+    });
+  }
+}
+
+let studentLoggedIn = null; // লগিন স্টেট ট্র্যাক করবে
+
+function studentLogin(){
+  const cls = loginClass.value.trim();
+  const roll = loginRoll.value.trim();
+  const section = loginSection.value.trim().toLowerCase();
+  const phone = loginPhone.value.trim();
+
+  if(!cls || !roll || !section || !phone){
+    loginMsg.innerText = "সব ফিল্ড পূরণ করো!";
+    return;
+  }
+
+  db.ref("students").once("value").then(snap=>{
+    let found = false;
+
+    snap.forEach(c=>{
+      let d = c.val();
+
+      let dClass = String(d.class).trim();
+      let dRoll = String(d.roll).trim();
+      let dSection = String(d.section).trim().toLowerCase();
+      let dPhone = String(d.phone || "").trim();
+
+      if(
+        dClass === cls &&
+        dRoll === roll &&
+        dSection === section &&
+        (!dPhone || dPhone === phone)
+      ){
+        found = true;
+        studentLoggedIn = {
+          key: c.key,
+          ...d
+        };
+      }
+    });
+
+    if(found){
+  loginMsg.innerText = "✅ Logged In Successfully!";
+
+  // ✅ Dashboard button show হবে
+  document.getElementById("dashBtn").style.display = "block";
+  
+  document.getElementById("hwBtn").style.display = "inline-block";
+
+  // চাইলে সরাসরি Dashboard এ যাবে
+  showStudentDashboard();
+  show('studentDash');
+
+}else{
+      loginMsg.innerText = "❌ Login Failed: Approved student নয় বা তথ্য ভুল";
+    }
+  });
+}
+
+function showStudentDashboard(){
+  document.querySelectorAll('.section').forEach(s=>{
+    s.style.display = "none";
+    s.classList.remove("fade");
+  });
+
+  let el = document.getElementById("studentDash");
+  el.style.display = "block";
+  void el.offsetWidth;
+  el.classList.add("fade");
+
+  myInfo.innerHTML = `
+    <p><b>নাম:</b> ${studentLoggedIn.name}</p>
+    <p><b>ক্লাস:</b> ${studentLoggedIn.class}</p>
+    <p><b>রোল:</b> ${studentLoggedIn.roll}</p>
+    <p><b>শাখা:</b> ${studentLoggedIn.section}</p>
+    <p><b>মোবাইল:</b> ${studentLoggedIn.phone}</p>
+  `;
+
+  // ✅ এগুলো HTML এর বাইরে
+  loadMyResult();
+  loadMyRoutine();
+  loadMyHomework();
+}
+
+function studentLogout(){
+  studentLoggedIn = null;
+
+  // 🔴 Dashboard button hide হবে
+  document.getElementById("dashBtn").style.display = "none";
+  
+  document.getElementById("hwBtn").style.display = "none";
+
+  loginClass.value = "";
+  loginRoll.value = "";
+  loginSection.value = "";
+  loginPhone.value = "";
+  loginMsg.innerText = "";
+
+  show('auth'); // আবার Login / Signup দেখাবে
+}
+
+function autoFixOldStudents(){
+  if(!admin){
+    alert("Admin only");
+    return;
+  }
+
+  db.ref("students").once("value").then(snap=>{
+    snap.forEach(c=>{
+      let d = c.val();
+      let updates = {};
+
+      // phone না থাকলে placeholder
+      if(!d.phone){
+        updates.phone = "0000000000";
+      }
+
+      // section lowercase
+      if(d.section){
+        updates.section = String(d.section).toLowerCase();
+      }
+
+      if(Object.keys(updates).length > 0){
+        db.ref("students/" + c.key).update(updates);
+      }
+    });
+
+    alert("✅ Old students auto updated!");
+  });
+}
+function loadMyResult(){
+  myResult.innerHTML = "⏳ Loading...";
+
+  db.ref("results").once("value", snap=>{
+    let found = false;
+    myResult.innerHTML = "";
+
+    snap.forEach(c=>{
+      let d = c.val();
+
+      if(
+        String(d.class) === String(studentLoggedIn.class) &&
+        String(d.roll) === String(studentLoggedIn.roll) &&
+        String(d.section).toLowerCase() === String(studentLoggedIn.section).toLowerCase()
+      ){
+        found = true;
+        myResult.innerHTML = `
+          <div class="student-card">
+            <p><b>নাম:</b> ${d.name}</p>
+            <p><b>ক্লাস:</b> ${d.class}</p>
+            <p><b>রোল:</b> ${d.roll}</p>
+            <p><b>শাখা:</b> ${d.section}</p>
+            <p><b>স্থান:</b> ${d.position}</p>
+            <p><b>নম্বর:</b> ${d.marks}</p>
+          </div>
+        `;
+      }
+    });
+
+    if(!found){
+      myResult.innerHTML = "<p class='not-found'>❌ Result পাওয়া যায়নি</p>";
+    }
+  });
+}
+
+function loadMyRoutine(){
+  myRoutine.innerHTML = "⏳ Loading...";
+
+  let cls = String(studentLoggedIn.class);
+  let routineByDay = {};
+
+  db.ref("routines").once("value", snap=>{
+    snap.forEach(c=>{
+      let d = c.val();
+
+      if(String(d.class) === cls){
+        let day = d.day;
+
+        if(!routineByDay[day]){
+          routineByDay[day] = [];
+        }
+        routineByDay[day].push(d);
+      }
+    });
+
+    if(Object.keys(routineByDay).length === 0){
+      myRoutine.innerHTML = "<p class='not-found'>❌ Routine পাওয়া যায়নি</p>";
+      return;
+    }
+
+    let html = "";
+
+    for(let day in routineByDay){
+      html += `<h4>📅 ${day}</h4>`;
+      html += `
+      <table>
+        <tr>
+          <th>পিরিয়ড</th>
+          <th>বিষয়</th>
+          <th>শিক্ষক</th>
+        </tr>`;
+
+      routineByDay[day].forEach(r=>{
+        html += `
+        <tr>
+          <td>${r.period}</td>
+          <td>${r.subject}</td>
+          <td>${r.teacher}</td>
+        </tr>`;
+      });
+
+      html += "</table>";
+    }
+
+    myRoutine.innerHTML = html;
+  });
+}
+
+/* ===== AI QUESTION & ANSWER SYSTEM ===== */
+
+function addAIQA(){
+  if(!admin){
+    alert("Admin only");
+    return;
+  }
+
+  if(!aiQ.value || !aiA.value){
+    alert("প্রশ্ন ও উত্তর লিখুন");
+    return;
+  }
+
+  db.ref("aiQA").push({
+    question: aiQ.value,
+    answer: aiA.value
+  });
+
+  aiQ.value="";
+  aiA.value="";
+}
+
+/* Load AI Questions */
+function loadAI(){
+  db.ref("aiQA").on("value", snap=>{
+    aiQuestionList.innerHTML = "";
+
+    snap.forEach(c=>{
+      aiQuestionList.innerHTML += `
+        <li>
+          <b onclick="showAIAnswer('${c.key}', \`${c.val().answer}\`)">
+            ❓ ${c.val().question}
+          </b>
+          ${admin
+            ? `<button onclick="del('aiQA','${c.key}')">❌</button>`
+            : ""
+          }
+        </li>
+      `;
+    });
+  });
+}
+
+// ✅ page load এ call
+loadAI();
+/* Typing Effect AI Answer */
+function showAIAnswer(key, answer){
+  aiAnswerBox.style.display = "block";
+
+  // 🔴 আগের টাইপিং চললে বন্ধ করবে
+  if(aiTypingTimer){
+    clearTimeout(aiTypingTimer);
+    aiTypingTimer = null;
+  }
+
+  aiAnswerText.innerHTML = "";
+
+  let i = 0;
+  let speed = 25;
+
+  function type(){
+    if(i < answer.length){
+      aiAnswerText.innerHTML += answer.charAt(i);
+      i++;
+      aiTypingTimer = setTimeout(type, speed);
+    }
+  }
+
+  type();
+}
+
+function addHomework(){
+  if(!admin){
+    alert("Admin only");
+    return;
+  }
+
+  if(!hwClass.value || !hwSubject.value || !hwText.value || !hwDate.value){
+    alert("সব ফিল্ড পূরণ করো");
+    return;
+  }
+
+  db.ref("homeworks").push({
+    class: hwClass.value,
+    subject: hwSubject.value,
+    text: hwText.value,
+    date: hwDate.value
+  });
+
+  hwSubject.value="";
+  hwText.value="";
+  hwDate.value="";
+}
+
+function loadHomework() {
+  homeworkList.innerHTML = "";
+
+  db.ref("homeworks").once("value", snap => {
+    snap.forEach(c => {
+      let d = c.val();
+
+      if(admin){
+        // Admin view - show delete button
+        homeworkList.innerHTML += `
+          <div class="student-card">
+            <h3>📘 ${d.subject}</h3>
+            <p>${d.text}</p>
+            <p><b>তারিখ:</b> ${d.date}</p>
+            <button onclick="del('homeworks','${c.key}')">❌ Delete</button>
+          </div>
+        `;
+      } else if(studentLoggedIn && String(d.class) === String(studentLoggedIn.class)){
+        // Student view
+        homeworkList.innerHTML += `
+          <div class="student-card">
+            <h3>📘 ${d.subject}</h3>
+            <p>${d.text}</p>
+            <p><b>তারিখ:</b> ${d.date}</p>
+          </div>
+        `;
+      }
+    });
+  });
+}
+
+function loadMyHomework(){
+  myHomework.innerHTML = "";
+
+  db.ref("homeworks").once("value", snap=>{
+    let found = false;
+
+    snap.forEach(c=>{
+      let d = c.val();
+      if(String(d.class) === String(studentLoggedIn.class)){
+        found = true;
+        myHomework.innerHTML += `
+          <div class="student-card">
+            <p><b>${d.subject}</b></p>
+            <p>${d.text}</p>
+            <p>📅 ${d.date}</p>
+          </div>
+        `;
+      }
+    });
+
+    if(!found){
+      myHomework.innerHTML = "<p class='not-found'>কোনো বাড়ির কাজ নেই</p>";
+    }
+  });
+}
+
+function downloadStudentPDF(){
+  if(!admin){
+    alert("Admin only");
+    return;
+  }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF("p","mm","a4");
+
+  // ===== Header =====
+  doc.setFontSize(14);
+  doc.text("Gobindapur Govt. High School",105,15,{align:"center"});
+  doc.setFontSize(11);
+  doc.text("Student Information List",105,22,{align:"center"});
+
+  // ===== Table =====
+  let tableData = [];
+  let count = 1;
+
+  db.ref("students").once("value",snap=>{
+    snap.forEach(c=>{
+      let d = c.val();
+      tableData.push([
+        count++,
+        d.name || "",
+        d.roll || "",
+        d.class || "",
+        d.section || "",
+        d.phone || ""
+      ]);
+    });
+
+    doc.autoTable({
+      startY: 30,
+      head: [[
+        "ক্রমিক নং",
+        "নাম",
+        "রোল",
+        "ক্লাস",
+        "শাখা",
+        "মোবাইল"
+      ]],
+      body: tableData,
+      theme: "grid",
+      styles: {
+        fontSize: 9,
+        halign: "center",
+        valign: "middle"
+      },
+      headStyles:{
+        fillColor:[11,94,215],
+        textColor:255
+      }
+    });
+
+    // ===== Signature =====
+    let y = doc.lastAutoTable.finalY + 20;
+    doc.text("_____________________",150,y);
+    doc.text("Headmaster",155,y+6);
+
+    doc.save("Student_List.pdf");
+  });
+}
+
+let previewDoc = null;
+
+function createStudentPDF(){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF("p","mm","a4");
+
+  // ===== Header =====
+  doc.setFontSize(14);
+  doc.text("Gobindapur Govt. High School",105,15,{align:"center"});
+  doc.setFontSize(11);
+  doc.text("Student Information List",105,22,{align:"center"});
+
+  let tableData = [];
+  let sl = 1;
+
+  return db.ref("students").once("value").then(snap=>{
+    snap.forEach(c=>{
+      let d = c.val();
+      tableData.push([
+        sl++,
+        d.name || "",
+        d.roll || "",
+        d.class || "",
+        d.section || "",
+        d.phone || ""
+      ]);
+    });
+
+    doc.autoTable({
+      startY: 30,
+      head: [[
+        "ক্রমিক",
+        "নাম",
+        "রোল",
+        "ক্লাস",
+        "শাখা",
+        "মোবাইল"
+      ]],
+      body: tableData,
+      theme: "grid",
+      styles:{
+        fontSize:9,
+        halign:"center"
+      },
+      headStyles:{
+        fillColor:[11,94,215],
+        textColor:255
+      }
+    });
+
+    let y = doc.lastAutoTable.finalY + 15;
+    doc.text("_____________________",150,y);
+    doc.text("Headmaster",155,y+6);
+
+    return doc;
+  });
+}
+
+// 👁 Preview
+function previewStudentPDF() {
+  if(!admin){ alert("Admin only"); return; }
+
+  db.ref("students").once("value").then(snap => {
+    const doc = new jspdf.jsPDF();
+    const data = [];
+    snap.forEach(c => {
+      let d = c.val();
+      data.push([d.name, d.class, d.roll, d.section, d.phone]);
+    });
+
+    doc.autoTable({ head:[['Name','Class','Roll','Section','Phone']], body: data });
+
+    const pdfBlob = doc.output('bloburl');
+    document.getElementById('pdfFrame').src = pdfBlob;
+    document.getElementById('pdfPreviewBox').style.display = "block";
+  });
+}
+
+function downloadPreviewPDF() {
+  if(!admin){ alert("Admin only"); return; }
+
+  const doc = new jspdf.jsPDF();
+  db.ref("students").once("value").then(snap => {
+    const data = [];
+    snap.forEach(c => {
+      let d = c.val();
+      data.push([d.name, d.class, c.roll, d.section, d.phone]);
+    });
+
+    doc.autoTable({ head:[['Name','Class','Roll','Section','Phone']], body: data });
+    doc.save("Students.pdf");
+  });
+}
+</script> 
+
 </body>
-</html>
+    </html>
