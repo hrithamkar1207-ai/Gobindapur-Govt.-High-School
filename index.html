@@ -639,37 +639,74 @@ body.dark #hwBtn{
 </div> 
 
 <div class="card section" id="auth" style="display:none">
-  <h2>📝 Student Signup / Login</h2>
+ <h2>📝 Student Signup / Login</h2>
 
-  <!-- Signup -->
-  <h3>Signup</h3>
-  <input id="upName" placeholder="নাম">
-  <input id="upClass" placeholder="ক্লাস">
-  <input id="upRoll" placeholder="রোল">
-  <input id="upSection" placeholder="শাখা">
-  <input id="upPhone" placeholder="মোবাইল নম্বর">
-  <button onclick="signup()">Submit</button>
-  <p id="signupMsg"></p>
+<!-- Signup -->
+<h3>Signup</h3>
 
-  <hr>
+<input id="upName" placeholder="নাম">
 
-  <!-- Login -->
-  <h3>Login</h3>
-  <input id="loginClass" placeholder="ক্লাস">
-  <input id="loginRoll" placeholder="রোল">
-  <select id="loginSection">
+<select id="upClass">
+  <option value="">ক্লাস নির্বাচন</option>
+  <option>6</option>
+  <option>7</option>
+  <option>8</option>
+  <option>9</option>
+  <option>10</option>
+</select>
+
+<select id="upRoll">
+  <option value="">রোল নির্বাচন</option>
+</select>
+
+<select id="upSection">
   <option value="">শাখা নির্বাচন</option>
   <option value="science">Science</option>
   <option value="arts">Arts</option>
   <option value="a">A</option>
   <option value="b">B</option>
 </select>
-  <input id="loginPhone" placeholder="মোবাইল নম্বর">
-  <button onclick="studentLogin()">Login</button>
-  <button id="dashBtn" onclick="showStudentDashboard()" style="display:none">
+
+<input id="upPhone" placeholder="মোবাইল নম্বর">
+
+<button onclick="signup()">Submit</button>
+<p id="signupMsg"></p>
+
+<hr>
+
+<!-- Login -->
+<h3>Login</h3>
+
+<select id="loginClass">
+  <option value="">ক্লাস নির্বাচন</option>
+  <option>6</option>
+  <option>7</option>
+  <option>8</option>
+  <option>9</option>
+  <option>10</option>
+</select>
+
+<select id="loginRoll">
+  <option value="">রোল নির্বাচন</option>
+</select>
+
+<select id="loginSection">
+  <option value="">শাখা নির্বাচন</option>
+  <option value="science">Science</option>
+  <option value="arts">Arts</option>
+  <option value="a">A</option>
+  <option value="b">B</option>
+</select>
+
+<input id="loginPhone" placeholder="মোবাইল নম্বর">
+
+<button onclick="studentLogin()">Login</button>
+
+<button id="dashBtn" onclick="showStudentDashboard()" style="display:none">
 📘 Dashboard
 </button>
-  <p id="loginMsg"></p>
+
+<p id="loginMsg"></p>
 </div>
 
  <div class="card section" id="studentDash" style="display:none">
@@ -719,9 +756,11 @@ const ADMIN_PASS="HKuk12@#*";
 let admin=false; 
 
 for(let i=1;i<=150;i++){
-sRoll.innerHTML+=`<option>${i}</option>`;
-rRoll.innerHTML+=`<option>${i}</option>`;
-} 
+  upRoll.innerHTML += `<option>${i}</option>`;
+  loginRoll.innerHTML += `<option>${i}</option>`;
+  sRoll.innerHTML += `<option>${i}</option>`;
+  rRoll.innerHTML += `<option>${i}</option>`;
+}
 
 function show(id){
   document.querySelectorAll('.section').forEach(s=>{
