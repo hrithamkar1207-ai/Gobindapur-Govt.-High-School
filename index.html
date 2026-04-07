@@ -358,15 +358,45 @@ body.dark #aiBtn{
   background:linear-gradient(135deg,#ffc107,#ff9800);
   color:#000;
 }
+
+#hwBtn{
+  position: fixed;
+  top: 140px;   /* AI button এর নিচে */
+  right: 15px;
+  z-index: 2000;
+
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+
+  font-size: 22px;
+  padding: 0;
+
+  background: linear-gradient(135deg,#6610f2,#0d6efd);
+  box-shadow: 0 6px 15px rgba(0,0,0,.4);
+
+  cursor: pointer;
+  transition: all .3s ease;
+}
+
+#hwBtn:hover{
+  transform: scale(1.1);
+}
+
+/* Dark mode */
+body.dark #hwBtn{
+  background: linear-gradient(135deg,#ffc107,#ff9800);
+  color:#000;
+}
 </style>
 
 </head>
 <body>
 
 
-<!-- Admin-only Homework Button -->
-<button id="hwBtn" onclick="show('homework')" style="display:none">
-📚 Homework
+<button id="hwBtn" onclick="show('homework')">
+📚
+</button>
 </button>
 <button id="darkBtn" onclick="toggleDark()">🌙</button>
 <button id="aiBtn" onclick="show('ai')">🤖</button>
@@ -1687,4 +1717,4 @@ function downloadPreviewPDF() {
 </script> 
 
 </body>
-    </html>
+  </html>
