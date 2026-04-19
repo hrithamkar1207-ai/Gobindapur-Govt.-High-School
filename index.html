@@ -739,7 +739,6 @@ body.dark #hwBtn{
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script> 
-<script src="fonts/NotoSansBengali-Regular.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
 
@@ -1723,38 +1722,18 @@ function createStudentPDF(){
 function previewStudentPDF() {
   if(!admin){ alert("Admin only"); return; }
 
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-
-  // ✅ বাংলা ফন্ট
-  doc.addFont("NotoSansBengali-Regular.ttf", "bangla", "normal");
-  doc.setFont("bangla");
-
   db.ref("students").once("value").then(snap => {
+    const doc = new jspdf.jsPDF();
     const data = [];
-
     snap.forEach(c => {
       let d = c.val();
-
-      data.push([
-        d.name || "",
-        d.class || "",
-        d.roll || "",   // ✅ FIXED
-        d.section || "",
-        d.phone || ""
-      ]);
+      data.push([d.name, d.class, d.roll, d.section, d.phone]);
     });
 
-    doc.autoTable({
-      head: [['নাম','ক্লাস','রোল','শাখা','মোবাইল']],
-      body: data
-    });
+    doc.autoTable({ head:[['Name','Class','Roll','Section','Phone']], body: data });
 
-    // ✅ preview fix
-    const blob = doc.output('blob');
-    const url = URL.createObjectURL(blob);
-
-    document.getElementById('pdfFrame').src = url;
+    const pdfBlob = doc.output('bloburl');
+    document.getElementById('pdfFrame').src = pdfBlob;
     document.getElementById('pdfPreviewBox').style.display = "block";
   });
 }
@@ -1762,33 +1741,15 @@ function previewStudentPDF() {
 function downloadPreviewPDF() {
   if(!admin){ alert("Admin only"); return; }
 
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-
-  // ✅ বাংলা ফন্ট
-  doc.addFont("NotoSansBengali-Regular.ttf", "bangla", "normal");
-  doc.setFont("bangla");
-
+  const doc = new jspdf.jsPDF();
   db.ref("students").once("value").then(snap => {
     const data = [];
-
     snap.forEach(c => {
       let d = c.val();
-
-      data.push([
-        d.name || "",
-        d.class || "",
-        d.roll || "",   // ✅ FIXED
-        d.section || "",
-        d.phone || ""
-      ]);
+      data.push([d.name, d.class, c.roll, d.section, d.phone]);
     });
 
-    doc.autoTable({
-      head: [['নাম','ক্লাস','রোল','শাখা','মোবাইল']],
-      body: data
-    });
-
+    doc.autoTable({ head:[['Name','Class','Roll','Section','Phone']], body: data });
     doc.save("Students.pdf");
   });
 }
