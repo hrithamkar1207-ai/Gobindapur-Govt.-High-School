@@ -1746,7 +1746,7 @@ function downloadPreviewPDF() {
     const data = [];
     snap.forEach(c => {
       let d = c.val();
-      data.push([d.name, d.class, c.roll, d.section, d.phone]);
+      data.push([d.name, d.class, d.roll, d.section, d.phone]);
     });
 
     doc.autoTable({ head:[['Name','Class','Roll','Section','Phone']], body: data });
