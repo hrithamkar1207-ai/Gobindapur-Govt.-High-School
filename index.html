@@ -788,6 +788,7 @@ function show(id){
 function login(){
   if(user.value===ADMIN_USER && pass.value===ADMIN_PASS){
     admin=true;
+    localStorage.setItem("adminLoggedIn","true");
     status.innerText="Logged In";
 
     // সব Admin panel দেখাবে
@@ -809,6 +810,7 @@ function login(){
 
 function logout(){
   admin=false;
+  localStorage.removeItem("adminLoggedIn");
   status.innerText="Logged Out";
 
   // সব Admin panel লুকাবে
@@ -1265,6 +1267,10 @@ function studentLogin(){
           key: c.key,
           ...d
         };
+        localStorage.setItem(
+  "studentLoggedIn",
+  JSON.stringify(studentLoggedIn)
+);
       }
     });
 
@@ -1313,6 +1319,7 @@ function showStudentDashboard(){
 
 function studentLogout(){
   studentLoggedIn = null;
+  localStorage.removeItem("studentLoggedIn");
 
   // 🔴 Dashboard button hide হবে
   document.getElementById("dashBtn").style.display = "none";
@@ -1752,6 +1759,39 @@ function downloadPreviewPDF() {
     doc.autoTable({ head:[['Name','Class','Roll','Section','Phone']], body: data });
     doc.save("Students.pdf");
   });
+}
+
+/* ===== AUTO LOGIN SYSTEM ===== */
+
+// Admin Auto Login
+if(localStorage.getItem("adminLoggedIn") === "true"){
+
+  admin = true;
+
+  status.innerText = "Logged In";
+
+  document.querySelectorAll('.admin')
+    .forEach(a=>a.style.display="block");
+
+  document.querySelectorAll('.admin-only')
+    .forEach(b=>b.style.display="inline-block");
+
+  document.getElementById("hwBtn").style.display = "inline-block";
+
+  loadPending();
+}
+
+// Student Auto Login
+const savedStudent =
+localStorage.getItem("studentLoggedIn");
+
+if(savedStudent){
+
+  studentLoggedIn = JSON.parse(savedStudent);
+
+  document.getElementById("dashBtn").style.display = "block";
+
+  document.getElementById("hwBtn").style.display = "inline-block";
 }
 </script> 
 
