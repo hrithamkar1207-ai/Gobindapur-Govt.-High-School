@@ -1185,32 +1185,57 @@ function approveStudent(key, name, cls, roll, section, phone){
 }
 
 function loadPending() {
-  if(!admin) {
-    pendingList.innerHTML = ""; // Admin না হলে খালি দেখাবে
+
+  if(!admin){
+    pendingList.innerHTML = "";
     return;
   }
 
   db.ref("pendingStudents").on("value", snap => {
-    pendingList.innerHTML = "";
-    snap.forEach(c => {
-      pendingList.innerHTML += `
-        <li>
-          ${c.val().name} | ${c.val().class}-${c.val().roll}
-         <button onclick="approveStudent(
-  '${c.key}',
-  '${c.val().name}',
-  '${c.val().class}',
-  '${c.val().roll}',
-  '${c.val().section}',
-  '${c.val().phone}'  // ✅ phone পাঠানো
-)">Approve</button>
 
-          <button onclick="cancelStudent(
-            '${c.key}'
-          )" style="background:#dc3545;margin-left:5px;">Cancel</button>
-        </li>
+    pendingList.innerHTML = "";
+
+    snap.forEach(c => {
+
+      let d = c.val();
+
+      pendingList.innerHTML += `
+
+        <div class="student-card">
+
+          <h3>👨‍🎓 ${d.name}</h3>
+
+          <p><b>ক্লাস:</b> ${d.class}</p>
+
+          <p><b>রোল:</b> ${d.roll}</p>
+
+          <p><b>শাখা:</b> ${d.section}</p>
+
+          <p><b>মোবাইল:</b> ${d.phone}</p>
+
+          <button onclick="approveStudent(
+            '${c.key}',
+            '${d.name}',
+            '${d.class}',
+            '${d.roll}',
+            '${d.section}',
+            '${d.phone}'
+          )">
+            ✅ Approve
+          </button>
+
+          <button 
+            onclick="cancelStudent('${c.key}')"
+            style="background:#dc3545;margin-left:5px;"
+          >
+            ❌ Cancel
+          </button>
+
+        </div>
+
       `;
     });
+
   });
 }
 
