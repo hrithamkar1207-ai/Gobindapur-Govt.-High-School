@@ -388,6 +388,11 @@ body.dark #hwBtn{
   background: linear-gradient(135deg,#ffc107,#ff9800);
   color:#000;
 }
+
+.red-text{
+  color:red;
+  font-weight:bold;
+}
 </style>
 
 </head>
@@ -639,74 +644,97 @@ body.dark #hwBtn{
 </div> 
 
 <div class="card section" id="auth" style="display:none">
- <h2>📝 Student Signup / Login</h2>
 
-<!-- Signup -->
-<h3>Signup</h3>
+  <h2>📝 Student Signup / Login</h2>
 
-<input id="upName" placeholder="নাম">
+  <!-- ===== SIGNUP BOX ===== -->
+  <div id="signupBox">
 
-<select id="upClass">
-  <option value="">ক্লাস নির্বাচন</option>
-  <option>6</option>
-  <option>7</option>
-  <option>8</option>
-  <option>9</option>
-  <option>10</option>
-</select>
+    <h3>Signup</h3>
 
-<select id="upRoll">
-  <option value="">রোল নির্বাচন</option>
-</select>
+    <input id="upName" placeholder="নাম">
 
-<select id="upSection">
-  <option value="">শাখা নির্বাচন</option>
-  <option value="science">Science</option>
-  <option value="arts">Arts</option>
-  <option value="a">A</option>
-  <option value="b">B</option>
-</select>
+    <select id="upClass">
+      <option value="">ক্লাস নির্বাচন</option>
+      <option>6</option>
+      <option>7</option>
+      <option>8</option>
+      <option>9</option>
+      <option>10</option>
+    </select>
 
-<input id="upPhone" placeholder="মোবাইল নম্বর">
+    <select id="upRoll">
+      <option value="">রোল নির্বাচন</option>
+    </select>
 
-<button onclick="signup()">Submit</button>
-<p id="signupMsg"></p>
+    <select id="upSection">
+      <option value="">শাখা নির্বাচন</option>
+      <option value="science">Science</option>
+      <option value="arts">Arts</option>
+      <option value="a">A</option>
+      <option value="b">B</option>
+    </select>
 
-<hr>
+    <input id="upPhone" placeholder="মোবাইল নম্বর">
 
-<!-- Login -->
-<h3>Login</h3>
+    <button onclick="signup()">Submit</button>
 
-<select id="loginClass">
-  <option value="">ক্লাস নির্বাচন</option>
-  <option>6</option>
-  <option>7</option>
-  <option>8</option>
-  <option>9</option>
-  <option>10</option>
-</select>
+    <p id="signupMsg"></p>
 
-<select id="loginRoll">
-  <option value="">রোল নির্বাচন</option>
-</select>
+    <hr>
 
-<select id="loginSection">
-  <option value="">শাখা নির্বাচন</option>
-  <option value="science">Science</option>
-  <option value="arts">Arts</option>
-  <option value="a">A</option>
-  <option value="b">B</option>
-</select>
+    <!-- Login Switch Button -->
+    <button onclick="showLogin()">
+      🔑 Already have account? Login
+    </button>
 
-<input id="loginPhone" placeholder="মোবাইল নম্বর">
+  </div>
 
-<button onclick="studentLogin()">Login</button>
+  <!-- ===== LOGIN BOX ===== -->
+  <div id="loginBox" style="display:none">
 
-<button id="dashBtn" onclick="showStudentDashboard()" style="display:none">
-📘 Dashboard
-</button>
+    <h3>Login</h3>
 
-<p id="loginMsg"></p>
+    <select id="loginClass">
+      <option value="">ক্লাস নির্বাচন</option>
+      <option>6</option>
+      <option>7</option>
+      <option>8</option>
+      <option>9</option>
+      <option>10</option>
+    </select>
+
+    <select id="loginRoll">
+      <option value="">রোল নির্বাচন</option>
+    </select>
+
+    <select id="loginSection">
+      <option value="">শাখা নির্বাচন</option>
+      <option value="science">Science</option>
+      <option value="arts">Arts</option>
+      <option value="a">A</option>
+      <option value="b">B</option>
+    </select>
+
+    <input id="loginPhone" placeholder="মোবাইল নম্বর">
+
+    <button onclick="studentLogin()">Login</button>
+
+    <button id="dashBtn" onclick="showStudentDashboard()" style="display:none">
+      📘 Dashboard
+    </button>
+
+    <p id="loginMsg"></p>
+
+    <hr>
+
+    <!-- Signup Switch Button -->
+    <button onclick="showSignup()">
+      📝 Create New Account
+    </button>
+
+  </div>
+
 </div>
 
  <div class="card section" id="studentDash" style="display:none">
@@ -923,7 +951,7 @@ ${admin ? ` <button onclick="del('results','${c.key}')">X</button>` : ""}
 loadAll(); 
 
 function findStudent(){
-  studentResult.innerHTML = "<span style='color:red;font-weight:bold;'>Not Found!</span>";
+  studentResult.innerHTML = "<span class='red-text'>Not Found!</span>";
   
   const cls = sClass.value.trim();
   const roll = sRoll.value.trim();
@@ -952,7 +980,7 @@ function findStudent(){
 }
 
 function findResult(){
-resultOutput.innerHTML = "<span style='color:red;font-weight:bold;'>Not Found!</span>";
+resultOutput.innerHTML = "<span class='red-text'>Not Found!</span>";
 
 db.ref("results").once("value", s=>{
   s.forEach(c=>{
@@ -1257,6 +1285,14 @@ function cancelStudent(key){
   }
 }
 
+function normalizePhone(phone){
+  return phone
+    .replace(/\s+/g, "")   // স্পেস remove
+    .replace(/-/g, "")     // dash remove
+    .replace(/^\+880/, "0") // +880 → 0
+    .trim();
+}
+
 let studentLoggedIn = null; // লগিন স্টেট ট্র্যাক করবে
 
 function studentLogin(){
@@ -1264,6 +1300,7 @@ function studentLogin(){
   const roll = loginRoll.value.trim();
   const section = loginSection.value.trim().toLowerCase();
   const phone = loginPhone.value.trim();
+  const cleanPhone = normalizePhone(phone);
 
   if(!cls || !roll || !section || !phone){
     loginMsg.innerText = "সব ফিল্ড পূরণ করো!";
@@ -1279,13 +1316,13 @@ function studentLogin(){
       let dClass = String(d.class).trim();
       let dRoll = String(d.roll).trim();
       let dSection = String(d.section).trim().toLowerCase();
-      let dPhone = String(d.phone || "").trim();
+      let dPhone = normalizePhone(String(d.phone || ""));
 
       if(
         dClass === cls &&
         dRoll === roll &&
         dSection === section &&
-        (!dPhone || dPhone === phone)
+        (!dPhone || dPhone === cleanPhone)
       ){
         found = true;
         studentLoggedIn = {
@@ -1817,6 +1854,16 @@ if(savedStudent){
   document.getElementById("dashBtn").style.display = "block";
 
   document.getElementById("hwBtn").style.display = "inline-block";
+}
+
+function showLogin(){
+  document.getElementById("signupBox").style.display = "none";
+  document.getElementById("loginBox").style.display = "block";
+}
+
+function showSignup(){
+  document.getElementById("loginBox").style.display = "none";
+  document.getElementById("signupBox").style.display = "block";
 }
 </script> 
 
