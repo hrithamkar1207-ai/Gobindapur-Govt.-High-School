@@ -393,6 +393,123 @@ body.dark #hwBtn{
   color:red;
   font-weight:bold;
 }
+
+/* ===== AUTH PAGE BEAUTIFUL ANIMATION ===== */
+
+#auth{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:80vh;
+}
+
+/* Signup/Login Card */
+#signupBox,
+#loginBox{
+  width:100%;
+  max-width:400px;
+
+  background:rgba(255,255,255,.9);
+  backdrop-filter:blur(12px);
+
+  padding:25px;
+  border-radius:25px;
+
+  box-shadow:0 12px 35px rgba(0,0,0,.2);
+
+  animation:authShow .6s ease;
+  transition:all .4s ease;
+}
+
+/* Dark mode */
+body.dark #signupBox,
+body.dark #loginBox{
+  background:rgba(30,30,30,.95);
+  color:#fff;
+}
+
+/* Heading */
+#signupBox h3,
+#loginBox h3{
+  text-align:center;
+  margin-bottom:20px;
+  font-size:24px;
+  color:#0d6efd;
+}
+
+/* Input Design */
+#signupBox input,
+#signupBox select,
+#loginBox input,
+#loginBox select{
+  border:none;
+  outline:none;
+
+  border-radius:15px;
+  padding:13px;
+
+  background:#f1f3f6;
+
+  transition:.3s;
+}
+
+body.dark #signupBox input,
+body.dark #signupBox select,
+body.dark #loginBox input,
+body.dark #loginBox select{
+  background:#2b2b2b;
+  color:#fff;
+}
+
+/* Focus Effect */
+#signupBox input:focus,
+#signupBox select:focus,
+#loginBox input:focus,
+#loginBox select:focus{
+  transform:scale(1.03);
+  box-shadow:0 0 12px rgba(13,110,253,.4);
+}
+
+/* Button Style */
+#signupBox button,
+#loginBox button{
+  margin-top:10px;
+  border-radius:18px;
+  font-size:15px;
+}
+
+/* Message Text */
+#signupMsg,
+#loginMsg{
+  text-align:center;
+  margin-top:10px;
+  font-weight:bold;
+}
+
+/* Animation */
+@keyframes authShow{
+  from{
+    opacity:0;
+    transform:translateY(40px) scale(.9);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+@keyframes fadeOut{
+  from{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+
+  to{
+    opacity:0;
+    transform:translateY(-20px) scale(.9);
+  }
+}
 </style>
 
 </head>
@@ -1169,6 +1286,7 @@ document.querySelectorAll(".bottom-nav button").forEach(btn=>{
 });
 
 function signup(){
+
   if(
     !upName.value || !upClass.value ||
     !upRoll.value || !upSection.value || !upPhone.value
@@ -1177,21 +1295,79 @@ function signup(){
     return;
   }
 
-  db.ref("pendingStudents").push({
-  name: upName.value,
-  class: upClass.value,
-  roll: upRoll.value,
-  section: upSection.value.toLowerCase(), // ✅
-  phone: upPhone.value
-});
+  const cls = upClass.value.trim();
+  const roll = upRoll.value.trim();
+  const section = upSection.value.trim().toLowerCase();
 
-  signupMsg.innerText = "✅ আবেদন জমা হয়েছে, Admin approval অপেক্ষায়";
-  
-  upName.value="";
-  upClass.value="";
-  upRoll.value="";
-  upSection.value="";
-  upPhone.value="";
+  // ===== প্রথমে Approved Students check =====
+  db.ref("students").once("value").then(studentSnap=>{
+
+    let exists = false;
+
+    studentSnap.forEach(c=>{
+      let d = c.val();
+
+      if(
+        String(d.class).trim() === cls &&
+        String(d.roll).trim() === roll &&
+        String(d.section).trim().toLowerCase() === section
+      ){
+        exists = true;
+      }
+    });
+
+    // যদি already approved থাকে
+    if(exists){
+      signupMsg.innerHTML =
+      "❌ এই ক্লাস, রোল ও শাখায় ইতোমধ্যে একজন Registered আছে";
+      return;
+    }
+
+    // ===== Pending Students check =====
+    db.ref("pendingStudents").once("value").then(pendingSnap=>{
+
+      let pendingExists = false;
+
+      pendingSnap.forEach(c=>{
+        let d = c.val();
+
+        if(
+          String(d.class).trim() === cls &&
+          String(d.roll).trim() === roll &&
+          String(d.section).trim().toLowerCase() === section
+        ){
+          pendingExists = true;
+        }
+      });
+
+      // যদি pending এ আগে থেকেই থাকে
+      if(pendingExists){
+        signupMsg.innerHTML =
+        "⏳ এই রোলের আবেদন ইতোমধ্যে Pending আছে";
+        return;
+      }
+
+      // ===== নতুন Signup Save =====
+      db.ref("pendingStudents").push({
+        name: upName.value,
+        class: cls,
+        roll: roll,
+        section: section,
+        phone: upPhone.value
+      });
+
+      signupMsg.innerHTML =
+      "✅ আবেদন জমা হয়েছে, Admin approval অপেক্ষায়";
+
+      upName.value="";
+      upClass.value="";
+      upRoll.value="";
+      upSection.value="";
+      upPhone.value="";
+    });
+
+  });
+
 }
 
 function approveStudent(key, name, cls, roll, section, phone){
@@ -1857,13 +2033,33 @@ if(savedStudent){
 }
 
 function showLogin(){
-  document.getElementById("signupBox").style.display = "none";
-  document.getElementById("loginBox").style.display = "block";
+
+  const signup = document.getElementById("signupBox");
+  const login  = document.getElementById("loginBox");
+
+  signup.style.animation = "fadeOut .3s ease";
+
+  setTimeout(()=>{
+    signup.style.display = "none";
+
+    login.style.display = "block";
+    login.style.animation = "authShow .5s ease";
+  },250);
 }
 
 function showSignup(){
-  document.getElementById("loginBox").style.display = "none";
-  document.getElementById("signupBox").style.display = "block";
+
+  const signup = document.getElementById("signupBox");
+  const login  = document.getElementById("loginBox");
+
+  login.style.animation = "fadeOut .3s ease";
+
+  setTimeout(()=>{
+    login.style.display = "none";
+
+    signup.style.display = "block";
+    signup.style.animation = "authShow .5s ease";
+  },250);
 }
 </script> 
 
