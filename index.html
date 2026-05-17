@@ -510,6 +510,77 @@ body.dark #loginBox select{
     transform:translateY(-20px) scale(.9);
   }
 }
+
+#signupBox,
+#loginBox{
+  animation: floatCard 4s ease-in-out infinite;
+}
+
+@keyframes floatCard{
+  0%{
+    transform: translateY(0px);
+  }
+  50%{
+    transform: translateY(-8px);
+  }
+  100%{
+    transform: translateY(0px);
+  }
+}
+
+/* ===== Student Dashboard Routine Table Fix ===== */
+
+#myRoutine h4{
+  margin-top:18px;
+  margin-bottom:10px;
+  font-size:18px;
+  color:#0b5ed7;
+  font-weight:bold;
+}
+
+#myRoutine table{
+  width:100%;
+  border-collapse:collapse;
+  margin-bottom:20px;
+  background:#fff;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 4px 12px rgba(0,0,0,.12);
+}
+
+#myRoutine th{
+  background:#0b5ed7;
+  color:#fff;
+  font-size:14px;
+  font-weight:bold;
+  padding:12px;
+  text-align:center;
+}
+
+#myRoutine td{
+  padding:12px;
+  font-size:14px;
+  text-align:center;
+  border:1px solid #ddd;
+  color:#222;
+  font-weight:500;
+}
+
+/* Dark Mode Support */
+body.dark #myRoutine table{
+  background:#1e1e1e;
+}
+
+body.dark #myRoutine th{
+  background:#0d6efd;
+  color:#fff;
+}
+
+body.dark #myRoutine td{
+  background:#2a2a2a;
+  color:#fff;
+  border-color:#444;
+}
 </style>
 
 </head>
@@ -854,21 +925,41 @@ body.dark #loginBox select{
 
 </div>
 
- <div class="card section" id="studentDash" style="display:none">
-  <h2>👨‍🎓 Student Dashboard</h2>
+<div class="card section" id="studentDash" style="display:none">
 
-  <div id="myInfo"></div>
+  <h2 style="text-align:center;">👨‍🎓 Student Dashboard</h2>
 
-  <h3>📊 My Result</h3>
-  <div id="myResult"></div>
-  
-  <h3>📚 My Homework</h3>
-<div id="myHomework"></div>
+  <button onclick="downloadMyDashboardPDF()">
+    📄  PDF Download
+  </button>
 
-  <h3>📅 My Class Routine</h3>
-  <div id="myRoutine"></div>
+  <!-- Student Profile Card -->
+  <div id="myInfo" class="student-card" style="margin-top:15px;"></div>
 
-  <button onclick="studentLogout()">Logout</button>
+  <!-- Result Section -->
+  <div class="student-card">
+    <h3>📊 My Result</h3>
+    <div id="myResult"></div>
+  </div>
+
+  <!-- Homework Section -->
+  <div class="student-card">
+    <h3>📚 My Homework</h3>
+    <div id="myHomework"></div>
+  </div>
+
+  <!-- Routine Section -->
+  <div class="student-card">
+    <h3>📅 My Class Routine</h3>
+    <div id="myRoutine"></div>
+  </div>
+
+  <!-- Logout Button -->
+  <button onclick="studentLogout()" 
+    style="background:linear-gradient(135deg,#dc3545,#b02a37);margin-top:15px;">
+    🚪 Logout
+  </button>
+
 </div>
 
 <!-- ===== Bottom Navigation ===== -->
@@ -1051,7 +1142,16 @@ load("teachers", teacherList, c => `
   ${admin ? `<button onclick="del('teachers','${c.key}')">X</button>` : ""}
 </div>
 `);
-load("students",studentList,c=>`<li>${c.val().name} | ${c.val().class}-${c.val().roll}${admin?` <button onclick="del('students','${c.key}')">X</button>`:""}</li>`);
+load("students",studentList,c=>`
+<li>
+<b>${c.val().name}</b><br>
+🆔 ID: ${c.val().studentId || "N/A"}<br>
+Class: ${c.val().class} |
+Roll: ${c.val().roll} |
+Section: ${c.val().section}
+${admin ? ` <button onclick="del('students','${c.key}')">X</button>`:""}
+</li>
+`);
 load("results", resultList, c => `
 <li>
 <b>${c.val().name}</b><br>
@@ -1370,13 +1470,20 @@ function signup(){
 
 }
 
+function generateStudentId(){
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
 function approveStudent(key, name, cls, roll, section, phone){
   if(!admin){
     alert("Admin only");
     return;
   }
 
+  const studentId = generateStudentId();
+
   db.ref("students").push({
+    studentId: studentId,
     name: name,
     class: cls,
     roll: roll,
@@ -1385,7 +1492,8 @@ function approveStudent(key, name, cls, roll, section, phone){
   });
 
   db.ref("pendingStudents/" + key).remove();
-  alert("✅ Student Approved & Added");
+
+  alert("✅ Student Approved\nStudent ID: " + studentId);
 }
 
 function loadPending() {
@@ -1502,10 +1610,23 @@ function studentLogin(){
       ){
         found = true;
         studentLoggedIn = {
-          key: c.key,
-          ...d
-        };
-        localStorage.setItem(
+  key: c.key,
+  studentId: d.studentId || generateStudentId(),
+  name: d.name,
+  class: d.class,
+  roll: d.roll,
+  section: d.section,
+  phone: d.phone
+};
+
+// যদি আগে ID না থাকে → database এ update করবে
+if(!d.studentId){
+  db.ref("students/" + c.key).update({
+    studentId: studentLoggedIn.studentId
+  });
+}
+
+localStorage.setItem(
   "studentLoggedIn",
   JSON.stringify(studentLoggedIn)
 );
@@ -1531,6 +1652,20 @@ function studentLogin(){
 }
 
 function showStudentDashboard(){
+
+  if(!studentLoggedIn.studentId){
+    studentLoggedIn.studentId = generateStudentId();
+
+    db.ref("students/" + studentLoggedIn.key).update({
+      studentId: studentLoggedIn.studentId
+    });
+
+    localStorage.setItem(
+      "studentLoggedIn",
+      JSON.stringify(studentLoggedIn)
+    );
+  }
+
   document.querySelectorAll('.section').forEach(s=>{
     s.style.display = "none";
     s.classList.remove("fade");
@@ -1543,13 +1678,13 @@ function showStudentDashboard(){
 
   myInfo.innerHTML = `
     <p><b>নাম:</b> ${studentLoggedIn.name}</p>
+    <p><b>Student ID:</b> ${studentLoggedIn.studentId}</p>
     <p><b>ক্লাস:</b> ${studentLoggedIn.class}</p>
     <p><b>রোল:</b> ${studentLoggedIn.roll}</p>
     <p><b>শাখা:</b> ${studentLoggedIn.section}</p>
     <p><b>মোবাইল:</b> ${studentLoggedIn.phone}</p>
   `;
 
-  // ✅ এগুলো HTML এর বাইরে
   loadMyResult();
   loadMyRoutine();
   loadMyHomework();
@@ -1584,14 +1719,17 @@ function autoFixOldStudents(){
       let d = c.val();
       let updates = {};
 
-      // phone না থাকলে placeholder
       if(!d.phone){
         updates.phone = "0000000000";
       }
 
-      // section lowercase
       if(d.section){
         updates.section = String(d.section).toLowerCase();
+      }
+
+      // 🔥 যদি studentId না থাকে
+      if(!d.studentId){
+        updates.studentId = generateStudentId();
       }
 
       if(Object.keys(updates).length > 0){
@@ -1599,7 +1737,7 @@ function autoFixOldStudents(){
       }
     });
 
-    alert("✅ Old students auto updated!");
+    alert("✅ Old students updated with Student ID!");
   });
 }
 function loadMyResult(){
@@ -2060,6 +2198,49 @@ function showSignup(){
     signup.style.display = "block";
     signup.style.animation = "authShow .5s ease";
   },250);
+}
+
+function downloadMyDashboardPDF(){
+  if(!studentLoggedIn){
+    alert("Login required");
+    return;
+  }
+
+  const doc = new jspdf.jsPDF();
+
+  doc.setFontSize(18);
+  doc.text("Gobindapur Govt. High School", 105, 20, {align:"center"});
+
+  doc.setFontSize(14);
+  doc.text("Student Dashboard Report", 105, 30, {align:"center"});
+
+  doc.setFontSize(12);
+
+  let y = 50;
+
+  doc.text("Name: " + studentLoggedIn.name, 20, y);
+  y += 10;
+
+  doc.text("Student ID: " + (studentLoggedIn.studentId || "N/A"), 20, y);
+  y += 10;
+
+  doc.text("Class: " + studentLoggedIn.class, 20, y);
+  y += 10;
+
+  doc.text("Roll: " + studentLoggedIn.roll, 20, y);
+  y += 10;
+
+  doc.text("Section: " + studentLoggedIn.section, 20, y);
+  y += 10;
+
+  doc.text("Phone: " + studentLoggedIn.phone, 20, y);
+
+  y += 30;
+
+  doc.text("_____________________", 140, y);
+  doc.text("Headmaster", 150, y + 8);
+
+  doc.save("Student_Dashboard.pdf");
 }
 </script> 
 
